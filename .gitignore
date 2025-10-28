@@ -1,0 +1,8 @@
+misc/*.o
+misc/*.h
+misc/make*_h
+stt.bin
+stt.elf
+stt.hex
+stt.lst
+stt.map
