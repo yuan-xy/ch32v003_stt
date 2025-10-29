@@ -1,45 +1,45 @@
 Archive member included to satisfy reference by file (symbol)
 
 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
-                              /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o (__udivsi3)
+                              /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o (__udivsi3)
 
 Discarded input sections
 
- .text          0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .data          0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .bss           0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text._puts    0x0000000000000000       0x42 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.vprintf  0x0000000000000000       0x16 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text          0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .data          0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .bss           0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text._puts    0x0000000000000000       0x42 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.vprintf  0x0000000000000000       0x16 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.mini_vsnprintf
-                0x0000000000000000       0x3a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000       0x3a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.snprintf
-                0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.sprintf  0x0000000000000000       0x28 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strcpy   0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strncpy  0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strcmp   0x0000000000000000       0x1a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strncmp  0x0000000000000000       0x2e /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strchr   0x0000000000000000       0x16 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strrchr  0x0000000000000000       0x3c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.memcpy   0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.memcmp   0x0000000000000000       0x26 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.memmove  0x0000000000000000       0x5e /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.memchr   0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strnlen  0x0000000000000000       0x2a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.sprintf  0x0000000000000000       0x28 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strcpy   0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strncpy  0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strcmp   0x0000000000000000       0x1a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strncmp  0x0000000000000000       0x2e /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strchr   0x0000000000000000       0x16 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strrchr  0x0000000000000000       0x3c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.memcpy   0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.memcmp   0x0000000000000000       0x26 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.memmove  0x0000000000000000       0x5e /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.memchr   0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strnlen  0x0000000000000000       0x2a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.twoway_strstr
-                0x0000000000000000      0x236 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.strstr   0x0000000000000000      0x140 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000      0x236 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.strstr   0x0000000000000000      0x140 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .data.ADCPrescTable.lto_priv.0
-                0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .data.ADCPrescTable.lto_priv.1
-                0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .data.APBAHBPrescTable.lto_priv.0
-                0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .data.APBAHBPrescTable.lto_priv.1
-                0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .comment       0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .comment       0x0000000000000000       0x10 /tmp/ccTTSQQs.debug.temp.o
- .comment       0x0000000000000000       0x10 /tmp/cc5oJOzd.debug.temp.o
+                0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .comment       0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .comment       0x0000000000000000       0x10 /tmp/ccPHYvua.debug.temp.o
+ .comment       0x0000000000000000       0x10 /tmp/cc6tJScY.debug.temp.o
  .data          0x0000000000000000        0x0 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
  .bss           0x0000000000000000        0x0 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
@@ -52,11 +52,11 @@ RAM              0x0000000020000000 0x0000000000000800 xrw
 
 Linker script and memory map
 
-LOAD /tmp/cc3vLJUk.o
-LOAD /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
-LOAD /tmp/ccTTSQQs.debug.temp.o
-LOAD /tmp/cc5oJOzd.debug.temp.o
-LOAD /tmp/cc1N5oUs.o
+LOAD /tmp/cckmD0i5.o
+LOAD /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+LOAD /tmp/ccPHYvua.debug.temp.o
+LOAD /tmp/cc6tJScY.debug.temp.o
+LOAD /tmp/ccadxgG7.o
 LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
 LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
 
@@ -64,13 +64,13 @@ LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
                 0x0000000000000000                _sinit = .
                 0x0000000000000000                . = ALIGN (0x4)
  *(SORT_NONE(.init))
- .init          0x0000000000000000       0x9e /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .init          0x0000000000000000       0x9e /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000000                InterruptVector
                 0x00000000000000a0                . = ALIGN (0x4)
  *fill*         0x000000000000009e        0x2 
                 0x00000000000000a0                _einit = .
 
-.text           0x00000000000000a0      0x850
+.text           0x00000000000000a0      0x838
                 0x00000000000000a0                . = ALIGN (0x4)
  *(.text)
  .text          0x00000000000000a0       0x7e ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
@@ -81,18 +81,18 @@ LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
                 0x00000000000000f8                __modsi3
  *(.text.*)
  .text.mini_pad
-                0x000000000000011e       0x9a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x000000000000011e       0x9a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.mini_itoa.part.0
-                0x00000000000001b8       0xbe /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000001b8       0xbe /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text._write.constprop.0
-                0x0000000000000276       0x2a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000276       0x2a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.__puts_uart
-                0x00000000000002a0       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000002a0       0x14 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.handle_reset
-                0x00000000000002b4       0x70 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000002b4       0x70 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x00000000000002b4                handle_reset
  .text.vector_handler
-                0x0000000000000324       0x2c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000324       0x2c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000324                NMI_Handler
                 0x0000000000000324                NMI_RCC_CSS_IRQHandler
                 0x0000000000000332                EXTI2_IRQHandler
@@ -231,76 +231,76 @@ LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
                 0x0000000000000332                TMR1_IRQHandler
                 0x0000000000000332                USBWakeUp_IRQHandler
                 0x0000000000000332                DMA2_Channel3_IRQHandler
- .text.strlen   0x0000000000000350       0x12 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strlen   0x0000000000000350       0x12 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000350                strlen
  .text.mini_vpprintf
-                0x0000000000000362      0x1ae /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .text.printf   0x0000000000000510       0x26 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000362      0x1ae /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .text.printf   0x0000000000000510       0x26 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000510                printf
- .text.memset   0x0000000000000536       0x12 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.memset   0x0000000000000536       0x12 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000536                memset
- .text.puts     0x0000000000000548       0x2c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.puts     0x0000000000000548       0x2c /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000548                puts
- .text.putchar  0x0000000000000574       0x1a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.putchar  0x0000000000000574       0x1a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x0000000000000574                putchar
  .text.PrintHex
-                0x000000000000058e       0x48 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x000000000000058e       0x48 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .text.SystemInit
-                0x00000000000005d6       0xb4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000005d6       0x9a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                 0x00000000000005d6                SystemInit
  .text.startup.main
-                0x000000000000068a      0x14a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
-                0x000000000000068a                main
+                0x0000000000000670      0x14a /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+                0x0000000000000670                main
  .text.TIM1_UP_IRQHandler
-                0x00000000000007d4       0x98 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000007ba       0x98 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  *(.rodata)
  *(.rodata*)
- *fill*         0x000000000000086c        0x0 
+ *fill*         0x0000000000000852        0x2 
  .rodata.puts.str1.4
-                0x000000000000086c        0x2 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- *fill*         0x000000000000086e        0x2 
+                0x0000000000000854        0x2 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ *fill*         0x0000000000000856        0x2 
  .rodata.main.str1.4
-                0x0000000000000870       0x7d /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000858       0x7d /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  *(.gnu.linkonce.t.*)
-                0x00000000000008f0                . = ALIGN (0x4)
- *fill*         0x00000000000008ed        0x3 
+                0x00000000000008d8                . = ALIGN (0x4)
+ *fill*         0x00000000000008d5        0x3 
 
-.rela.dyn       0x00000000000008f0        0x0
+.rela.dyn       0x00000000000008d8        0x0
  .rela.text.mini_pad
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.handle_reset
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.vector_handler
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.mini_vpprintf
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.puts
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.PrintHex
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.startup.main
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .rela.text.TIM1_UP_IRQHandler
-                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000008d8        0x0 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
 
-.fini           0x00000000000008f0        0x0
+.fini           0x00000000000008d8        0x0
  *(SORT_NONE(.fini))
-                0x00000000000008f0                . = ALIGN (0x4)
+                0x00000000000008d8                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_etext = .)
                 [!provide]                        PROVIDE (_eitcm = .)
 
-.preinit_array  0x00000000000008f0        0x0
+.preinit_array  0x00000000000008d8        0x0
                 [!provide]                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array)
                 [!provide]                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x00000000000008f0        0x0
+.init_array     0x00000000000008d8        0x0
                 [!provide]                        PROVIDE (__init_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
  *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
                 [!provide]                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x00000000000008f0        0x0
+.fini_array     0x00000000000008d8        0x0
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
  *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
@@ -320,15 +320,15 @@ LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
 
-.dalign         0x0000000020000000        0x0 load address 0x00000000000008f0
+.dalign         0x0000000020000000        0x0 load address 0x00000000000008d8
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                PROVIDE (_data_vma = .)
 
-.dlalign        0x00000000000008f0        0x0
-                0x00000000000008f0                . = ALIGN (0x4)
-                0x00000000000008f0                PROVIDE (_data_lma = .)
+.dlalign        0x00000000000008d8        0x0
+                0x00000000000008d8                . = ALIGN (0x4)
+                0x00000000000008d8                PROVIDE (_data_lma = .)
 
-.data           0x0000000020000000        0x0 load address 0x00000000000008f0
+.data           0x0000000020000000        0x0 load address 0x00000000000008d8
                 0x0000000020000000                . = ALIGN (0x4)
                 0x00000000200003fc                __global_pointer$ = (. + 0x3fc)
  *(.gnu.linkonce.r.*)
@@ -347,12 +347,12 @@ LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                PROVIDE (_edata = .)
 
-.bss            0x0000000020000000        0x8 load address 0x00000000000008f0
+.bss            0x0000000020000000        0x8 load address 0x00000000000008d8
                 0x0000000020000000                . = ALIGN (0x4)
                 0x0000000020000000                PROVIDE (_sbss = .)
  *(.sbss*)
- .sbss.count    0x0000000020000000        0x4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .sbss.total    0x0000000020000004        0x4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .sbss.count    0x0000000020000000        0x4 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .sbss.total    0x0000000020000004        0x4 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  *(.gnu.linkonce.sb.*)
  *(.bss*)
  *(.gnu.linkonce.b.*)
@@ -374,54 +374,54 @@ OUTPUT(adc_fixed_fs.elf elf32-littleriscv)
 .riscv.attributes
                 0x0000000000000000       0x25
  .riscv.attributes
-                0x0000000000000000       0x25 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000       0x25 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .riscv.attributes
                 0x0000000000000025       0x1f ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
 .debug_info     0x0000000000000000     0x2a91
- .debug_info    0x0000000000000000      0xfaa /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .debug_info    0x0000000000000faa     0x1191 /tmp/ccTTSQQs.debug.temp.o
+ .debug_info    0x0000000000000000      0xfaa /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .debug_info    0x0000000000000faa     0x1191 /tmp/ccPHYvua.debug.temp.o
                 0x0000000000000faa                ch32fun.c.6d3bed90
- .debug_info    0x000000000000213b      0x8f9 /tmp/cc5oJOzd.debug.temp.o
+ .debug_info    0x000000000000213b      0x8f9 /tmp/cc6tJScY.debug.temp.o
                 0x000000000000213b                adc_fixed_fs.c.f42934dc
  .debug_info    0x0000000000002a34       0x5d ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
 .debug_abbrev   0x0000000000000000      0x5a3
- .debug_abbrev  0x0000000000000000      0x19f /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .debug_abbrev  0x000000000000019f      0x24f /tmp/ccTTSQQs.debug.temp.o
- .debug_abbrev  0x00000000000003ee      0x18d /tmp/cc5oJOzd.debug.temp.o
+ .debug_abbrev  0x0000000000000000      0x19f /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .debug_abbrev  0x000000000000019f      0x24f /tmp/ccPHYvua.debug.temp.o
+ .debug_abbrev  0x00000000000003ee      0x18d /tmp/cc6tJScY.debug.temp.o
  .debug_abbrev  0x000000000000057b       0x28 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
 .debug_loc      0x0000000000000000     0x20de
- .debug_loc     0x0000000000000000     0x20de /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_loc     0x0000000000000000     0x20de /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
 
 .debug_aranges  0x0000000000000000      0x158
  .debug_aranges
-                0x0000000000000000      0x138 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000      0x138 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
  .debug_aranges
                 0x0000000000000138       0x20 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
 .debug_ranges   0x0000000000000000      0x300
- .debug_ranges  0x0000000000000000      0x300 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_ranges  0x0000000000000000      0x300 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
 
-.debug_line     0x0000000000000000     0x2a18
- .debug_line    0x0000000000000000     0x26e1 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
- .debug_line    0x00000000000026e1      0x123 /tmp/ccTTSQQs.debug.temp.o
- .debug_line    0x0000000000002804       0xc1 /tmp/cc5oJOzd.debug.temp.o
- .debug_line    0x00000000000028c5      0x153 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+.debug_line     0x0000000000000000     0x298b
+ .debug_line    0x0000000000000000     0x2654 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
+ .debug_line    0x0000000000002654      0x123 /tmp/ccPHYvua.debug.temp.o
+ .debug_line    0x0000000000002777       0xc1 /tmp/cc6tJScY.debug.temp.o
+ .debug_line    0x0000000000002838      0x153 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
 .debug_str      0x0000000000000000      0xb55
- .debug_str     0x0000000000000000      0x163 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_str     0x0000000000000000      0x163 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
                                         0x17b (size before relaxing)
- .debug_str     0x0000000000000163      0x5fb /tmp/ccTTSQQs.debug.temp.o
+ .debug_str     0x0000000000000163      0x5fb /tmp/ccPHYvua.debug.temp.o
                                         0x709 (size before relaxing)
- .debug_str     0x000000000000075e      0x332 /tmp/cc5oJOzd.debug.temp.o
+ .debug_str     0x000000000000075e      0x332 /tmp/cc6tJScY.debug.temp.o
                                         0x630 (size before relaxing)
  .debug_str     0x0000000000000a90       0xc5 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
                                          0xd9 (size before relaxing)
 
 .debug_frame    0x0000000000000000      0x3b4
- .debug_frame   0x0000000000000000      0x3b4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_frame   0x0000000000000000      0x3b4 /tmp/adc_fixed_fs.elf.m1ka61.ltrans0.ltrans.o
 
 .debug_line_str
                 0x0000000000000000       0x92

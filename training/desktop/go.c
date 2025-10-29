@@ -23,8 +23,8 @@
 #define MEL 20
 #define CEPS 8
 
-#define TOL_ON  300
-#define TOL_OFF 150
+#define TOL_ON  550
+#define TOL_OFF 400
 
 #define MINSIZE 6  // minimum acceptible sample size in frames (x10ms)
 #define MAXSIZE 50 // maximum acceptible sample size in frames (x10ms)
@@ -376,7 +376,7 @@ int main()
       for (i=0; i<CHANS; i++) cep[n]+=mel[i]*dctm_8bit[n*MEL+i];
       cep[n]>>=9; // ESSENTIAL, word[] is only 8-bit resolution!
       if (cep[n]>127) {printf("oops cep\n"); exit(0);}
-      if (cep[i]<-127) {printf("oops cep\n"); exit(0);}
+      if (cep[n]<-127) {printf("oops cep\n"); exit(0);}
     }
     
     printf("%i: ",e); for (i=0; i<CEPS; i++) printf("%i,",cep[i]); printf("\n");

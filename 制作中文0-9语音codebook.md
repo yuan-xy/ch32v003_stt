@@ -57,4 +57,10 @@
 
 生成的codebook.h会包含中文数字 “零” 到 “九” 的特征模板，格式与原文件一致。
 
+## 五、生成新的语音识别代码
+
+    cd ch32v003_stt/
+    cp misc/codebook.h ./
+    make
+
 

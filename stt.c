@@ -17,8 +17,8 @@
 #define RES 8192 // resolution of FFT cos/sine to use...
 #define SHIFT 13
 
-#define TOL_ON 300
-#define TOL_OFF 150
+#define TOL_ON 600
+#define TOL_OFF 500
 
 // Add LPCNet-style window function (similar to Hann but with less cutoff at edges)
 const static int8_t window[FFT] = {
@@ -235,7 +235,7 @@ int main() {
     while (count != 0 && lastcount == count)
       k++; // wait till 10ms of samples read....
     if (count - lastcount != 1)
-      printf("oops framecount\n");
+      printf("oops framecount:%d, %d\n", count, lastcount);
     lock = 1;
     // lock=0;  // ignore locking for now when doing trace stuff.
 

@@ -65,7 +65,7 @@ Disassembly of section .init:
   86:	0000                	unimp
   88:	0332                	slli	t1,t1,0xc
   8a:	0000                	unimp
-  8c:	07d4                	addi	a3,sp,964
+  8c:	07ba                	slli	a5,a5,0xe
   8e:	0000                	unimp
   90:	0332                	slli	t1,t1,0xc
   92:	0000                	unimp
@@ -392,7 +392,7 @@ asm volatile(
  2ea:	0511                	addi	a0,a0,4
  2ec:	feb54ee3          	blt	a0,a1,2e8 <handle_reset+0x34>
  2f0:	00000517          	auipc	a0,0x0
- 2f4:	60050513          	addi	a0,a0,1536 # 8f0 <_data_lma>
+ 2f4:	5e850513          	addi	a0,a0,1512 # 8d8 <_data_lma>
  2f8:	c0418593          	addi	a1,gp,-1020 # 20000000 <count>
  2fc:	c0418613          	addi	a2,gp,-1020 # 20000000 <count>
  300:	00c58863          	beq	a1,a2,310 <handle_reset+0x5c>
@@ -406,7 +406,7 @@ asm volatile(
  314:	4705                	li	a4,1
  316:	c398                	sw	a4,0(a5)
 asm volatile(
- 318:	68a00793          	li	a5,1674
+ 318:	67000793          	li	a5,1648
  31c:	34179073          	csrw	mepc,a5
  320:	30200073          	mret
 
@@ -744,7 +744,7 @@ WEAK void *memset(void *dest, int c, size_t n) { unsigned char *s = dest; for (;
 	_write(0, "\n", 1 );
  55c:	6505                	lui	a0,0x1
  55e:	4585                	li	a1,1
- 560:	86c50513          	addi	a0,a0,-1940 # 86c <TIM1_UP_IRQHandler+0x98>
+ 560:	85450513          	addi	a0,a0,-1964 # 854 <TIM1_UP_IRQHandler+0x9a>
  564:	3b09                	jal	276 <_write.constprop.0>
 }
  566:	40a2                	lw	ra,8(sp)
@@ -826,419 +826,398 @@ WEAK void *memset(void *dest, int c, size_t n) { unsigned char *s = dest; for (;
  5d6:	400227b7          	lui	a5,0x40022
  5da:	4705                	li	a4,1
  5dc:	c398                	sw	a4,0(a5)
+#elif defined(FUNCONF_USE_HSI) && FUNCONF_USE_HSI
+	#if defined(CH32V30x) || defined(CH32V20x) || defined(CH32L103) || defined(CH32V10x)
+		EXTEN->EXTEN_CTR |= EXTEN_PLL_HSI_PRE;
 	#endif
-
-#elif defined(FUNCONF_USE_HSE) && FUNCONF_USE_HSE
-
-	#if defined(CH32V003) || defined(CH32V00x)
-		RCC->CTLR = BASE_CTLR | RCC_HSION | RCC_HSEON ;       		  // Keep HSI on while turning on HSE
- 5de:	000907b7          	lui	a5,0x90
- 5e2:	08178793          	addi	a5,a5,129 # 90081 <adc_fixed_fs.c.f42934dc+0x8df46>
- 5e6:	40021737          	lui	a4,0x40021
- 5ea:	c31c                	sw	a5,0(a4)
-	#else
-		RCC->CTLR = RCC_HSEON;							  			  // Only turn on HSE.
-	#endif
-
-	// Values lifted from the EVT.  There is little to no documentation on what this does.
-	while(!(RCC->CTLR&RCC_HSERDY)) {};
- 5ec:	000206b7          	lui	a3,0x20
- 5f0:	400217b7          	lui	a5,0x40021
- 5f4:	4398                	lw	a4,0(a5)
- 5f6:	8f75                	and	a4,a4,a3
- 5f8:	df75                	beqz	a4,5f4 <SystemInit+0x1e>
-
-	#if defined(CH32V003) || defined(CH32V00x)
-		RCC->CFGR0 = RCC_PLLSRC_HSE_Mul2 | RCC_SW_HSE;
- 5fa:	6741                	lui	a4,0x10
- 5fc:	0705                	addi	a4,a4,1
- 5fe:	c3d8                	sw	a4,4(a5)
-	#else
-		RCC->CFGR0 = BASE_CFGR0 | RCC_PLLSRC_HSE | RCC_PLLXTPRE_HSE;
-	#endif
-
 	#if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL
-		RCC->CTLR  = BASE_CTLR | RCC_HSEON | RCC_PLLON;            // Turn off HSI.
- 600:	01090737          	lui	a4,0x1090
- 604:	08170713          	addi	a4,a4,129 # 1090081 <adc_fixed_fs.c.f42934dc+0x108df46>
- 608:	c398                	sw	a4,0(a5)
+		RCC->CFGR0 = BASE_CFGR0;
+ 5de:	400217b7          	lui	a5,0x40021
+		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
+ 5e2:	01080737          	lui	a4,0x1080
+		RCC->CFGR0 = BASE_CFGR0;
+ 5e6:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
+		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
+ 5ea:	08170713          	addi	a4,a4,129 # 1080081 <adc_fixed_fs.c.f42934dc+0x107df46>
+ 5ee:	c398                	sw	a4,0(a5)
 		FLASH->ACTLR = FLASH_ACTLR_LATENCY_0;
 	#endif
 #endif
 
 #ifndef CH5xx
 	RCC->INTR  = 0x009F0000;                               // Clear PLL, CSSC, HSE, HSI and LSI ready flags.
- 60a:	009f0737          	lui	a4,0x9f0
- 60e:	c798                	sw	a4,8(a5)
+ 5f0:	009f0737          	lui	a4,0x9f0
+ 5f4:	c798                	sw	a4,8(a5)
 #endif
 
 #if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL && !defined(CH5xx)
 	while((RCC->CTLR & RCC_PLLRDY) == 0);                       	// Wait till PLL is ready
- 610:	020006b7          	lui	a3,0x2000
- 614:	40021737          	lui	a4,0x40021
- 618:	431c                	lw	a5,0(a4)
- 61a:	8ff5                	and	a5,a5,a3
- 61c:	dff5                	beqz	a5,618 <SystemInit+0x42>
+ 5f6:	020006b7          	lui	a3,0x2000
+ 5fa:	40021737          	lui	a4,0x40021
+ 5fe:	431c                	lw	a5,0(a4)
+ 600:	8ff5                	and	a5,a5,a3
+ 602:	dff5                	beqz	a5,5fe <SystemInit+0x28>
 	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
- 61e:	435c                	lw	a5,4(a4)
+ 604:	435c                	lw	a5,4(a4)
 	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
 	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
- 620:	4621                	li	a2,8
+ 606:	4621                	li	a2,8
 	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
- 622:	9bf1                	andi	a5,a5,-4
+ 608:	9bf1                	andi	a5,a5,-4
 	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
- 624:	0027e793          	ori	a5,a5,2
- 628:	c35c                	sw	a5,4(a4)
+ 60a:	0027e793          	ori	a5,a5,2
+ 60e:	c35c                	sw	a5,4(a4)
 	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
- 62a:	400217b7          	lui	a5,0x40021
- 62e:	43d8                	lw	a4,4(a5)
- 630:	8b31                	andi	a4,a4,12
- 632:	fec71ee3          	bne	a4,a2,62e <SystemInit+0x58>
+ 610:	400217b7          	lui	a5,0x40021
+ 614:	43d8                	lw	a4,4(a5)
+ 616:	8b31                	andi	a4,a4,12
+ 618:	fec71ee3          	bne	a4,a2,614 <SystemInit+0x3e>
 	RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1;
- 636:	4f98                	lw	a4,24(a5)
- 638:	6691                	lui	a3,0x4
- 63a:	02068693          	addi	a3,a3,32 # 4020 <adc_fixed_fs.c.f42934dc+0x1ee5>
- 63e:	8f55                	or	a4,a4,a3
- 640:	cf98                	sw	a4,24(a5)
+ 61c:	4f98                	lw	a4,24(a5)
+ 61e:	6691                	lui	a3,0x4
+ 620:	02068693          	addi	a3,a3,32 # 4020 <adc_fixed_fs.c.f42934dc+0x1ee5>
+ 624:	8f55                	or	a4,a4,a3
+ 626:	cf98                	sw	a4,24(a5)
 	GPIOD->CFGLR &= ~(0xf<<(4*5));
- 642:	400117b7          	lui	a5,0x40011
- 646:	4007a703          	lw	a4,1024(a5) # 40011400 <_eusrstack+0x20010c00>
- 64a:	ff1006b7          	lui	a3,0xff100
- 64e:	16fd                	addi	a3,a3,-1
- 650:	8f75                	and	a4,a4,a3
- 652:	40e7a023          	sw	a4,1024(a5)
+ 628:	400117b7          	lui	a5,0x40011
+ 62c:	4007a703          	lw	a4,1024(a5) # 40011400 <_eusrstack+0x20010c00>
+ 630:	ff1006b7          	lui	a3,0xff100
+ 634:	16fd                	addi	a3,a3,-1
+ 636:	8f75                	and	a4,a4,a3
+ 638:	40e7a023          	sw	a4,1024(a5)
 	GPIOD->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP_AF)<<(4*5);
- 656:	4007a703          	lw	a4,1024(a5)
- 65a:	009006b7          	lui	a3,0x900
- 65e:	8f55                	or	a4,a4,a3
- 660:	40e7a023          	sw	a4,1024(a5)
+ 63c:	4007a703          	lw	a4,1024(a5)
+ 640:	009006b7          	lui	a3,0x900
+ 644:	8f55                	or	a4,a4,a3
+ 646:	40e7a023          	sw	a4,1024(a5)
 	USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx;
- 664:	400147b7          	lui	a5,0x40014
- 668:	80c7a623          	sw	a2,-2036(a5) # 4001380c <_eusrstack+0x2001300c>
+ 64a:	400147b7          	lui	a5,0x40014
+ 64e:	80c7a623          	sw	a2,-2036(a5) # 4001380c <_eusrstack+0x2001300c>
 	USART1->CTLR2 = USART_StopBits_1;
- 66c:	8007a823          	sw	zero,-2032(a5)
+ 652:	8007a823          	sw	zero,-2032(a5)
 	USART1->CTLR3 = USART_HardwareFlowControl_None;
- 670:	8007aa23          	sw	zero,-2028(a5)
+ 656:	8007aa23          	sw	zero,-2028(a5)
 	USART1->BRR = uartBRR;
- 674:	0d000713          	li	a4,208
- 678:	80e7a423          	sw	a4,-2040(a5)
+ 65a:	0d000713          	li	a4,208
+ 65e:	80e7a423          	sw	a4,-2040(a5)
 	USART1->CTLR1 |= CTLR1_UE_Set;
- 67c:	80c7a703          	lw	a4,-2036(a5)
- 680:	6689                	lui	a3,0x2
- 682:	8f55                	or	a4,a4,a3
- 684:	80e7a623          	sw	a4,-2036(a5)
+ 662:	80c7a703          	lw	a4,-2036(a5)
+ 666:	6689                	lui	a3,0x2
+ 668:	8f55                	or	a4,a4,a3
+ 66a:	80e7a623          	sw	a4,-2036(a5)
 	SetupUART( UART_BRR );
 #endif
 #if defined( FUNCONF_USE_DEBUGPRINTF ) && FUNCONF_USE_DEBUGPRINTF
 	SetupDebugPrintf();
 #endif
 }
- 688:	8082                	ret
+ 66e:	8082                	ret
 
-0000068a <main>:
+00000670 <main>:
         
     }
 }
 
 //-----------------------------------------------------------------------------------
 int main() {
- 68a:	1151                	addi	sp,sp,-12
- 68c:	c406                	sw	ra,8(sp)
- 68e:	c222                	sw	s0,4(sp)
+ 670:	1151                	addi	sp,sp,-12
+ 672:	c406                	sw	ra,8(sp)
+ 674:	c222                	sw	s0,4(sp)
     SystemInit();
- 690:	3799                	jal	5d6 <SystemInit>
+ 676:	3785                	jal	5d6 <SystemInit>
     printf("Initializing ADC... (bjs pin PD4 I think...)\r\n");
- 692:	6505                	lui	a0,0x1
- 694:	87050513          	addi	a0,a0,-1936 # 870 <TIM1_UP_IRQHandler+0x9c>
- 698:	3d45                	jal	548 <puts>
+ 678:	6505                	lui	a0,0x1
+ 67a:	85850513          	addi	a0,a0,-1960 # 858 <TIM1_UP_IRQHandler+0x9e>
+ 67e:	35e9                	jal	548 <puts>
     RCC->CFGR0 &= ~(0x1F<<11);
- 69a:	400217b7          	lui	a5,0x40021
- 69e:	43d8                	lw	a4,4(a5)
- 6a0:	76c1                	lui	a3,0xffff0
- 6a2:	7ff68693          	addi	a3,a3,2047 # ffff07ff <_eusrstack+0xdffeffff>
- 6a6:	8f75                	and	a4,a4,a3
- 6a8:	c3d8                	sw	a4,4(a5)
+ 680:	400217b7          	lui	a5,0x40021
+ 684:	43d8                	lw	a4,4(a5)
+ 686:	76c1                	lui	a3,0xffff0
+ 688:	7ff68693          	addi	a3,a3,2047 # ffff07ff <_eusrstack+0xdffeffff>
+ 68c:	8f75                	and	a4,a4,a3
+ 68e:	c3d8                	sw	a4,4(a5)
     RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_ADC1;
- 6aa:	4f98                	lw	a4,24(a5)
+ 690:	4f98                	lw	a4,24(a5)
     GPIOD->CFGLR &= ~(0xf<<(4*4));    // pin D4 analog-in  now
- 6ac:	40011637          	lui	a2,0x40011
- 6b0:	fff106b7          	lui	a3,0xfff10
+ 692:	40011637          	lui	a2,0x40011
+ 696:	fff106b7          	lui	a3,0xfff10
     RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_ADC1;
- 6b4:	22076713          	ori	a4,a4,544
- 6b8:	cf98                	sw	a4,24(a5)
+ 69a:	22076713          	ori	a4,a4,544
+ 69e:	cf98                	sw	a4,24(a5)
     GPIOD->CFGLR &= ~(0xf<<(4*4));    // pin D4 analog-in  now
- 6ba:	40062703          	lw	a4,1024(a2) # 40011400 <_eusrstack+0x20010c00>
- 6be:	16fd                	addi	a3,a3,-1
+ 6a0:	40062703          	lw	a4,1024(a2) # 40011400 <_eusrstack+0x20010c00>
+ 6a4:	16fd                	addi	a3,a3,-1
     ADC1->RSQR1 = 0;
- 6c0:	40012437          	lui	s0,0x40012
+ 6a6:	40012437          	lui	s0,0x40012
     GPIOD->CFGLR &= ~(0xf<<(4*4));    // pin D4 analog-in  now
- 6c4:	8f75                	and	a4,a4,a3
- 6c6:	40e62023          	sw	a4,1024(a2)
+ 6aa:	8f75                	and	a4,a4,a3
+ 6ac:	40e62023          	sw	a4,1024(a2)
     RCC->APB2PRSTR |= RCC_APB2Periph_ADC1;
- 6ca:	47d8                	lw	a4,12(a5)
+ 6b0:	47d8                	lw	a4,12(a5)
     printf("Calibrating ADC...\r\n");
- 6cc:	6505                	lui	a0,0x1
- 6ce:	8a050513          	addi	a0,a0,-1888 # 8a0 <TIM1_UP_IRQHandler+0xcc>
+ 6b2:	6505                	lui	a0,0x1
+ 6b4:	88850513          	addi	a0,a0,-1912 # 888 <TIM1_UP_IRQHandler+0xce>
     RCC->APB2PRSTR |= RCC_APB2Periph_ADC1;
- 6d2:	20076713          	ori	a4,a4,512
- 6d6:	c7d8                	sw	a4,12(a5)
+ 6b8:	20076713          	ori	a4,a4,512
+ 6bc:	c7d8                	sw	a4,12(a5)
     RCC->APB2PRSTR &= ~RCC_APB2Periph_ADC1;
- 6d8:	47d8                	lw	a4,12(a5)
- 6da:	dff77713          	andi	a4,a4,-513
- 6de:	c7d8                	sw	a4,12(a5)
+ 6be:	47d8                	lw	a4,12(a5)
+ 6c0:	dff77713          	andi	a4,a4,-513
+ 6c4:	c7d8                	sw	a4,12(a5)
     ADC1->RSQR1 = 0;
- 6e0:	42042623          	sw	zero,1068(s0) # 4001242c <_eusrstack+0x20011c2c>
+ 6c6:	42042623          	sw	zero,1068(s0) # 4001242c <_eusrstack+0x20011c2c>
     ADC1->RSQR2 = 0;
- 6e4:	42042823          	sw	zero,1072(s0)
+ 6ca:	42042823          	sw	zero,1072(s0)
     ADC1->RSQR3 = 7;
- 6e8:	479d                	li	a5,7
- 6ea:	42f42a23          	sw	a5,1076(s0)
+ 6ce:	479d                	li	a5,7
+ 6d0:	42f42a23          	sw	a5,1076(s0)
      ADC1->SAMPTR2 &= ~(ADC_SMP0<<(3*7));
- 6ee:	41042783          	lw	a5,1040(s0)
- 6f2:	ff200737          	lui	a4,0xff200
- 6f6:	177d                	addi	a4,a4,-1
- 6f8:	8ff9                	and	a5,a5,a4
- 6fa:	40f42823          	sw	a5,1040(s0)
+ 6d4:	41042783          	lw	a5,1040(s0)
+ 6d8:	ff200737          	lui	a4,0xff200
+ 6dc:	177d                	addi	a4,a4,-1
+ 6de:	8ff9                	and	a5,a5,a4
+ 6e0:	40f42823          	sw	a5,1040(s0)
      ADC1->SAMPTR2 |= 7<<(3*7);	// 0:7 => 3/9/15/30/43/57/73/241 cycles
- 6fe:	41042783          	lw	a5,1040(s0)
- 702:	00e00737          	lui	a4,0xe00
- 706:	8fd9                	or	a5,a5,a4
- 708:	40f42823          	sw	a5,1040(s0)
+ 6e4:	41042783          	lw	a5,1040(s0)
+ 6e8:	00e00737          	lui	a4,0xe00
+ 6ec:	8fd9                	or	a5,a5,a4
+ 6ee:	40f42823          	sw	a5,1040(s0)
     ADC1->CTLR2  = ADC_ADON  | ADC_EXTSEL;
- 70c:	000e07b7          	lui	a5,0xe0
- 710:	0785                	addi	a5,a5,1
- 712:	40f42423          	sw	a5,1032(s0)
+ 6f2:	000e07b7          	lui	a5,0xe0
+ 6f6:	0785                	addi	a5,a5,1
+ 6f8:	40f42423          	sw	a5,1032(s0)
     printf("Calibrating ADC...\r\n");
- 716:	3d0d                	jal	548 <puts>
+ 6fc:	35b1                	jal	548 <puts>
     ADC1->CTLR2 |= ADC_RSTCAL;
- 718:	40842783          	lw	a5,1032(s0)
+ 6fe:	40842783          	lw	a5,1032(s0)
     while(ADC1->CTLR2 & ADC_RSTCAL);   
- 71c:	400126b7          	lui	a3,0x40012
+ 702:	400126b7          	lui	a3,0x40012
     ADC1->CTLR2 |= ADC_RSTCAL;
- 720:	0087e793          	ori	a5,a5,8
- 724:	40f42423          	sw	a5,1032(s0)
+ 706:	0087e793          	ori	a5,a5,8
+ 70a:	40f42423          	sw	a5,1032(s0)
     while(ADC1->CTLR2 & ADC_RSTCAL);   
- 728:	4086a703          	lw	a4,1032(a3) # 40012408 <_eusrstack+0x20011c08>
- 72c:	8b21                	andi	a4,a4,8
- 72e:	ff6d                	bnez	a4,728 <main+0x9e>
+ 70e:	4086a703          	lw	a4,1032(a3) # 40012408 <_eusrstack+0x20011c08>
+ 712:	8b21                	andi	a4,a4,8
+ 714:	ff6d                	bnez	a4,70e <main+0x9e>
     ADC1->CTLR2 |= ADC_CAL;
- 730:	4086a703          	lw	a4,1032(a3)
- 734:	00476713          	ori	a4,a4,4
- 738:	40e6a423          	sw	a4,1032(a3)
+ 716:	4086a703          	lw	a4,1032(a3)
+ 71a:	00476713          	ori	a4,a4,4
+ 71e:	40e6a423          	sw	a4,1032(a3)
     while(ADC1->CTLR2 & ADC_CAL);
- 73c:	40012737          	lui	a4,0x40012
- 740:	40872783          	lw	a5,1032(a4) # 40012408 <_eusrstack+0x20011c08>
- 744:	8b91                	andi	a5,a5,4
- 746:	ffed                	bnez	a5,740 <main+0xb6>
+ 722:	40012737          	lui	a4,0x40012
+ 726:	40872783          	lw	a5,1032(a4) # 40012408 <_eusrstack+0x20011c08>
+ 72a:	8b91                	andi	a5,a5,4
+ 72c:	ffed                	bnez	a5,726 <main+0xb6>
     printf("Calibrating done...\r\n");
- 748:	6505                	lui	a0,0x1
- 74a:	8b450513          	addi	a0,a0,-1868 # 8b4 <TIM1_UP_IRQHandler+0xe0>
- 74e:	3bed                	jal	548 <puts>
+ 72e:	6505                	lui	a0,0x1
+ 730:	89c50513          	addi	a0,a0,-1892 # 89c <TIM1_UP_IRQHandler+0xe2>
+ 734:	3d11                	jal	548 <puts>
     printf("Initializing timer...\r\n");
- 750:	6505                	lui	a0,0x1
- 752:	8cc50513          	addi	a0,a0,-1844 # 8cc <TIM1_UP_IRQHandler+0xf8>
- 756:	3bcd                	jal	548 <puts>
+ 736:	6505                	lui	a0,0x1
+ 738:	8b450513          	addi	a0,a0,-1868 # 8b4 <TIM1_UP_IRQHandler+0xfa>
+ 73c:	3531                	jal	548 <puts>
     RCC->APB2PCENR |= RCC_APB2Periph_TIM1;
- 758:	400216b7          	lui	a3,0x40021
- 75c:	4e9c                	lw	a5,24(a3)
- 75e:	6705                	lui	a4,0x1
- 760:	80070713          	addi	a4,a4,-2048 # 800 <TIM1_UP_IRQHandler+0x2c>
- 764:	8fd9                	or	a5,a5,a4
- 766:	ce9c                	sw	a5,24(a3)
+ 73e:	400216b7          	lui	a3,0x40021
+ 742:	4e9c                	lw	a5,24(a3)
+ 744:	6705                	lui	a4,0x1
+ 746:	80070713          	addi	a4,a4,-2048 # 800 <TIM1_UP_IRQHandler+0x46>
+ 74a:	8fd9                	or	a5,a5,a4
+ 74c:	ce9c                	sw	a5,24(a3)
     TIM1->CTLR1 |= TIM_CounterMode_Up | TIM_CKD_DIV1;
- 768:	40013737          	lui	a4,0x40013
- 76c:	c0075683          	lhu	a3,-1024(a4) # 40012c00 <_eusrstack+0x20012400>
+ 74e:	40013737          	lui	a4,0x40013
+ 752:	c0075683          	lhu	a3,-1024(a4) # 40012c00 <_eusrstack+0x20012400>
 	NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
- 770:	4621                	li	a2,8
+ 756:	4621                	li	a2,8
     init_adc();
     init_timer();
    
     int a,i=12;
     unsigned char c;
     printf("here %d\n",i);
- 772:	6505                	lui	a0,0x1
+ 758:	6505                	lui	a0,0x1
     TIM1->CTLR1 |= TIM_CounterMode_Up | TIM_CKD_DIV1;
- 774:	06c2                	slli	a3,a3,0x10
- 776:	82c1                	srli	a3,a3,0x10
- 778:	c0d71023          	sh	a3,-1024(a4)
+ 75a:	06c2                	slli	a3,a3,0x10
+ 75c:	82c1                	srli	a3,a3,0x10
+ 75e:	c0d71023          	sh	a3,-1024(a4)
     TIM1->CTLR2 = TIM_MMS_1;
- 77c:	02000693          	li	a3,32
- 780:	c0d71223          	sh	a3,-1020(a4)
+ 762:	02000693          	li	a3,32
+ 766:	c0d71223          	sh	a3,-1020(a4)
     TIM1->ATRLR = 80;   // lower = higher sample rate. 800 for 6400sam/sec
- 784:	05000693          	li	a3,80
- 788:	c2d71623          	sh	a3,-980(a4)
+ 76a:	05000693          	li	a3,80
+ 76e:	c2d71623          	sh	a3,-980(a4)
     TIM1->PSC = 10-1;
- 78c:	46a5                	li	a3,9
- 78e:	c2d71423          	sh	a3,-984(a4)
+ 772:	46a5                	li	a3,9
+ 774:	c2d71423          	sh	a3,-984(a4)
     TIM1->RPTCR = 0;
- 792:	c2071823          	sh	zero,-976(a4)
+ 778:	c2071823          	sh	zero,-976(a4)
     TIM1->SWEVGR = TIM_PSCReloadMode_Immediate;
- 796:	4685                	li	a3,1
- 798:	c0d71a23          	sh	a3,-1004(a4)
- 79c:	e000e6b7          	lui	a3,0xe000e
- 7a0:	10c6a223          	sw	a2,260(a3) # e000e104 <_eusrstack+0xc000d904>
+ 77c:	4685                	li	a3,1
+ 77e:	c0d71a23          	sh	a3,-1004(a4)
+ 782:	e000e6b7          	lui	a3,0xe000e
+ 786:	10c6a223          	sw	a2,260(a3) # e000e104 <_eusrstack+0xc000d904>
     TIM1->INTFR = ~TIM_FLAG_Update;
- 7a4:	56f9                	li	a3,-2
- 7a6:	c0d71823          	sh	a3,-1008(a4)
+ 78a:	56f9                	li	a3,-2
+ 78c:	c0d71823          	sh	a3,-1008(a4)
     TIM1->DMAINTENR |= TIM_IT_Update;
- 7aa:	c0c75683          	lhu	a3,-1012(a4)
+ 790:	c0c75683          	lhu	a3,-1012(a4)
     printf("here %d\n",i);
- 7ae:	45b1                	li	a1,12
- 7b0:	8e450513          	addi	a0,a0,-1820 # 8e4 <TIM1_UP_IRQHandler+0x110>
+ 794:	45b1                	li	a1,12
+ 796:	8cc50513          	addi	a0,a0,-1844 # 8cc <TIM1_UP_IRQHandler+0x112>
     TIM1->DMAINTENR |= TIM_IT_Update;
- 7b4:	06c2                	slli	a3,a3,0x10
- 7b6:	82c1                	srli	a3,a3,0x10
- 7b8:	0016e693          	ori	a3,a3,1
- 7bc:	c0d71623          	sh	a3,-1012(a4)
+ 79a:	06c2                	slli	a3,a3,0x10
+ 79c:	82c1                	srli	a3,a3,0x10
+ 79e:	0016e693          	ori	a3,a3,1
+ 7a2:	c0d71623          	sh	a3,-1012(a4)
     TIM1->CTLR1 |= TIM_CEN;
- 7c0:	c0075783          	lhu	a5,-1024(a4)
- 7c4:	07c2                	slli	a5,a5,0x10
- 7c6:	83c1                	srli	a5,a5,0x10
- 7c8:	0017e793          	ori	a5,a5,1
- 7cc:	c0f71023          	sh	a5,-1024(a4)
+ 7a6:	c0075783          	lhu	a5,-1024(a4)
+ 7aa:	07c2                	slli	a5,a5,0x10
+ 7ac:	83c1                	srli	a5,a5,0x10
+ 7ae:	0017e793          	ori	a5,a5,1
+ 7b2:	c0f71023          	sh	a5,-1024(a4)
     printf("here %d\n",i);
- 7d0:	3381                	jal	510 <printf>
+ 7b6:	3ba9                	jal	510 <printf>
     
     while(1) {
- 7d2:	a001                	j	7d2 <main+0x148>
+ 7b8:	a001                	j	7b8 <main+0x148>
 
-000007d4 <TIM1_UP_IRQHandler>:
+000007ba <TIM1_UP_IRQHandler>:
 void TIM1_UP_IRQHandler() {
- 7d4:	7179                	addi	sp,sp,-48
- 7d6:	c03e                	sw	a5,0(sp)
+ 7ba:	7179                	addi	sp,sp,-48
+ 7bc:	c03e                	sw	a5,0(sp)
     if(TIM1->INTFR & TIM_FLAG_Update) {
- 7d8:	400137b7          	lui	a5,0x40013
+ 7be:	400137b7          	lui	a5,0x40013
 void TIM1_UP_IRQHandler() {
- 7dc:	c23a                	sw	a4,4(sp)
+ 7c2:	c23a                	sw	a4,4(sp)
     if(TIM1->INTFR & TIM_FLAG_Update) {
- 7de:	c107d703          	lhu	a4,-1008(a5) # 40012c10 <_eusrstack+0x20012410>
+ 7c4:	c107d703          	lhu	a4,-1008(a5) # 40012c10 <_eusrstack+0x20012410>
 void TIM1_UP_IRQHandler() {
- 7e2:	d606                	sw	ra,44(sp)
- 7e4:	d416                	sw	t0,40(sp)
- 7e6:	d21a                	sw	t1,36(sp)
- 7e8:	d01e                	sw	t2,32(sp)
- 7ea:	ce22                	sw	s0,28(sp)
- 7ec:	cc26                	sw	s1,24(sp)
- 7ee:	ca2a                	sw	a0,20(sp)
- 7f0:	c82e                	sw	a1,16(sp)
- 7f2:	c632                	sw	a2,12(sp)
- 7f4:	c436                	sw	a3,8(sp)
+ 7c8:	d606                	sw	ra,44(sp)
+ 7ca:	d416                	sw	t0,40(sp)
+ 7cc:	d21a                	sw	t1,36(sp)
+ 7ce:	d01e                	sw	t2,32(sp)
+ 7d0:	ce22                	sw	s0,28(sp)
+ 7d2:	cc26                	sw	s1,24(sp)
+ 7d4:	ca2a                	sw	a0,20(sp)
+ 7d6:	c82e                	sw	a1,16(sp)
+ 7d8:	c632                	sw	a2,12(sp)
+ 7da:	c436                	sw	a3,8(sp)
     if(TIM1->INTFR & TIM_FLAG_Update) {
- 7f6:	8b05                	andi	a4,a4,1
- 7f8:	cb39                	beqz	a4,84e <TIM1_UP_IRQHandler+0x7a>
- 7fa:	c0078793          	addi	a5,a5,-1024
+ 7dc:	8b05                	andi	a4,a4,1
+ 7de:	cb39                	beqz	a4,834 <TIM1_UP_IRQHandler+0x7a>
+ 7e0:	c0078793          	addi	a5,a5,-1024
         TIM1->INTFR = ~TIM_FLAG_Update;
- 7fe:	5779                	li	a4,-2
- 800:	00e79823          	sh	a4,16(a5)
+ 7e4:	5779                	li	a4,-2
+ 7e6:	00e79823          	sh	a4,16(a5)
 	result= ADC1->RDATAR; result-=512;
- 804:	400127b7          	lui	a5,0x40012
- 808:	44c7a503          	lw	a0,1100(a5) # 4001244c <_eusrstack+0x20011c4c>
+ 7ea:	400127b7          	lui	a5,0x40012
+ 7ee:	44c7a503          	lw	a0,1100(a5) # 4001244c <_eusrstack+0x20011c4c>
 	total+=result; count++;
- 80c:	c0818413          	addi	s0,gp,-1016 # 20000004 <total>
- 810:	401c                	lw	a5,0(s0)
- 812:	c0418493          	addi	s1,gp,-1020 # 20000000 <count>
+ 7f2:	c0818413          	addi	s0,gp,-1016 # 20000004 <total>
+ 7f6:	401c                	lw	a5,0(s0)
+ 7f8:	c0418493          	addi	s1,gp,-1020 # 20000000 <count>
 	result= ADC1->RDATAR; result-=512;
- 816:	e0050513          	addi	a0,a0,-512
+ 7fc:	e0050513          	addi	a0,a0,-512
 	total+=result; count++;
- 81a:	953e                	add	a0,a0,a5
- 81c:	409c                	lw	a5,0(s1)
- 81e:	c008                	sw	a0,0(s0)
+ 800:	953e                	add	a0,a0,a5
+ 802:	409c                	lw	a5,0(s1)
+ 804:	c008                	sw	a0,0(s0)
 	if (count==8) {
- 820:	4721                	li	a4,8
+ 806:	4721                	li	a4,8
 	total+=result; count++;
- 822:	0785                	addi	a5,a5,1
- 824:	c09c                	sw	a5,0(s1)
+ 808:	0785                	addi	a5,a5,1
+ 80a:	c09c                	sw	a5,0(s1)
 	if (count==8) {
- 826:	00e79b63          	bne	a5,a4,83c <TIM1_UP_IRQHandler+0x68>
+ 80c:	00e79b63          	bne	a5,a4,822 <TIM1_UP_IRQHandler+0x68>
 	  total>>=3; 	
- 82a:	850d                	srai	a0,a0,0x3
+ 810:	850d                	srai	a0,a0,0x3
 	  total+=127;
- 82c:	07f50513          	addi	a0,a0,127
- 830:	c008                	sw	a0,0(s0)
+ 812:	07f50513          	addi	a0,a0,127
+ 816:	c008                	sw	a0,0(s0)
 	  printf("%c",total);   // averaged
- 832:	3389                	jal	574 <putchar>
+ 818:	3bb1                	jal	574 <putchar>
 	  total=0; count=0;
- 834:	00042023          	sw	zero,0(s0)
- 838:	0004a023          	sw	zero,0(s1)
+ 81a:	00042023          	sw	zero,0(s0)
+ 81e:	0004a023          	sw	zero,0(s1)
 	ADC1->CTLR2 |= ADC_SWSTART; // start next ADC conversion
- 83c:	400127b7          	lui	a5,0x40012
- 840:	4087a703          	lw	a4,1032(a5) # 40012408 <_eusrstack+0x20011c08>
- 844:	004006b7          	lui	a3,0x400
- 848:	8f55                	or	a4,a4,a3
- 84a:	40e7a423          	sw	a4,1032(a5)
+ 822:	400127b7          	lui	a5,0x40012
+ 826:	4087a703          	lw	a4,1032(a5) # 40012408 <_eusrstack+0x20011c08>
+ 82a:	004006b7          	lui	a3,0x400
+ 82e:	8f55                	or	a4,a4,a3
+ 830:	40e7a423          	sw	a4,1032(a5)
 }
- 84e:	4472                	lw	s0,28(sp)
- 850:	50b2                	lw	ra,44(sp)
- 852:	52a2                	lw	t0,40(sp)
- 854:	5312                	lw	t1,36(sp)
- 856:	5382                	lw	t2,32(sp)
- 858:	44e2                	lw	s1,24(sp)
- 85a:	4552                	lw	a0,20(sp)
- 85c:	45c2                	lw	a1,16(sp)
- 85e:	4632                	lw	a2,12(sp)
- 860:	46a2                	lw	a3,8(sp)
- 862:	4712                	lw	a4,4(sp)
- 864:	4782                	lw	a5,0(sp)
- 866:	6145                	addi	sp,sp,48
- 868:	30200073          	mret
- 86c:	000a                	c.slli	zero,0x2
- 86e:	0000                	unimp
- 870:	6e49                	lui	t3,0x12
- 872:	7469                	lui	s0,0xffffa
- 874:	6169                	addi	sp,sp,208
- 876:	696c                	flw	fa1,84(a0)
- 878:	697a                	flw	fs2,156(sp)
- 87a:	676e                	flw	fa4,216(sp)
- 87c:	4120                	lw	s0,64(a0)
- 87e:	4344                	lw	s1,4(a4)
+ 834:	4472                	lw	s0,28(sp)
+ 836:	50b2                	lw	ra,44(sp)
+ 838:	52a2                	lw	t0,40(sp)
+ 83a:	5312                	lw	t1,36(sp)
+ 83c:	5382                	lw	t2,32(sp)
+ 83e:	44e2                	lw	s1,24(sp)
+ 840:	4552                	lw	a0,20(sp)
+ 842:	45c2                	lw	a1,16(sp)
+ 844:	4632                	lw	a2,12(sp)
+ 846:	46a2                	lw	a3,8(sp)
+ 848:	4712                	lw	a4,4(sp)
+ 84a:	4782                	lw	a5,0(sp)
+ 84c:	6145                	addi	sp,sp,48
+ 84e:	30200073          	mret
+ 852:	0000                	unimp
+ 854:	000a                	c.slli	zero,0x2
+ 856:	0000                	unimp
+ 858:	6e49                	lui	t3,0x12
+ 85a:	7469                	lui	s0,0xffffa
+ 85c:	6169                	addi	sp,sp,208
+ 85e:	696c                	flw	fa1,84(a0)
+ 860:	697a                	flw	fs2,156(sp)
+ 862:	676e                	flw	fa4,216(sp)
+ 864:	4120                	lw	s0,64(a0)
+ 866:	4344                	lw	s1,4(a4)
+ 868:	2e2e                	fld	ft8,200(sp)
+ 86a:	202e                	fld	ft0,200(sp)
+ 86c:	6228                	flw	fa0,64(a2)
+ 86e:	736a                	flw	ft6,184(sp)
+ 870:	7020                	flw	fs0,96(s0)
+ 872:	6e69                	lui	t3,0x1a
+ 874:	5020                	lw	s0,96(s0)
+ 876:	3444                	fld	fs1,168(s0)
+ 878:	4920                	lw	s0,80(a0)
+ 87a:	7420                	flw	fs0,104(s0)
+ 87c:	6968                	flw	fa0,84(a0)
+ 87e:	6b6e                	flw	fs6,216(sp)
  880:	2e2e                	fld	ft8,200(sp)
- 882:	202e                	fld	ft0,200(sp)
- 884:	6228                	flw	fa0,64(a2)
- 886:	736a                	flw	ft6,184(sp)
- 888:	7020                	flw	fs0,96(s0)
- 88a:	6e69                	lui	t3,0x1a
- 88c:	5020                	lw	s0,96(s0)
- 88e:	3444                	fld	fs1,168(s0)
- 890:	4920                	lw	s0,80(a0)
- 892:	7420                	flw	fs0,104(s0)
- 894:	6968                	flw	fa0,84(a0)
- 896:	6b6e                	flw	fs6,216(sp)
- 898:	2e2e                	fld	ft8,200(sp)
- 89a:	292e                	fld	fs2,200(sp)
- 89c:	000d                	c.nop	3
- 89e:	0000                	unimp
- 8a0:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
- 8a4:	7262                	flw	ft4,56(sp)
- 8a6:	7461                	lui	s0,0xffff8
- 8a8:	6e69                	lui	t3,0x1a
- 8aa:	44412067          	0x44412067
- 8ae:	2e2e2e43          	fmadd.q	ft8,ft8,ft2,ft5,rdn
- 8b2:	000d                	c.nop	3
- 8b4:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
- 8b8:	7262                	flw	ft4,56(sp)
- 8ba:	7461                	lui	s0,0xffff8
- 8bc:	6e69                	lui	t3,0x1a
- 8be:	6f642067          	0x6f642067
- 8c2:	656e                	flw	fa0,216(sp)
- 8c4:	2e2e                	fld	ft8,200(sp)
- 8c6:	0d2e                	slli	s10,s10,0xb
- 8c8:	0000                	unimp
+ 882:	292e                	fld	fs2,200(sp)
+ 884:	000d                	c.nop	3
+ 886:	0000                	unimp
+ 888:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
+ 88c:	7262                	flw	ft4,56(sp)
+ 88e:	7461                	lui	s0,0xffff8
+ 890:	6e69                	lui	t3,0x1a
+ 892:	44412067          	0x44412067
+ 896:	2e2e2e43          	fmadd.q	ft8,ft8,ft2,ft5,rdn
+ 89a:	000d                	c.nop	3
+ 89c:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
+ 8a0:	7262                	flw	ft4,56(sp)
+ 8a2:	7461                	lui	s0,0xffff8
+ 8a4:	6e69                	lui	t3,0x1a
+ 8a6:	6f642067          	0x6f642067
+ 8aa:	656e                	flw	fa0,216(sp)
+ 8ac:	2e2e                	fld	ft8,200(sp)
+ 8ae:	0d2e                	slli	s10,s10,0xb
+ 8b0:	0000                	unimp
+ 8b2:	0000                	unimp
+ 8b4:	6e49                	lui	t3,0x12
+ 8b6:	7469                	lui	s0,0xffffa
+ 8b8:	6169                	addi	sp,sp,208
+ 8ba:	696c                	flw	fa1,84(a0)
+ 8bc:	697a                	flw	fs2,156(sp)
+ 8be:	676e                	flw	fa4,216(sp)
+ 8c0:	7420                	flw	fs0,104(s0)
+ 8c2:	6d69                	lui	s10,0x1a
+ 8c4:	7265                	lui	tp,0xffff9
+ 8c6:	2e2e                	fld	ft8,200(sp)
+ 8c8:	0d2e                	slli	s10,s10,0xb
  8ca:	0000                	unimp
- 8cc:	6e49                	lui	t3,0x12
- 8ce:	7469                	lui	s0,0xffffa
- 8d0:	6169                	addi	sp,sp,208
- 8d2:	696c                	flw	fa1,84(a0)
- 8d4:	697a                	flw	fs2,156(sp)
- 8d6:	676e                	flw	fa4,216(sp)
- 8d8:	7420                	flw	fs0,104(s0)
- 8da:	6d69                	lui	s10,0x1a
- 8dc:	7265                	lui	tp,0xffff9
- 8de:	2e2e                	fld	ft8,200(sp)
- 8e0:	0d2e                	slli	s10,s10,0xb
- 8e2:	0000                	unimp
- 8e4:	6568                	flw	fa0,76(a0)
- 8e6:	6572                	flw	fa0,28(sp)
- 8e8:	2520                	fld	fs0,72(a0)
- 8ea:	0a64                	addi	s1,sp,284
- 8ec:	0000                	unimp
+ 8cc:	6568                	flw	fa0,76(a0)
+ 8ce:	6572                	flw	fa0,28(sp)
+ 8d0:	2520                	fld	fs0,72(a0)
+ 8d2:	0a64                	addi	s1,sp,284
+ 8d4:	0000                	unimp
 	...

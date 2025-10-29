@@ -65,7 +65,7 @@ Disassembly of section .init:
   86:	0000                	unimp
   88:	034a                	slli	t1,t1,0x12
   8a:	0000                	unimp
-  8c:	0d8c                	addi	a1,sp,720
+  8c:	0d74                	addi	a3,sp,668
   8e:	0000                	unimp
   90:	034a                	slli	t1,t1,0x12
   92:	0000                	unimp
@@ -389,7 +389,7 @@ WEAK int _write(int fd, const char *buf, int size)
      2d0:	13018193          	addi	gp,gp,304 # 200003fc <__global_pointer$>
      2d4:	40418113          	addi	sp,gp,1028 # 20000800 <_eusrstack>
      2d8:	6509                	lui	a0,0x2
-     2da:	88050513          	addi	a0,a0,-1920 # 1880 <ch32fun.c.7589f8fb+0x5cc>
+     2da:	88050513          	addi	a0,a0,-1920 # 1880 <mel_mx+0x170>
      2de:	30051073          	csrw	mstatus,a0
      2e2:	468d                	li	a3,3
      2e4:	00000517          	auipc	a0,0x0
@@ -405,7 +405,7 @@ asm volatile(
      302:	0511                	addi	a0,a0,4
      304:	feb54ee3          	blt	a0,a1,300 <handle_reset+0x34>
      308:	00002517          	auipc	a0,0x2
-     30c:	ea050513          	addi	a0,a0,-352 # 21a8 <_data_lma>
+     30c:	a8850513          	addi	a0,a0,-1400 # 1d90 <_data_lma>
      310:	c0418593          	addi	a1,gp,-1020 # 20000000 <count>
      314:	c0418613          	addi	a2,gp,-1020 # 20000000 <count>
      318:	00c58863          	beq	a1,a2,328 <handle_reset+0x5c>
@@ -419,7 +419,7 @@ asm volatile(
      32c:	4705                	li	a4,1
      32e:	c398                	sw	a4,0(a5)
 asm volatile(
-     330:	6a200793          	li	a5,1698
+     330:	68800793          	li	a5,1672
      334:	34179073          	csrw	mepc,a5
      338:	30200073          	mret
 
@@ -550,7 +550,7 @@ static inline uint32_t __get_MTVAL(void)
 				ch=*(fmt++);
      3fe:	4605                	li	a2,1
 			while (ch >= '0' && ch <= '9') {
-     400:	fd068593          	addi	a1,a3,-48 # 7fffd0 <stt.c.5fff5958+0x7fdb8b>
+     400:	fd068593          	addi	a1,a3,-48 # 7fffd0 <stt.c.15920f6d+0x7fdb8b>
      404:	0ff5f313          	andi	t1,a1,255
      408:	fe6573e3          	bgeu	a0,t1,3ee <mini_vpprintf+0x74>
      40c:	c219                	beqz	a2,412 <mini_vpprintf+0x98>
@@ -757,7 +757,7 @@ WEAK void *memset(void *dest, int c, size_t n) { unsigned char *s = dest; for (;
 	_write(0, "\n", 1 );
      574:	6505                	lui	a0,0x1
      576:	4585                	li	a1,1
-     578:	f6050513          	addi	a0,a0,-160 # f60 <TIM1_UP_IRQHandler+0x1d4>
+     578:	f5050513          	addi	a0,a0,-176 # f50 <TIM1_UP_IRQHandler+0x1dc>
      57c:	3b09                	jal	28e <_write.constprop.0>
 }
      57e:	40a2                	lw	ra,8(sp)
@@ -839,1605 +839,1522 @@ WEAK void *memset(void *dest, int c, size_t n) { unsigned char *s = dest; for (;
      5ee:	400227b7          	lui	a5,0x40022
      5f2:	4705                	li	a4,1
      5f4:	c398                	sw	a4,0(a5)
+#elif defined(FUNCONF_USE_HSI) && FUNCONF_USE_HSI
+	#if defined(CH32V30x) || defined(CH32V20x) || defined(CH32L103) || defined(CH32V10x)
+		EXTEN->EXTEN_CTR |= EXTEN_PLL_HSI_PRE;
 	#endif
-
-#elif defined(FUNCONF_USE_HSE) && FUNCONF_USE_HSE
-
-	#if defined(CH32V003) || defined(CH32V00x)
-		RCC->CTLR = BASE_CTLR | RCC_HSION | RCC_HSEON ;       		  // Keep HSI on while turning on HSE
-     5f6:	000907b7          	lui	a5,0x90
-     5fa:	08178793          	addi	a5,a5,129 # 90081 <stt.c.5fff5958+0x8dc3c>
-     5fe:	40021737          	lui	a4,0x40021
-     602:	c31c                	sw	a5,0(a4)
-	#else
-		RCC->CTLR = RCC_HSEON;							  			  // Only turn on HSE.
-	#endif
-
-	// Values lifted from the EVT.  There is little to no documentation on what this does.
-	while(!(RCC->CTLR&RCC_HSERDY)) {};
-     604:	000206b7          	lui	a3,0x20
-     608:	400217b7          	lui	a5,0x40021
-     60c:	4398                	lw	a4,0(a5)
-     60e:	8f75                	and	a4,a4,a3
-     610:	df75                	beqz	a4,60c <SystemInit+0x1e>
-
-	#if defined(CH32V003) || defined(CH32V00x)
-		RCC->CFGR0 = RCC_PLLSRC_HSE_Mul2 | RCC_SW_HSE;
-     612:	6741                	lui	a4,0x10
-     614:	0705                	addi	a4,a4,1
-     616:	c3d8                	sw	a4,4(a5)
-	#else
-		RCC->CFGR0 = BASE_CFGR0 | RCC_PLLSRC_HSE | RCC_PLLXTPRE_HSE;
-	#endif
-
 	#if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL
-		RCC->CTLR  = BASE_CTLR | RCC_HSEON | RCC_PLLON;            // Turn off HSI.
-     618:	01090737          	lui	a4,0x1090
-     61c:	08170713          	addi	a4,a4,129 # 1090081 <stt.c.5fff5958+0x108dc3c>
-     620:	c398                	sw	a4,0(a5)
+		RCC->CFGR0 = BASE_CFGR0;
+     5f6:	400217b7          	lui	a5,0x40021
+		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
+     5fa:	01080737          	lui	a4,0x1080
+		RCC->CFGR0 = BASE_CFGR0;
+     5fe:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
+		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
+     602:	08170713          	addi	a4,a4,129 # 1080081 <stt.c.15920f6d+0x107dc3c>
+     606:	c398                	sw	a4,0(a5)
 		FLASH->ACTLR = FLASH_ACTLR_LATENCY_0;
 	#endif
 #endif
 
 #ifndef CH5xx
 	RCC->INTR  = 0x009F0000;                               // Clear PLL, CSSC, HSE, HSI and LSI ready flags.
-     622:	009f0737          	lui	a4,0x9f0
-     626:	c798                	sw	a4,8(a5)
+     608:	009f0737          	lui	a4,0x9f0
+     60c:	c798                	sw	a4,8(a5)
 #endif
 
 #if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL && !defined(CH5xx)
 	while((RCC->CTLR & RCC_PLLRDY) == 0);                       	// Wait till PLL is ready
-     628:	020006b7          	lui	a3,0x2000
-     62c:	40021737          	lui	a4,0x40021
-     630:	431c                	lw	a5,0(a4)
-     632:	8ff5                	and	a5,a5,a3
-     634:	dff5                	beqz	a5,630 <SystemInit+0x42>
+     60e:	020006b7          	lui	a3,0x2000
+     612:	40021737          	lui	a4,0x40021
+     616:	431c                	lw	a5,0(a4)
+     618:	8ff5                	and	a5,a5,a3
+     61a:	dff5                	beqz	a5,616 <SystemInit+0x28>
 	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
-     636:	435c                	lw	a5,4(a4)
+     61c:	435c                	lw	a5,4(a4)
 	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
 	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
-     638:	4621                	li	a2,8
+     61e:	4621                	li	a2,8
 	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
-     63a:	9bf1                	andi	a5,a5,-4
+     620:	9bf1                	andi	a5,a5,-4
 	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
-     63c:	0027e793          	ori	a5,a5,2
-     640:	c35c                	sw	a5,4(a4)
+     622:	0027e793          	ori	a5,a5,2
+     626:	c35c                	sw	a5,4(a4)
 	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
-     642:	400217b7          	lui	a5,0x40021
-     646:	43d8                	lw	a4,4(a5)
-     648:	8b31                	andi	a4,a4,12
-     64a:	fec71ee3          	bne	a4,a2,646 <SystemInit+0x58>
+     628:	400217b7          	lui	a5,0x40021
+     62c:	43d8                	lw	a4,4(a5)
+     62e:	8b31                	andi	a4,a4,12
+     630:	fec71ee3          	bne	a4,a2,62c <SystemInit+0x3e>
 	RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1;
-     64e:	4f98                	lw	a4,24(a5)
-     650:	6691                	lui	a3,0x4
-     652:	02068693          	addi	a3,a3,32 # 4020 <stt.c.5fff5958+0x1bdb>
-     656:	8f55                	or	a4,a4,a3
-     658:	cf98                	sw	a4,24(a5)
+     634:	4f98                	lw	a4,24(a5)
+     636:	6691                	lui	a3,0x4
+     638:	02068693          	addi	a3,a3,32 # 4020 <stt.c.15920f6d+0x1bdb>
+     63c:	8f55                	or	a4,a4,a3
+     63e:	cf98                	sw	a4,24(a5)
 	GPIOD->CFGLR &= ~(0xf<<(4*5));
-     65a:	400117b7          	lui	a5,0x40011
-     65e:	4007a703          	lw	a4,1024(a5) # 40011400 <_eusrstack+0x20010c00>
-     662:	ff1006b7          	lui	a3,0xff100
-     666:	16fd                	addi	a3,a3,-1
-     668:	8f75                	and	a4,a4,a3
-     66a:	40e7a023          	sw	a4,1024(a5)
+     640:	400117b7          	lui	a5,0x40011
+     644:	4007a703          	lw	a4,1024(a5) # 40011400 <_eusrstack+0x20010c00>
+     648:	ff1006b7          	lui	a3,0xff100
+     64c:	16fd                	addi	a3,a3,-1
+     64e:	8f75                	and	a4,a4,a3
+     650:	40e7a023          	sw	a4,1024(a5)
 	GPIOD->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP_AF)<<(4*5);
-     66e:	4007a703          	lw	a4,1024(a5)
-     672:	009006b7          	lui	a3,0x900
-     676:	8f55                	or	a4,a4,a3
-     678:	40e7a023          	sw	a4,1024(a5)
+     654:	4007a703          	lw	a4,1024(a5)
+     658:	009006b7          	lui	a3,0x900
+     65c:	8f55                	or	a4,a4,a3
+     65e:	40e7a023          	sw	a4,1024(a5)
 	USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx;
-     67c:	400147b7          	lui	a5,0x40014
-     680:	80c7a623          	sw	a2,-2036(a5) # 4001380c <_eusrstack+0x2001300c>
+     662:	400147b7          	lui	a5,0x40014
+     666:	80c7a623          	sw	a2,-2036(a5) # 4001380c <_eusrstack+0x2001300c>
 	USART1->CTLR2 = USART_StopBits_1;
-     684:	8007a823          	sw	zero,-2032(a5)
+     66a:	8007a823          	sw	zero,-2032(a5)
 	USART1->CTLR3 = USART_HardwareFlowControl_None;
-     688:	8007aa23          	sw	zero,-2028(a5)
+     66e:	8007aa23          	sw	zero,-2028(a5)
 	USART1->BRR = uartBRR;
-     68c:	0d000713          	li	a4,208
-     690:	80e7a423          	sw	a4,-2040(a5)
+     672:	0d000713          	li	a4,208
+     676:	80e7a423          	sw	a4,-2040(a5)
 	USART1->CTLR1 |= CTLR1_UE_Set;
-     694:	80c7a703          	lw	a4,-2036(a5)
-     698:	6689                	lui	a3,0x2
-     69a:	8f55                	or	a4,a4,a3
-     69c:	80e7a623          	sw	a4,-2036(a5)
+     67a:	80c7a703          	lw	a4,-2036(a5)
+     67e:	6689                	lui	a3,0x2
+     680:	8f55                	or	a4,a4,a3
+     682:	80e7a623          	sw	a4,-2036(a5)
 	SetupUART( UART_BRR );
 #endif
 #if defined( FUNCONF_USE_DEBUGPRINTF ) && FUNCONF_USE_DEBUGPRINTF
 	SetupDebugPrintf();
 #endif
 }
-     6a0:	8082                	ret
+     686:	8082                	ret
 
-000006a2 <main>:
+00000688 <main>:
   } else
     return (first[a]);
 }
 
 //-----------------------------------------------------------------------------------
 int main() {
-     6a2:	715d                	addi	sp,sp,-80
-     6a4:	c686                	sw	ra,76(sp)
-     6a6:	c4a2                	sw	s0,72(sp)
-     6a8:	c2a6                	sw	s1,68(sp)
+     688:	715d                	addi	sp,sp,-80
+     68a:	c686                	sw	ra,76(sp)
+     68c:	c4a2                	sw	s0,72(sp)
+     68e:	c2a6                	sw	s1,68(sp)
   SystemInit();
-     6aa:	3791                	jal	5ee <SystemInit>
+     690:	3fb9                	jal	5ee <SystemInit>
   printf("Initializing ADC... (on pin PD4...)\r\n");
-     6ac:	6505                	lui	a0,0x1
-     6ae:	ec850513          	addi	a0,a0,-312 # ec8 <TIM1_UP_IRQHandler+0x13c>
-     6b2:	357d                	jal	560 <puts>
+     692:	6505                	lui	a0,0x1
+     694:	eb050513          	addi	a0,a0,-336 # eb0 <TIM1_UP_IRQHandler+0x13c>
+     698:	35e1                	jal	560 <puts>
   RCC->CFGR0 &= ~(0x1F << 11);
-     6b4:	400217b7          	lui	a5,0x40021
-     6b8:	43d8                	lw	a4,4(a5)
-     6ba:	76c1                	lui	a3,0xffff0
-     6bc:	7ff68693          	addi	a3,a3,2047 # ffff07ff <_eusrstack+0xdffeffff>
-     6c0:	8f75                	and	a4,a4,a3
-     6c2:	c3d8                	sw	a4,4(a5)
+     69a:	400217b7          	lui	a5,0x40021
+     69e:	43d8                	lw	a4,4(a5)
+     6a0:	76c1                	lui	a3,0xffff0
+     6a2:	7ff68693          	addi	a3,a3,2047 # ffff07ff <_eusrstack+0xdffeffff>
+     6a6:	8f75                	and	a4,a4,a3
+     6a8:	c3d8                	sw	a4,4(a5)
   RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_ADC1;
-     6c4:	4f98                	lw	a4,24(a5)
+     6aa:	4f98                	lw	a4,24(a5)
   GPIOD->CFGLR &= ~(0xf << (4 * 4)); // pin D4 analog-in  now
-     6c6:	40011637          	lui	a2,0x40011
-     6ca:	fff106b7          	lui	a3,0xfff10
+     6ac:	40011637          	lui	a2,0x40011
+     6b0:	fff106b7          	lui	a3,0xfff10
   RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_ADC1;
-     6ce:	22076713          	ori	a4,a4,544
-     6d2:	cf98                	sw	a4,24(a5)
+     6b4:	22076713          	ori	a4,a4,544
+     6b8:	cf98                	sw	a4,24(a5)
   GPIOD->CFGLR &= ~(0xf << (4 * 4)); // pin D4 analog-in  now
-     6d4:	40062703          	lw	a4,1024(a2) # 40011400 <_eusrstack+0x20010c00>
-     6d8:	16fd                	addi	a3,a3,-1
+     6ba:	40062703          	lw	a4,1024(a2) # 40011400 <_eusrstack+0x20010c00>
+     6be:	16fd                	addi	a3,a3,-1
   ADC1->RSQR1 = 0;
-     6da:	40012437          	lui	s0,0x40012
+     6c0:	40012437          	lui	s0,0x40012
   GPIOD->CFGLR &= ~(0xf << (4 * 4)); // pin D4 analog-in  now
-     6de:	8f75                	and	a4,a4,a3
-     6e0:	40e62023          	sw	a4,1024(a2)
+     6c4:	8f75                	and	a4,a4,a3
+     6c6:	40e62023          	sw	a4,1024(a2)
   RCC->APB2PRSTR |= RCC_APB2Periph_ADC1;
-     6e4:	47d8                	lw	a4,12(a5)
+     6ca:	47d8                	lw	a4,12(a5)
   printf("Calibrating ADC...\r\n");
-     6e6:	6505                	lui	a0,0x1
-     6e8:	ef050513          	addi	a0,a0,-272 # ef0 <TIM1_UP_IRQHandler+0x164>
+     6cc:	6505                	lui	a0,0x1
+     6ce:	ed850513          	addi	a0,a0,-296 # ed8 <TIM1_UP_IRQHandler+0x164>
   RCC->APB2PRSTR |= RCC_APB2Periph_ADC1;
-     6ec:	20076713          	ori	a4,a4,512
-     6f0:	c7d8                	sw	a4,12(a5)
+     6d2:	20076713          	ori	a4,a4,512
+     6d6:	c7d8                	sw	a4,12(a5)
   RCC->APB2PRSTR &= ~RCC_APB2Periph_ADC1;
-     6f2:	47d8                	lw	a4,12(a5)
-     6f4:	dff77713          	andi	a4,a4,-513
-     6f8:	c7d8                	sw	a4,12(a5)
+     6d8:	47d8                	lw	a4,12(a5)
+     6da:	dff77713          	andi	a4,a4,-513
+     6de:	c7d8                	sw	a4,12(a5)
   ADC1->RSQR1 = 0;
-     6fa:	42042623          	sw	zero,1068(s0) # 4001242c <_eusrstack+0x20011c2c>
+     6e0:	42042623          	sw	zero,1068(s0) # 4001242c <_eusrstack+0x20011c2c>
   ADC1->RSQR2 = 0;
-     6fe:	42042823          	sw	zero,1072(s0)
+     6e4:	42042823          	sw	zero,1072(s0)
   ADC1->RSQR3 = 7;
-     702:	479d                	li	a5,7
-     704:	42f42a23          	sw	a5,1076(s0)
+     6e8:	479d                	li	a5,7
+     6ea:	42f42a23          	sw	a5,1076(s0)
   ADC1->SAMPTR2 &= ~(ADC_SMP0 << (3 * 7));
-     708:	41042783          	lw	a5,1040(s0)
-     70c:	ff200737          	lui	a4,0xff200
-     710:	177d                	addi	a4,a4,-1
-     712:	8ff9                	and	a5,a5,a4
-     714:	40f42823          	sw	a5,1040(s0)
+     6ee:	41042783          	lw	a5,1040(s0)
+     6f2:	ff200737          	lui	a4,0xff200
+     6f6:	177d                	addi	a4,a4,-1
+     6f8:	8ff9                	and	a5,a5,a4
+     6fa:	40f42823          	sw	a5,1040(s0)
   ADC1->SAMPTR2 |= 7 << (3 * 7); // 0:7 => 3/9/15/30/43/57/73/241 cycles
-     718:	41042783          	lw	a5,1040(s0)
-     71c:	00e00737          	lui	a4,0xe00
-     720:	8fd9                	or	a5,a5,a4
-     722:	40f42823          	sw	a5,1040(s0)
+     6fe:	41042783          	lw	a5,1040(s0)
+     702:	00e00737          	lui	a4,0xe00
+     706:	8fd9                	or	a5,a5,a4
+     708:	40f42823          	sw	a5,1040(s0)
   ADC1->CTLR2 = ADC_ADON | ADC_EXTSEL;
-     726:	000e07b7          	lui	a5,0xe0
-     72a:	0785                	addi	a5,a5,1
-     72c:	40f42423          	sw	a5,1032(s0)
+     70c:	000e07b7          	lui	a5,0xe0
+     710:	0785                	addi	a5,a5,1
+     712:	40f42423          	sw	a5,1032(s0)
   printf("Calibrating ADC...\r\n");
-     730:	3d05                	jal	560 <puts>
+     716:	35a9                	jal	560 <puts>
   ADC1->CTLR2 |= ADC_RSTCAL;
-     732:	40842783          	lw	a5,1032(s0)
+     718:	40842783          	lw	a5,1032(s0)
   while (ADC1->CTLR2 & ADC_RSTCAL)
-     736:	400126b7          	lui	a3,0x40012
+     71c:	400126b7          	lui	a3,0x40012
   ADC1->CTLR2 |= ADC_RSTCAL;
-     73a:	0087e793          	ori	a5,a5,8
-     73e:	40f42423          	sw	a5,1032(s0)
+     720:	0087e793          	ori	a5,a5,8
+     724:	40f42423          	sw	a5,1032(s0)
   while (ADC1->CTLR2 & ADC_RSTCAL)
-     742:	4086a703          	lw	a4,1032(a3) # 40012408 <_eusrstack+0x20011c08>
-     746:	8b21                	andi	a4,a4,8
-     748:	ff6d                	bnez	a4,742 <main+0xa0>
+     728:	4086a703          	lw	a4,1032(a3) # 40012408 <_eusrstack+0x20011c08>
+     72c:	8b21                	andi	a4,a4,8
+     72e:	ff6d                	bnez	a4,728 <main+0xa0>
   ADC1->CTLR2 |= ADC_CAL;
-     74a:	4086a703          	lw	a4,1032(a3)
-     74e:	00476713          	ori	a4,a4,4
-     752:	40e6a423          	sw	a4,1032(a3)
+     730:	4086a703          	lw	a4,1032(a3)
+     734:	00476713          	ori	a4,a4,4
+     738:	40e6a423          	sw	a4,1032(a3)
   while (ADC1->CTLR2 & ADC_CAL)
-     756:	40012737          	lui	a4,0x40012
-     75a:	40872783          	lw	a5,1032(a4) # 40012408 <_eusrstack+0x20011c08>
-     75e:	8b91                	andi	a5,a5,4
-     760:	ffed                	bnez	a5,75a <main+0xb8>
+     73c:	40012737          	lui	a4,0x40012
+     740:	40872783          	lw	a5,1032(a4) # 40012408 <_eusrstack+0x20011c08>
+     744:	8b91                	andi	a5,a5,4
+     746:	ffed                	bnez	a5,740 <main+0xb8>
   printf("Calibrating done...\r\n");
-     762:	6505                	lui	a0,0x1
-     764:	f0450513          	addi	a0,a0,-252 # f04 <TIM1_UP_IRQHandler+0x178>
-     768:	3be5                	jal	560 <puts>
+     748:	6505                	lui	a0,0x1
+     74a:	eec50513          	addi	a0,a0,-276 # eec <TIM1_UP_IRQHandler+0x178>
+     74e:	3d09                	jal	560 <puts>
   printf("Initializing timer...\r\n");
-     76a:	6505                	lui	a0,0x1
-     76c:	f1c50513          	addi	a0,a0,-228 # f1c <TIM1_UP_IRQHandler+0x190>
-     770:	3bc5                	jal	560 <puts>
+     750:	6505                	lui	a0,0x1
+     752:	f0450513          	addi	a0,a0,-252 # f04 <TIM1_UP_IRQHandler+0x190>
+     756:	3529                	jal	560 <puts>
   RCC->APB2PCENR |= RCC_APB2Periph_TIM1;
-     772:	400216b7          	lui	a3,0x40021
-     776:	4e9c                	lw	a5,24(a3)
-     778:	6705                	lui	a4,0x1
-     77a:	80070713          	addi	a4,a4,-2048 # 800 <main+0x15e>
-     77e:	8fd9                	or	a5,a5,a4
-     780:	ce9c                	sw	a5,24(a3)
+     758:	400216b7          	lui	a3,0x40021
+     75c:	4e9c                	lw	a5,24(a3)
+     75e:	6705                	lui	a4,0x1
+     760:	80070713          	addi	a4,a4,-2048 # 800 <main+0x178>
+     764:	8fd9                	or	a5,a5,a4
+     766:	ce9c                	sw	a5,24(a3)
   TIM1->CTLR1 |= TIM_CounterMode_Up | TIM_CKD_DIV1;
-     782:	40013737          	lui	a4,0x40013
-     786:	c0075683          	lhu	a3,-1024(a4) # 40012c00 <_eusrstack+0x20012400>
+     768:	40013737          	lui	a4,0x40013
+     76c:	c0075683          	lhu	a3,-1024(a4) # 40012c00 <_eusrstack+0x20012400>
 	NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
-     78a:	4621                	li	a2,8
-     78c:	06c2                	slli	a3,a3,0x10
-     78e:	82c1                	srli	a3,a3,0x10
-     790:	c0d71023          	sh	a3,-1024(a4)
+     770:	4621                	li	a2,8
+     772:	06c2                	slli	a3,a3,0x10
+     774:	82c1                	srli	a3,a3,0x10
+     776:	c0d71023          	sh	a3,-1024(a4)
   TIM1->CTLR2 = TIM_MMS_1;
-     794:	02000693          	li	a3,32
-     798:	c0d71223          	sh	a3,-1020(a4)
+     77a:	02000693          	li	a3,32
+     77e:	c0d71223          	sh	a3,-1020(a4)
   TIM1->ATRLR = 80; // lower = higher sample rate. 800 for 6400sam/sec
-     79c:	05000693          	li	a3,80
-     7a0:	c2d71623          	sh	a3,-980(a4)
+     782:	05000693          	li	a3,80
+     786:	c2d71623          	sh	a3,-980(a4)
   TIM1->PSC = 10 - 1;
-     7a4:	46a5                	li	a3,9
-     7a6:	c2d71423          	sh	a3,-984(a4)
+     78a:	46a5                	li	a3,9
+     78c:	c2d71423          	sh	a3,-984(a4)
   TIM1->RPTCR = 0;
-     7aa:	c2071823          	sh	zero,-976(a4)
+     790:	c2071823          	sh	zero,-976(a4)
   TIM1->SWEVGR = TIM_PSCReloadMode_Immediate;
-     7ae:	4685                	li	a3,1
-     7b0:	c0d71a23          	sh	a3,-1004(a4)
-     7b4:	e000e6b7          	lui	a3,0xe000e
-     7b8:	10c6a223          	sw	a2,260(a3) # e000e104 <_eusrstack+0xc000d904>
+     794:	4685                	li	a3,1
+     796:	c0d71a23          	sh	a3,-1004(a4)
+     79a:	e000e6b7          	lui	a3,0xe000e
+     79e:	10c6a223          	sw	a2,260(a3) # e000e104 <_eusrstack+0xc000d904>
   TIM1->INTFR = ~TIM_FLAG_Update;
-     7bc:	56f9                	li	a3,-2
-     7be:	c0d71823          	sh	a3,-1008(a4)
+     7a2:	56f9                	li	a3,-2
+     7a4:	c0d71823          	sh	a3,-1008(a4)
   TIM1->DMAINTENR |= TIM_IT_Update;
-     7c2:	c0c75683          	lhu	a3,-1012(a4)
+     7a8:	c0c75683          	lhu	a3,-1012(a4)
 
   int e, k = 10, i, n, lastcount = 0;
   int d, dist, bestdist, best, c;
 
   for (i = 0; i < MEL; i++)
     nfloor[i] = 192; // high initial noise floor
-     7c6:	4651                	li	a2,20
-     7c8:	0c000593          	li	a1,192
+     7ac:	4651                	li	a2,20
+     7ae:	0c000593          	li	a1,192
   TIM1->DMAINTENR |= TIM_IT_Update;
-     7cc:	06c2                	slli	a3,a3,0x10
-     7ce:	82c1                	srli	a3,a3,0x10
-     7d0:	0016e693          	ori	a3,a3,1
-     7d4:	c0d71623          	sh	a3,-1012(a4)
+     7b2:	06c2                	slli	a3,a3,0x10
+     7b4:	82c1                	srli	a3,a3,0x10
+     7b6:	0016e693          	ori	a3,a3,1
+     7ba:	c0d71623          	sh	a3,-1012(a4)
   TIM1->CTLR1 |= TIM_CEN;
-     7d8:	c0075783          	lhu	a5,-1024(a4)
+     7be:	c0075783          	lhu	a5,-1024(a4)
     nfloor[i] = 192; // high initial noise floor
-     7dc:	f9018513          	addi	a0,gp,-112 # 2000038c <nfloor>
+     7c2:	f9018513          	addi	a0,gp,-112 # 2000038c <nfloor>
   TIM1->CTLR1 |= TIM_CEN;
-     7e0:	07c2                	slli	a5,a5,0x10
-     7e2:	83c1                	srli	a5,a5,0x10
-     7e4:	0017e793          	ori	a5,a5,1
-     7e8:	c0f71023          	sh	a5,-1024(a4)
+     7c6:	07c2                	slli	a5,a5,0x10
+     7c8:	83c1                	srli	a5,a5,0x10
+     7ca:	0017e793          	ori	a5,a5,1
+     7ce:	c0f71023          	sh	a5,-1024(a4)
     nfloor[i] = 192; // high initial noise floor
-     7ec:	338d                	jal	54e <memset>
+     7d2:	3bb5                	jal	54e <memset>
   int e, k = 10, i, n, lastcount = 0;
-     7ee:	4701                	li	a4,0
+     7d4:	4601                	li	a2,0
 
   while (1) {
     while (count != 0 && lastcount == count)
-     7f0:	c041a783          	lw	a5,-1020(gp) # 20000000 <count>
-     7f4:	c399                	beqz	a5,7fa <main+0x158>
-     7f6:	fee78de3          	beq	a5,a4,7f0 <main+0x14e>
+     7d6:	c041a583          	lw	a1,-1020(gp) # 20000000 <count>
+     7da:	c199                	beqz	a1,7e0 <main+0x158>
+     7dc:	fec58de3          	beq	a1,a2,7d6 <main+0x14e>
       k++; // wait till 10ms of samples read....
     if (count - lastcount != 1)
-     7fa:	17fd                	addi	a5,a5,-1
-     7fc:	00e78663          	beq	a5,a4,808 <main+0x166>
-      printf("oops framecount\n");
-     800:	6505                	lui	a0,0x1
-     802:	f3450513          	addi	a0,a0,-204 # f34 <TIM1_UP_IRQHandler+0x1a8>
-     806:	3ba9                	jal	560 <puts>
+     7e0:	fff58793          	addi	a5,a1,-1
+     7e4:	00c78663          	beq	a5,a2,7f0 <main+0x168>
+      printf("oops framecount:%d, %d\n", count, lastcount);
+     7e8:	6505                	lui	a0,0x1
+     7ea:	f1c50513          	addi	a0,a0,-228 # f1c <TIM1_UP_IRQHandler+0x1a8>
+     7ee:	3b2d                	jal	528 <printf>
     lock = 1;
     // lock=0;  // ignore locking for now when doing trace stuff.
 
     for (i = FFT - 1, n = FFT - 2; i != 0; i--, n--)
-     808:	fa418793          	addi	a5,gp,-92 # 200003a0 <re>
-     80c:	fa418693          	addi	a3,gp,-92 # 200003a0 <re>
-     810:	fa418713          	addi	a4,gp,-92 # 200003a0 <re>
-     814:	1fc78793          	addi	a5,a5,508 # e01fc <stt.c.5fff5958+0xdddb7>
-     818:	c43a                	sw	a4,8(sp)
+     7f0:	fa418793          	addi	a5,gp,-92 # 200003a0 <re>
+     7f4:	fa418693          	addi	a3,gp,-92 # 200003a0 <re>
+     7f8:	fa418713          	addi	a4,gp,-92 # 200003a0 <re>
+     7fc:	1fc78793          	addi	a5,a5,508 # e01fc <stt.c.15920f6d+0xdddb7>
+     800:	c43a                	sw	a4,8(sp)
       re[i] = re[i] - re[n];  //去除直流分量（DC Level）
-     81a:	4398                	lw	a4,0(a5)
-     81c:	ffc7a603          	lw	a2,-4(a5)
+     802:	4398                	lw	a4,0(a5)
+     804:	ffc7a603          	lw	a2,-4(a5)
     for (i = FFT - 1, n = FFT - 2; i != 0; i--, n--)
-     820:	17f1                	addi	a5,a5,-4
+     808:	17f1                	addi	a5,a5,-4
       re[i] = re[i] - re[n];  //去除直流分量（DC Level）
-     822:	8f11                	sub	a4,a4,a2
-     824:	c3d8                	sw	a4,4(a5)
+     80a:	8f11                	sub	a4,a4,a2
+     80c:	c3d8                	sw	a4,4(a5)
     for (i = FFT - 1, n = FFT - 2; i != 0; i--, n--)
-     826:	fef69ae3          	bne	a3,a5,81a <main+0x178>
+     80e:	fef69ae3          	bne	a3,a5,802 <main+0x17a>
     re[0] = 0; // 1.0 pre-emph?
-     82a:	4722                	lw	a4,8(sp)
+     812:	4722                	lw	a4,8(sp)
     for (i = FFT - 1, n = FFT - 2; i != 0; i--, n--)
-     82c:	84be                	mv	s1,a5
+     814:	84be                	mv	s1,a5
 
     for (i = 0; i < FFT; i++){
-     82e:	4401                	li	s0,0
+     816:	4401                	li	s0,0
     re[0] = 0; // 1.0 pre-emph?
-     830:	00072023          	sw	zero,0(a4)
+     818:	00072023          	sw	zero,0(a4)
       // re[i] <<= 8; // scale for the FFT
       re[i] <<= 3;
       re[i] = window[i] * re[i]; // Apply LPCNet-style window function
-     834:	6709                	lui	a4,0x2
-     836:	12870713          	addi	a4,a4,296 # 2128 <window>
-     83a:	00870633          	add	a2,a4,s0
+     81c:	6709                	lui	a4,0x2
+     81e:	d1070713          	addi	a4,a4,-752 # 1d10 <window>
+     822:	00870633          	add	a2,a4,s0
       re[i] <<= 3;
-     83e:	4088                	lw	a0,0(s1)
+     826:	4088                	lw	a0,0(s1)
       re[i] = window[i] * re[i]; // Apply LPCNet-style window function
-     840:	00060583          	lb	a1,0(a2)
-     844:	c23e                	sw	a5,4(sp)
-     846:	050e                	slli	a0,a0,0x3
-     848:	859ff0ef          	jal	ra,a0 <__mulsi3>
+     828:	00060583          	lb	a1,0(a2)
+     82c:	c23e                	sw	a5,4(sp)
+     82e:	050e                	slli	a0,a0,0x3
+     830:	871ff0ef          	jal	ra,a0 <__mulsi3>
     for (i = 0; i < FFT; i++){
-     84c:	6789                	lui	a5,0x2
+     834:	6789                	lui	a5,0x2
       re[i] = window[i] * re[i]; // Apply LPCNet-style window function
-     84e:	c088                	sw	a0,0(s1)
+     836:	c088                	sw	a0,0(s1)
     for (i = 0; i < FFT; i++){
-     850:	0405                	addi	s0,s0,1
-     852:	08000693          	li	a3,128
-     856:	12878713          	addi	a4,a5,296 # 2128 <window>
-     85a:	0491                	addi	s1,s1,4
-     85c:	4792                	lw	a5,4(sp)
-     85e:	fcd41ee3          	bne	s0,a3,83a <main+0x198>
+     838:	0405                	addi	s0,s0,1
+     83a:	08000693          	li	a3,128
+     83e:	d1078713          	addi	a4,a5,-752 # 1d10 <window>
+     842:	0491                	addi	s1,s1,4
+     844:	4792                	lw	a5,4(sp)
+     846:	fcd41ee3          	bne	s0,a3,822 <main+0x19a>
       temp = im[even] + im[odd];
-     862:	d4018713          	addi	a4,gp,-704 # 2000013c <im>
-     866:	c63a                	sw	a4,12(sp)
+     84a:	d4018713          	addi	a4,gp,-704 # 2000013c <im>
+     84e:	c63a                	sw	a4,12(sp)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     868:	6709                	lui	a4,0x2
-     86a:	02870713          	addi	a4,a4,40 # 2028 <tr>
-     86e:	d03a                	sw	a4,32(sp)
-     870:	6709                	lui	a4,0x2
-     872:	f2870713          	addi	a4,a4,-216 # 1f28 <ti>
+     850:	6709                	lui	a4,0x2
+     852:	c1070713          	addi	a4,a4,-1008 # 1c10 <tr>
+     856:	d03a                	sw	a4,32(sp)
+     858:	6709                	lui	a4,0x2
+     85a:	b1070713          	addi	a4,a4,-1264 # 1b10 <ti>
   log = 0;
-     876:	c202                	sw	zero,4(sp)
+     85e:	c202                	sw	zero,4(sp)
   for (span = size >> 1; span; span >>= 1, log++) {
-     878:	04000613          	li	a2,64
+     860:	04000613          	li	a2,64
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     87c:	d23a                	sw	a4,36(sp)
-     87e:	fff64693          	not	a3,a2
+     864:	d23a                	sw	a4,36(sp)
+     866:	fff64693          	not	a3,a2
     for (i = 0; i < FFT; i++){
-     882:	8732                	mv	a4,a2
-     884:	ce36                	sw	a3,28(sp)
+     86a:	8732                	mv	a4,a2
+     86c:	ce36                	sw	a3,28(sp)
       odd |= span;       // iterate over odd blocks only
-     886:	00c766b3          	or	a3,a4,a2
-     88a:	c836                	sw	a3,16(sp)
-     88c:	46f2                	lw	a3,28(sp)
+     86e:	00c766b3          	or	a3,a4,a2
+     872:	c836                	sw	a3,16(sp)
+     874:	46f2                	lw	a3,28(sp)
       temp = re[even] + re[odd];
-     88e:	4422                	lw	s0,8(sp)
-     890:	8f75                	and	a4,a4,a3
-     892:	46a2                	lw	a3,8(sp)
-     894:	00271593          	slli	a1,a4,0x2
-     898:	00b682b3          	add	t0,a3,a1
-     89c:	46c2                	lw	a3,16(sp)
-     89e:	0002a503          	lw	a0,0(t0)
-     8a2:	068a                	slli	a3,a3,0x2
-     8a4:	00d40333          	add	t1,s0,a3
-     8a8:	00032383          	lw	t2,0(t1)
+     876:	4422                	lw	s0,8(sp)
+     878:	8f75                	and	a4,a4,a3
+     87a:	46a2                	lw	a3,8(sp)
+     87c:	00271593          	slli	a1,a4,0x2
+     880:	00b682b3          	add	t0,a3,a1
+     884:	46c2                	lw	a3,16(sp)
+     886:	0002a503          	lw	a0,0(t0)
+     88a:	068a                	slli	a3,a3,0x2
+     88c:	00d40333          	add	t1,s0,a3
+     890:	00032383          	lw	t2,0(t1)
       re[odd] = re[even] - re[odd];
-     8ac:	40750433          	sub	s0,a0,t2
-     8b0:	00832023          	sw	s0,0(t1)
+     894:	40750433          	sub	s0,a0,t2
+     898:	00832023          	sw	s0,0(t1)
       temp = re[even] + re[odd];
-     8b4:	951e                	add	a0,a0,t2
+     89c:	951e                	add	a0,a0,t2
       re[even] = temp;
-     8b6:	00a2a023          	sw	a0,0(t0)
+     89e:	00a2a023          	sw	a0,0(t0)
       temp = im[even] + im[odd];
-     8ba:	4432                	lw	s0,12(sp)
-     8bc:	4532                	lw	a0,12(sp)
-     8be:	96a2                	add	a3,a3,s0
-     8c0:	95aa                	add	a1,a1,a0
-     8c2:	4188                	lw	a0,0(a1)
-     8c4:	0006a283          	lw	t0,0(a3)
+     8a2:	4432                	lw	s0,12(sp)
+     8a4:	4532                	lw	a0,12(sp)
+     8a6:	96a2                	add	a3,a3,s0
+     8a8:	95aa                	add	a1,a1,a0
+     8aa:	4188                	lw	a0,0(a1)
+     8ac:	0006a283          	lw	t0,0(a3)
       im[odd] = im[even] - im[odd];
-     8c8:	405503b3          	sub	t2,a0,t0
-     8cc:	0076a023          	sw	t2,0(a3)
+     8b0:	405503b3          	sub	t2,a0,t0
+     8b4:	0076a023          	sw	t2,0(a3)
       temp = im[even] + im[odd];
-     8d0:	9516                	add	a0,a0,t0
+     8b8:	9516                	add	a0,a0,t0
       im[even] = temp;
-     8d2:	c188                	sw	a0,0(a1)
+     8ba:	c188                	sw	a0,0(a1)
       rootindex = (even << log) & (size - 1); // find root of unity index
-     8d4:	4592                	lw	a1,4(sp)
-     8d6:	00b71733          	sll	a4,a4,a1
-     8da:	07f77713          	andi	a4,a4,127
+     8bc:	4592                	lw	a1,4(sp)
+     8be:	00b71733          	sll	a4,a4,a1
+     8c2:	07f77713          	andi	a4,a4,127
       if (rootindex) // skip rootindex[0] (has an identity)
-     8de:	cb51                	beqz	a4,972 <main+0x2d0>
-     8e0:	de3e                	sw	a5,60(sp)
+     8c6:	cb51                	beqz	a4,95a <main+0x2d2>
+     8c8:	de3e                	sw	a5,60(sp)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     8e2:	5782                	lw	a5,32(sp)
-     8e4:	070a                	slli	a4,a4,0x2
-     8e6:	0006a283          	lw	t0,0(a3)
-     8ea:	00e785b3          	add	a1,a5,a4
-     8ee:	5792                	lw	a5,36(sp)
-     8f0:	0005a383          	lw	t2,0(a1)
+     8ca:	5782                	lw	a5,32(sp)
+     8cc:	070a                	slli	a4,a4,0x2
+     8ce:	0006a283          	lw	t0,0(a3)
+     8d2:	00e785b3          	add	a1,a5,a4
+     8d6:	5792                	lw	a5,36(sp)
+     8d8:	0005a383          	lw	t2,0(a1)
         im[odd] = im[odd] * tr[rootindex] / RES - re[odd] * ti[rootindex] / RES;
-     8f4:	8596                	mv	a1,t0
+     8dc:	8596                	mv	a1,t0
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     8f6:	973e                	add	a4,a4,a5
-     8f8:	431c                	lw	a5,0(a4)
+     8de:	973e                	add	a4,a4,a5
+     8e0:	431c                	lw	a5,0(a4)
         im[odd] = im[odd] * tr[rootindex] / RES - re[odd] * ti[rootindex] / RES;
-     8fa:	851e                	mv	a0,t2
+     8e2:	851e                	mv	a0,t2
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     8fc:	00032483          	lw	s1,0(t1)
-     900:	c0b2                	sw	a2,64(sp)
-     902:	dc1a                	sw	t1,56(sp)
-     904:	ca3e                	sw	a5,20(sp)
+     8e4:	00032483          	lw	s1,0(t1)
+     8e8:	c0b2                	sw	a2,64(sp)
+     8ea:	dc1a                	sw	t1,56(sp)
+     8ec:	ca3e                	sw	a5,20(sp)
         im[odd] = im[odd] * tr[rootindex] / RES - re[odd] * ti[rootindex] / RES;
-     906:	d816                	sw	t0,48(sp)
+     8ee:	d816                	sw	t0,48(sp)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     908:	da36                	sw	a3,52(sp)
+     8f0:	da36                	sw	a3,52(sp)
         im[odd] = im[odd] * tr[rootindex] / RES - re[odd] * ti[rootindex] / RES;
-     90a:	d61e                	sw	t2,44(sp)
-     90c:	f94ff0ef          	jal	ra,a0 <__mulsi3>
-     910:	6589                	lui	a1,0x2
-     912:	fff58413          	addi	s0,a1,-1 # 1fff <ti+0xd7>
-     916:	41f55713          	srai	a4,a0,0x1f
-     91a:	45d2                	lw	a1,20(sp)
-     91c:	8f61                	and	a4,a4,s0
-     91e:	972a                	add	a4,a4,a0
-     920:	8735                	srai	a4,a4,0xd
-     922:	8526                	mv	a0,s1
-     924:	d43a                	sw	a4,40(sp)
-     926:	f7aff0ef          	jal	ra,a0 <__mulsi3>
-     92a:	41f55593          	srai	a1,a0,0x1f
-     92e:	5722                	lw	a4,40(sp)
-     930:	8de1                	and	a1,a1,s0
-     932:	56d2                	lw	a3,52(sp)
+     8f2:	d61e                	sw	t2,44(sp)
+     8f4:	facff0ef          	jal	ra,a0 <__mulsi3>
+     8f8:	6589                	lui	a1,0x2
+     8fa:	fff58413          	addi	s0,a1,-1 # 1fff <_data_lma+0x26f>
+     8fe:	41f55713          	srai	a4,a0,0x1f
+     902:	45d2                	lw	a1,20(sp)
+     904:	8f61                	and	a4,a4,s0
+     906:	972a                	add	a4,a4,a0
+     908:	8735                	srai	a4,a4,0xd
+     90a:	8526                	mv	a0,s1
+     90c:	d43a                	sw	a4,40(sp)
+     90e:	f92ff0ef          	jal	ra,a0 <__mulsi3>
+     912:	41f55593          	srai	a1,a0,0x1f
+     916:	5722                	lw	a4,40(sp)
+     918:	8de1                	and	a1,a1,s0
+     91a:	56d2                	lw	a3,52(sp)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     934:	53b2                	lw	t2,44(sp)
+     91c:	53b2                	lw	t2,44(sp)
         im[odd] = im[odd] * tr[rootindex] / RES - re[odd] * ti[rootindex] / RES;
-     936:	952e                	add	a0,a0,a1
-     938:	8535                	srai	a0,a0,0xd
-     93a:	40a70533          	sub	a0,a4,a0
-     93e:	c288                	sw	a0,0(a3)
+     91e:	952e                	add	a0,a0,a1
+     920:	8535                	srai	a0,a0,0xd
+     922:	40a70533          	sub	a0,a4,a0
+     926:	c288                	sw	a0,0(a3)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     940:	859e                	mv	a1,t2
-     942:	8526                	mv	a0,s1
-     944:	f5cff0ef          	jal	ra,a0 <__mulsi3>
-     948:	52c2                	lw	t0,48(sp)
-     94a:	41f55493          	srai	s1,a0,0x1f
-     94e:	45d2                	lw	a1,20(sp)
-     950:	8ce1                	and	s1,s1,s0
-     952:	94aa                	add	s1,s1,a0
-     954:	8516                	mv	a0,t0
-     956:	f4aff0ef          	jal	ra,a0 <__mulsi3>
-     95a:	41f55713          	srai	a4,a0,0x1f
-     95e:	8f61                	and	a4,a4,s0
+     928:	859e                	mv	a1,t2
+     92a:	8526                	mv	a0,s1
+     92c:	f74ff0ef          	jal	ra,a0 <__mulsi3>
+     930:	52c2                	lw	t0,48(sp)
+     932:	41f55493          	srai	s1,a0,0x1f
+     936:	45d2                	lw	a1,20(sp)
+     938:	8ce1                	and	s1,s1,s0
+     93a:	94aa                	add	s1,s1,a0
+     93c:	8516                	mv	a0,t0
+     93e:	f62ff0ef          	jal	ra,a0 <__mulsi3>
+     942:	41f55713          	srai	a4,a0,0x1f
+     946:	8f61                	and	a4,a4,s0
         re[odd] = temp;
-     960:	5362                	lw	t1,56(sp)
+     948:	5362                	lw	t1,56(sp)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     962:	953a                	add	a0,a0,a4
-     964:	84b5                	srai	s1,s1,0xd
-     966:	8535                	srai	a0,a0,0xd
+     94a:	953a                	add	a0,a0,a4
+     94c:	84b5                	srai	s1,s1,0xd
+     94e:	8535                	srai	a0,a0,0xd
         re[odd] = temp;
-     968:	4606                	lw	a2,64(sp)
-     96a:	57f2                	lw	a5,60(sp)
+     950:	4606                	lw	a2,64(sp)
+     952:	57f2                	lw	a5,60(sp)
         temp = re[odd] * tr[rootindex] / RES + im[odd] * ti[rootindex] / RES;
-     96c:	9526                	add	a0,a0,s1
+     954:	9526                	add	a0,a0,s1
         re[odd] = temp;
-     96e:	00a32023          	sw	a0,0(t1)
+     956:	00a32023          	sw	a0,0(t1)
     for (odd = span; odd < size; odd++) // iterate over the dual nodes
-     972:	4742                	lw	a4,16(sp)
-     974:	08000693          	li	a3,128
-     978:	0705                	addi	a4,a4,1
-     97a:	f0d716e3          	bne	a4,a3,886 <main+0x1e4>
+     95a:	4742                	lw	a4,16(sp)
+     95c:	08000693          	li	a3,128
+     960:	0705                	addi	a4,a4,1
+     962:	f0d716e3          	bne	a4,a3,86e <main+0x1e6>
   for (span = size >> 1; span; span >>= 1, log++) {
-     97e:	4712                	lw	a4,4(sp)
-     980:	8205                	srli	a2,a2,0x1
-     982:	0705                	addi	a4,a4,1
-     984:	c23a                	sw	a4,4(sp)
-     986:	4692                	lw	a3,4(sp)
-     988:	471d                	li	a4,7
-     98a:	eee69ae3          	bne	a3,a4,87e <main+0x1dc>
-     98e:	4491                	li	s1,4
+     966:	4712                	lw	a4,4(sp)
+     968:	8205                	srli	a2,a2,0x1
+     96a:	0705                	addi	a4,a4,1
+     96c:	c23a                	sw	a4,4(sp)
+     96e:	4692                	lw	a3,4(sp)
+     970:	471d                	li	a4,7
+     972:	eee69ae3          	bne	a3,a4,866 <main+0x1de>
+     976:	4491                	li	s1,4
     }
     simple_int_fft(FFT);
     for (i = 1; i < FFT; i += 2) { 
       //对于实信号的 FFT 结果，频谱是对称的，此处通过i += 2只处理单侧有效频谱（减少一半计算量，适配低算力）
       re[i] = (re[i] * re[i] + im[i] * im[i]); //计算频域复数的模平方（即该频率点的功率）
-     990:	4732                	lw	a4,12(sp)
-     992:	43cc                	lw	a1,4(a5)
-     994:	c23e                	sw	a5,4(sp)
-     996:	009706b3          	add	a3,a4,s1
-     99a:	4294                	lw	a3,0(a3)
-     99c:	852e                	mv	a0,a1
+     978:	4732                	lw	a4,12(sp)
+     97a:	43cc                	lw	a1,4(a5)
+     97c:	c23e                	sw	a5,4(sp)
+     97e:	009706b3          	add	a3,a4,s1
+     982:	4294                	lw	a3,0(a3)
+     984:	852e                	mv	a0,a1
     for (i = 1; i < FFT; i += 2) { 
-     99e:	04a1                	addi	s1,s1,8
+     986:	04a1                	addi	s1,s1,8
       re[i] = (re[i] * re[i] + im[i] * im[i]); //计算频域复数的模平方（即该频率点的功率）
-     9a0:	c836                	sw	a3,16(sp)
-     9a2:	efeff0ef          	jal	ra,a0 <__mulsi3>
-     9a6:	46c2                	lw	a3,16(sp)
-     9a8:	842a                	mv	s0,a0
-     9aa:	85b6                	mv	a1,a3
-     9ac:	8536                	mv	a0,a3
-     9ae:	ef2ff0ef          	jal	ra,a0 <__mulsi3>
+     988:	c836                	sw	a3,16(sp)
+     98a:	f16ff0ef          	jal	ra,a0 <__mulsi3>
+     98e:	46c2                	lw	a3,16(sp)
+     990:	842a                	mv	s0,a0
+     992:	85b6                	mv	a1,a3
+     994:	8536                	mv	a0,a3
+     996:	f0aff0ef          	jal	ra,a0 <__mulsi3>
       re[i] >>= 8;
-     9b2:	4792                	lw	a5,4(sp)
+     99a:	4792                	lw	a5,4(sp)
       re[i] = (re[i] * re[i] + im[i] * im[i]); //计算频域复数的模平方（即该频率点的功率）
-     9b4:	942a                	add	s0,s0,a0
+     99c:	942a                	add	s0,s0,a0
       re[i] >>= 8;
-     9b6:	8421                	srai	s0,s0,0x8
-     9b8:	c3c0                	sw	s0,4(a5)
+     99e:	8421                	srai	s0,s0,0x8
+     9a0:	c3c0                	sw	s0,4(a5)
     for (i = 1; i < FFT; i += 2) { 
-     9ba:	20400713          	li	a4,516
-     9be:	07a1                	addi	a5,a5,8
-     9c0:	fce498e3          	bne	s1,a4,990 <main+0x2ee>
+     9a2:	20400713          	li	a4,516
+     9a6:	07a1                	addi	a5,a5,8
+     9a8:	fce498e3          	bne	s1,a4,978 <main+0x2f0>
     }
     // for (i=1; i<FFT; i+=2) if (re[i]>(1<<23)) printf("oops!\n");
 
     for (i = 0; i < MEL; i++)
       mel[i] = 0;
-     9c4:	05000613          	li	a2,80
-     9c8:	4581                	li	a1,0
-     9ca:	f4018513          	addi	a0,gp,-192 # 2000033c <mel>
-     9ce:	3641                	jal	54e <memset>
+     9ac:	05000613          	li	a2,80
+     9b0:	4581                	li	a1,0
+     9b2:	f4018513          	addi	a0,gp,-192 # 2000033c <mel>
+     9b6:	3e61                	jal	54e <memset>
     i = 0; //i：遍历mel_mx数组的索引，每次处理一个（索引，权重）对或分隔符 0。
     n = 0; //n：当前正在计算的梅尔 bin 索引（0 到 19，共 20 个）。
     while (n != MEL) {
       if (mel_mx[i] == 0) {
-     9d0:	6709                	lui	a4,0x2
+     9b8:	6705                	lui	a4,0x1
     n = 0; //n：当前正在计算的梅尔 bin 索引（0 到 19，共 20 个）。
-     9d2:	4781                	li	a5,0
+     9ba:	4781                	li	a5,0
     i = 0; //i：遍历mel_mx数组的索引，每次处理一个（索引，权重）对或分隔符 0。
-     9d4:	4481                	li	s1,0
+     9bc:	4481                	li	s1,0
       if (mel_mx[i] == 0) {
-     9d6:	b2870713          	addi	a4,a4,-1240 # 1b28 <mel_mx>
+     9be:	71070713          	addi	a4,a4,1808 # 1710 <mel_mx>
         // i++：跳过 0 这个分隔符，移动到下一个梅尔 bin 的（索引，权重）对起始位置。
         // n++：切换到下一个梅尔 bin 的计算（如从mel[0]切换到mel[1]）。
         i++;
         n++;
       } else {
         mel[n] += (unsigned int)re[mel_mx[i]] * mel_mx[i + 1]; 
-     9da:	f4018313          	addi	t1,gp,-192 # 2000033c <mel>
+     9c2:	f4018313          	addi	t1,gp,-192 # 2000033c <mel>
     while (n != MEL) {
-     9de:	4651                	li	a2,20
+     9c6:	4651                	li	a2,20
       if (mel_mx[i] == 0) {
-     9e0:	00249693          	slli	a3,s1,0x2
-     9e4:	96ba                	add	a3,a3,a4
-     9e6:	4288                	lw	a0,0(a3)
+     9c8:	00249693          	slli	a3,s1,0x2
+     9cc:	96ba                	add	a3,a3,a4
+     9ce:	4288                	lw	a0,0(a3)
         i++;
-     9e8:	00148593          	addi	a1,s1,1
+     9d0:	00148593          	addi	a1,s1,1
       if (mel_mx[i] == 0) {
-     9ec:	22051b63          	bnez	a0,c22 <main+0x580>
+     9d4:	22051b63          	bnez	a0,c0a <main+0x582>
         n++;
-     9f0:	0785                	addi	a5,a5,1
+     9d8:	0785                	addi	a5,a5,1
         i++;
-     9f2:	84ae                	mv	s1,a1
+     9da:	84ae                	mv	s1,a1
     while (n != MEL) {
-     9f4:	fec796e3          	bne	a5,a2,9e0 <main+0x33e>
-     9f8:	f4018613          	addi	a2,gp,-192 # 2000033c <mel>
-     9fc:	f4018793          	addi	a5,gp,-192 # 2000033c <mel>
+     9dc:	fec796e3          	bne	a5,a2,9c8 <main+0x340>
+     9e0:	f4018613          	addi	a2,gp,-192 # 2000033c <mel>
+     9e4:	f4018793          	addi	a5,gp,-192 # 2000033c <mel>
     return (first[a]);
-     a00:	6509                	lui	a0,0x2
+     9e8:	6505                	lui	a0,0x1
     while (n != MEL) {
-     a02:	f4018713          	addi	a4,gp,-192 # 2000033c <mel>
-     a06:	05060593          	addi	a1,a2,80
-     a0a:	c23e                	sw	a5,4(sp)
+     9ea:	f4018713          	addi	a4,gp,-192 # 2000033c <mel>
+     9ee:	05060593          	addi	a1,a2,80
+     9f2:	c23e                	sw	a5,4(sp)
   if (a > 8) {
-     a0c:	4321                	li	t1,8
+     9f4:	4321                	li	t1,8
     return (first[a]);
-     a0e:	b0450513          	addi	a0,a0,-1276 # 1b04 <first>
+     9f6:	6ec50513          	addi	a0,a0,1772 # 16ec <first>
     if ((a & b) == 0)
-     a12:	72c1                	lui	t0,0xffff0
+     9fa:	72c1                	lui	t0,0xffff0
     b >>= r;
-     a14:	ff0003b7          	lui	t2,0xff000
+     9fc:	ff0003b7          	lui	t2,0xff000
     b >>= r;
-     a18:	f0000437          	lui	s0,0xf0000
+     a00:	f0000437          	lui	s0,0xf0000
     b >>= r;
-     a1c:	c00004b7          	lui	s1,0xc0000
+     a04:	c00004b7          	lui	s1,0xc0000
         i += 2;
       }
     }
 
     for (i = 0; i < MEL; i++)
       mel[i] = intlog2_8bit(mel[i]);
-     a20:	4314                	lw	a3,0(a4)
+     a08:	4314                	lw	a3,0(a4)
   if (a > 8) {
-     a22:	22d37b63          	bgeu	t1,a3,c58 <main+0x5b6>
+     a0a:	22d37b63          	bgeu	t1,a3,c40 <main+0x5b8>
     if ((a & b) == 0)
-     a26:	0056f7b3          	and	a5,a3,t0
+     a0e:	0056f7b3          	and	a5,a3,t0
       r = 0;
-     a2a:	0017b793          	seqz	a5,a5
-     a2e:	0792                	slli	a5,a5,0x4
+     a12:	0017b793          	seqz	a5,a5
+     a16:	0792                	slli	a5,a5,0x4
     b >>= r;
-     a30:	00f3d0b3          	srl	ra,t2,a5
+     a18:	00f3d0b3          	srl	ra,t2,a5
     if ((a & b) == 0)
-     a34:	00d0f0b3          	and	ra,ra,a3
-     a38:	00009363          	bnez	ra,a3e <main+0x39c>
+     a1c:	00d0f0b3          	and	ra,ra,a3
+     a20:	00009363          	bnez	ra,a26 <main+0x39e>
       r += 8;
-     a3c:	07a1                	addi	a5,a5,8
+     a24:	07a1                	addi	a5,a5,8
     b >>= r;
-     a3e:	00f450b3          	srl	ra,s0,a5
+     a26:	00f450b3          	srl	ra,s0,a5
     if ((a & b) == 0)
-     a42:	00d0f0b3          	and	ra,ra,a3
-     a46:	00009363          	bnez	ra,a4c <main+0x3aa>
+     a2a:	00d0f0b3          	and	ra,ra,a3
+     a2e:	00009363          	bnez	ra,a34 <main+0x3ac>
       r += 4;
-     a4a:	0791                	addi	a5,a5,4
+     a32:	0791                	addi	a5,a5,4
     b >>= r;
-     a4c:	00f4d0b3          	srl	ra,s1,a5
+     a34:	00f4d0b3          	srl	ra,s1,a5
     if ((a & b) == 0)
-     a50:	00d0f0b3          	and	ra,ra,a3
-     a54:	00009363          	bnez	ra,a5a <main+0x3b8>
+     a38:	00d0f0b3          	and	ra,ra,a3
+     a3c:	00009363          	bnez	ra,a42 <main+0x3ba>
       r += 2;
-     a58:	0789                	addi	a5,a5,2
+     a40:	0789                	addi	a5,a5,2
     b >>= r;
-     a5a:	800000b7          	lui	ra,0x80000
-     a5e:	00f0d0b3          	srl	ra,ra,a5
+     a42:	800000b7          	lui	ra,0x80000
+     a46:	00f0d0b3          	srl	ra,ra,a5
     if ((a & b) == 0)
-     a62:	00d0f0b3          	and	ra,ra,a3
-     a66:	00009363          	bnez	ra,a6c <main+0x3ca>
+     a4a:	00d0f0b3          	and	ra,ra,a3
+     a4e:	00009363          	bnez	ra,a54 <main+0x3cc>
       r += 1;
-     a6a:	0785                	addi	a5,a5,1
+     a52:	0785                	addi	a5,a5,1
     a >>= (l - 3);
-     a6c:	40f1                	li	ra,28
-     a6e:	40f080b3          	sub	ra,ra,a5
-     a72:	0016d6b3          	srl	a3,a3,ra
+     a54:	40f1                	li	ra,28
+     a56:	40f080b3          	sub	ra,ra,a5
+     a5a:	0016d6b3          	srl	a3,a3,ra
     l = 31 - r;
-     a76:	40fd                	li	ra,31
-     a78:	40f080b3          	sub	ra,ra,a5
+     a5e:	40fd                	li	ra,31
+     a60:	40f080b3          	sub	ra,ra,a5
     result += a - 8;
-     a7c:	16e1                	addi	a3,a3,-8
+     a64:	16e1                	addi	a3,a3,-8
     result = l * 8;
-     a7e:	008e                	slli	ra,ra,0x3
+     a66:	008e                	slli	ra,ra,0x3
     result += a - 8;
-     a80:	9686                	add	a3,a3,ra
+     a68:	9686                	add	a3,a3,ra
       mel[i] = intlog2_8bit(mel[i]);
-     a82:	c314                	sw	a3,0(a4)
+     a6a:	c314                	sw	a3,0(a4)
     for (i = 0; i < MEL; i++)
-     a84:	0711                	addi	a4,a4,4
-     a86:	f8e59de3          	bne	a1,a4,a20 <main+0x37e>
+     a6c:	0711                	addi	a4,a4,4
+     a6e:	f8e59de3          	bne	a1,a4,a08 <main+0x380>
 
     // remove noise floor and adjust it?....
     if (e < TOL_OFF){ //当信号能量低（接近静音）时, 动态更新噪声底（nfloor）并从梅尔值中去除
-     a8a:	4682                	lw	a3,0(sp)
-     a8c:	09500793          	li	a5,149
-     a90:	f9018313          	addi	t1,gp,-112 # 2000038c <nfloor>
-     a94:	1cd7cf63          	blt	a5,a3,c72 <main+0x5d0>
-     a98:	f9018713          	addi	a4,gp,-112 # 2000038c <nfloor>
-     a9c:	86b2                	mv	a3,a2
+     a72:	4682                	lw	a3,0(sp)
+     a74:	1f300793          	li	a5,499
+     a78:	f9018313          	addi	t1,gp,-112 # 2000038c <nfloor>
+     a7c:	1cd7cf63          	blt	a5,a3,c5a <main+0x5d2>
+     a80:	f9018713          	addi	a4,gp,-112 # 2000038c <nfloor>
+     a84:	86b2                	mv	a3,a2
       for (i = 0; i < MEL; i++) {
         mel[i] -= nfloor[i];  // 减去当前噪声底
         // 动态调整噪声底：若梅尔值为正，噪声底缓慢升高；若为负，噪声底缓慢降低
         if (mel[i] > 0 && nfloor[i] < 255)
-     a9e:	0ff00313          	li	t1,255
+     a86:	0ff00313          	li	t1,255
         mel[i] -= nfloor[i];  // 减去当前噪声底
-     aa2:	4288                	lw	a0,0(a3)
-     aa4:	00074783          	lbu	a5,0(a4)
-     aa8:	8d1d                	sub	a0,a0,a5
-     aaa:	c288                	sw	a0,0(a3)
+     a8a:	4288                	lw	a0,0(a3)
+     a8c:	00074783          	lbu	a5,0(a4)
+     a90:	8d1d                	sub	a0,a0,a5
+     a92:	c288                	sw	a0,0(a3)
         if (mel[i] > 0 && nfloor[i] < 255)
-     aac:	1aa05a63          	blez	a0,c60 <main+0x5be>
-     ab0:	00678563          	beq	a5,t1,aba <main+0x418>
+     a94:	1aa05a63          	blez	a0,c48 <main+0x5c0>
+     a98:	00678563          	beq	a5,t1,aa2 <main+0x41a>
           nfloor[i]++;
-     ab4:	0785                	addi	a5,a5,1
-     ab6:	00f70023          	sb	a5,0(a4)
+     a9c:	0785                	addi	a5,a5,1
+     a9e:	00f70023          	sb	a5,0(a4)
       for (i = 0; i < MEL; i++) {
-     aba:	0691                	addi	a3,a3,4
-     abc:	0705                	addi	a4,a4,1
-     abe:	fed592e3          	bne	a1,a3,aa2 <main+0x400>
+     aa2:	0691                	addi	a3,a3,4
+     aa4:	0705                	addi	a4,a4,1
+     aa6:	fed592e3          	bne	a1,a3,a8a <main+0x402>
           mel[i] = 0;
       }
     }
 
     // calculate energy seperate from mdct (just sum-of-mels)
     e = 0;
-     ac2:	c002                	sw	zero,0(sp)
+     aaa:	c002                	sw	zero,0(sp)
     for (i = 0; i < MEL; i++)
       e += mel[i];
-     ac4:	421c                	lw	a5,0(a2)
-     ac6:	4702                	lw	a4,0(sp)
+     aac:	421c                	lw	a5,0(a2)
+     aae:	4702                	lw	a4,0(sp)
     for (i = 0; i < MEL; i++)
-     ac8:	0611                	addi	a2,a2,4
+     ab0:	0611                	addi	a2,a2,4
       e += mel[i];
-     aca:	97ba                	add	a5,a5,a4
-     acc:	c03e                	sw	a5,0(sp)
+     ab2:	97ba                	add	a5,a5,a4
+     ab4:	c03e                	sw	a5,0(sp)
     for (i = 0; i < MEL; i++)
-     ace:	fec59be3          	bne	a1,a2,ac4 <main+0x422>
+     ab6:	fec59be3          	bne	a1,a2,aac <main+0x424>
     // printf("e=%d\n",e);
 
     for (n = 0; n < CEPS; n++) { //通过矩阵乘法将 20 维梅尔特征（mel）与dctm_8bit相乘，得到 8 维倒谱系数（cep）
       cep[n] = 0;
-     ad2:	02000613          	li	a2,32
-     ad6:	d2018513          	addi	a0,gp,-736 # 2000011c <cep>
-     ada:	4581                	li	a1,0
-     adc:	3c8d                	jal	54e <memset>
-     ade:	6489                	lui	s1,0x2
-     ae0:	d2018693          	addi	a3,gp,-736 # 2000011c <cep>
-     ae4:	88448493          	addi	s1,s1,-1916 # 1884 <dctm_8bit>
-     ae8:	4601                	li	a2,0
-     aea:	d2018413          	addi	s0,gp,-736 # 2000011c <cep>
-     aee:	4701                	li	a4,0
-     af0:	4781                	li	a5,0
-     af2:	c63e                	sw	a5,12(sp)
+     aba:	02000613          	li	a2,32
+     abe:	d2018513          	addi	a0,gp,-736 # 2000011c <cep>
+     ac2:	4581                	li	a1,0
+     ac4:	3469                	jal	54e <memset>
+     ac6:	6485                	lui	s1,0x1
+     ac8:	d2018693          	addi	a3,gp,-736 # 2000011c <cep>
+     acc:	46c48493          	addi	s1,s1,1132 # 146c <dctm_8bit>
+     ad0:	4601                	li	a2,0
+     ad2:	d2018413          	addi	s0,gp,-736 # 2000011c <cep>
+     ad6:	4701                	li	a4,0
+     ad8:	4781                	li	a5,0
+     ada:	c63e                	sw	a5,12(sp)
       for (i = 0; i < MEL; i++)
         cep[n] += mel[i] * dctm_8bit[n * MEL + i];
-     af4:	4792                	lw	a5,4(sp)
-     af6:	00e485b3          	add	a1,s1,a4
-     afa:	418c                	lw	a1,0(a1)
-     afc:	00e78533          	add	a0,a5,a4
-     b00:	4108                	lw	a0,0(a0)
-     b02:	ca36                	sw	a3,20(sp)
-     b04:	c832                	sw	a2,16(sp)
-     b06:	c43a                	sw	a4,8(sp)
-     b08:	d98ff0ef          	jal	ra,a0 <__mulsi3>
+     adc:	4792                	lw	a5,4(sp)
+     ade:	00e485b3          	add	a1,s1,a4
+     ae2:	418c                	lw	a1,0(a1)
+     ae4:	00e78533          	add	a0,a5,a4
+     ae8:	4108                	lw	a0,0(a0)
+     aea:	ca36                	sw	a3,20(sp)
+     aec:	c832                	sw	a2,16(sp)
+     aee:	c43a                	sw	a4,8(sp)
+     af0:	db0ff0ef          	jal	ra,a0 <__mulsi3>
       for (i = 0; i < MEL; i++)
-     b0c:	4722                	lw	a4,8(sp)
+     af4:	4722                	lw	a4,8(sp)
         cep[n] += mel[i] * dctm_8bit[n * MEL + i];
-     b0e:	47b2                	lw	a5,12(sp)
+     af6:	47b2                	lw	a5,12(sp)
       for (i = 0; i < MEL; i++)
-     b10:	05000293          	li	t0,80
-     b14:	0711                	addi	a4,a4,4
-     b16:	4642                	lw	a2,16(sp)
-     b18:	46d2                	lw	a3,20(sp)
+     af8:	05000293          	li	t0,80
+     afc:	0711                	addi	a4,a4,4
+     afe:	4642                	lw	a2,16(sp)
+     b00:	46d2                	lw	a3,20(sp)
         cep[n] += mel[i] * dctm_8bit[n * MEL + i];
-     b1a:	97aa                	add	a5,a5,a0
+     b02:	97aa                	add	a5,a5,a0
       for (i = 0; i < MEL; i++)
-     b1c:	0a000313          	li	t1,160
-     b20:	fc5719e3          	bne	a4,t0,af2 <main+0x450>
+     b04:	0a000313          	li	t1,160
+     b08:	fc5719e3          	bne	a4,t0,ada <main+0x452>
       cep[n] >>= 9; // only enough memory for buffering 8-bit ceps
-     b24:	87a5                	srai	a5,a5,0x9
-     b26:	c01c                	sw	a5,0(s0)
+     b0c:	87a5                	srai	a5,a5,0x9
+     b0e:	c01c                	sw	a5,0(s0)
     for (n = 0; n < CEPS; n++) { //通过矩阵乘法将 20 维梅尔特征（mel）与dctm_8bit相乘，得到 8 维倒谱系数（cep）
-     b28:	0651                	addi	a2,a2,20
-     b2a:	0411                	addi	s0,s0,4
-     b2c:	05048493          	addi	s1,s1,80
-     b30:	fa661fe3          	bne	a2,t1,aee <main+0x44c>
+     b10:	0651                	addi	a2,a2,20
+     b12:	0411                	addi	s0,s0,4
+     b14:	05048493          	addi	s1,s1,80
+     b18:	fa661fe3          	bne	a2,t1,ad6 <main+0x44e>
     }
 
     if (e > TOL_ON) { // capture (another) audio frame...
-     b34:	4602                	lw	a2,0(sp)
-     b36:	12c00793          	li	a5,300
+     b1c:	4602                	lw	a2,0(sp)
+     b1e:	25800793          	li	a5,600
       wsize++;
       silcount = 0;
     }
     if (e < TOL_OFF)
       silcount++; // silent frame, end of sample?
     if (silcount >= 20 && wsize < MINSIZE) {
-     b3a:	c1c18703          	lb	a4,-996(gp) # 20000018 <wsize>
-     b3e:	c1c18413          	addi	s0,gp,-996 # 20000018 <wsize>
+     b22:	c1c18703          	lb	a4,-996(gp) # 20000018 <wsize>
+     b26:	c1c18413          	addi	s0,gp,-996 # 20000018 <wsize>
     if (e > TOL_ON) { // capture (another) audio frame...
-     b42:	14c7dd63          	bge	a5,a2,c9c <main+0x5fa>
+     b2a:	14c7dd63          	bge	a5,a2,c84 <main+0x5fc>
         word[wsize * CEPS + i] = (int8_t)cep[i];
-     b46:	00371313          	slli	t1,a4,0x3
+     b2e:	00371313          	slli	t1,a4,0x3
       for (i = 0; i < CEPS; i++)
-     b4a:	4781                	li	a5,0
+     b32:	4781                	li	a5,0
         word[wsize * CEPS + i] = (int8_t)cep[i];
-     b4c:	1a418593          	addi	a1,gp,420 # 200005a0 <word>
+     b34:	1a418593          	addi	a1,gp,420 # 200005a0 <word>
       for (i = 0; i < CEPS; i++)
-     b50:	4521                	li	a0,8
+     b38:	4521                	li	a0,8
         word[wsize * CEPS + i] = (int8_t)cep[i];
-     b52:	0006a283          	lw	t0,0(a3)
-     b56:	00678633          	add	a2,a5,t1
-     b5a:	962e                	add	a2,a2,a1
-     b5c:	00560023          	sb	t0,0(a2)
+     b3a:	0006a283          	lw	t0,0(a3)
+     b3e:	00678633          	add	a2,a5,t1
+     b42:	962e                	add	a2,a2,a1
+     b44:	00560023          	sb	t0,0(a2)
       for (i = 0; i < CEPS; i++)
-     b60:	0785                	addi	a5,a5,1
-     b62:	0691                	addi	a3,a3,4
-     b64:	fea797e3          	bne	a5,a0,b52 <main+0x4b0>
+     b48:	0785                	addi	a5,a5,1
+     b4a:	0691                	addi	a3,a3,4
+     b4c:	fea797e3          	bne	a5,a0,b3a <main+0x4b2>
       wsize++;
-     b68:	0705                	addi	a4,a4,1
-     b6a:	00e40023          	sb	a4,0(s0) # f0000000 <_eusrstack+0xcffff800>
+     b50:	0705                	addi	a4,a4,1
+     b52:	00e40023          	sb	a4,0(s0) # f0000000 <_eusrstack+0xcffff800>
       silcount = 0;
-     b6e:	c001aa23          	sw	zero,-1004(gp) # 20000010 <silcount>
+     b56:	c001aa23          	sw	zero,-1004(gp) # 20000010 <silcount>
       silcount = 0;
       wsize = 0;
     }
     lock = 0;
 
     if (wsize == WSIZE || (silcount >= 15 && wsize >= MINSIZE)) {
-     b72:	00040483          	lb	s1,0(s0)
+     b5a:	00040483          	lb	s1,0(s0)
     lock = 0;
-     b76:	c001a423          	sw	zero,-1016(gp) # 20000004 <lock>
+     b5e:	c001a423          	sw	zero,-1016(gp) # 20000004 <lock>
     if (wsize == WSIZE || (silcount >= 15 && wsize >= MINSIZE)) {
-     b7a:	02000793          	li	a5,32
-     b7e:	18f48b63          	beq	s1,a5,d14 <main+0x672>
-     b82:	c141a703          	lw	a4,-1004(gp) # 20000010 <silcount>
-     b86:	47b9                	li	a5,14
-     b88:	08e7d963          	bge	a5,a4,c1a <main+0x578>
-     b8c:	479d                	li	a5,7
-     b8e:	0897d663          	bge	a5,s1,c1a <main+0x578>
+     b62:	02000793          	li	a5,32
+     b66:	18f48b63          	beq	s1,a5,cfc <main+0x674>
+     b6a:	c141a703          	lw	a4,-1004(gp) # 20000010 <silcount>
+     b6e:	47b9                	li	a5,14
+     b70:	08e7d963          	bge	a5,a4,c02 <main+0x57a>
+     b74:	479d                	li	a5,7
+     b76:	0897d663          	bge	a5,s1,c02 <main+0x57a>
       // warp sample size to exactly 16 frames....
       if (wsize < 16) {
-     b92:	47bd                	li	a5,15
-     b94:	1297ca63          	blt	a5,s1,cc8 <main+0x626>
-     b98:	00449713          	slli	a4,s1,0x4
-     b9c:	8f05                	sub	a4,a4,s1
-     b9e:	07800693          	li	a3,120
-     ba2:	1a418593          	addi	a1,gp,420 # 200005a0 <word>
+     b7a:	47bd                	li	a5,15
+     b7c:	1297ca63          	blt	a5,s1,cb0 <main+0x628>
+     b80:	00449713          	slli	a4,s1,0x4
+     b84:	8f05                	sub	a4,a4,s1
+     b86:	07800693          	li	a3,120
+     b8a:	1a418593          	addi	a1,gp,420 # 200005a0 <word>
         for (i = 15; i >= 0; i--) {
           k = i * wsize / 16;
           for (n = 0; n < CEPS; n++)
-     ba6:	43a1                	li	t2,8
+     b8e:	43a1                	li	t2,8
         for (i = 15; i >= 0; i--) {
-     ba8:	52e1                	li	t0,-8
+     b90:	52e1                	li	t0,-8
           k = i * wsize / 16;
-     baa:	41f75793          	srai	a5,a4,0x1f
-     bae:	8bbd                	andi	a5,a5,15
-     bb0:	97ba                	add	a5,a5,a4
-     bb2:	8791                	srai	a5,a5,0x4
+     b92:	41f75793          	srai	a5,a4,0x1f
+     b96:	8bbd                	andi	a5,a5,15
+     b98:	97ba                	add	a5,a5,a4
+     b9a:	8791                	srai	a5,a5,0x4
             word[i * CEPS + n] = word[k * CEPS + n];
-     bb4:	078e                	slli	a5,a5,0x3
-     bb6:	00f58633          	add	a2,a1,a5
+     b9c:	078e                	slli	a5,a5,0x3
+     b9e:	00f58633          	add	a2,a1,a5
           for (n = 0; n < CEPS; n++)
-     bba:	4501                	li	a0,0
+     ba2:	4501                	li	a0,0
             word[i * CEPS + n] = word[k * CEPS + n];
-     bbc:	00060083          	lb	ra,0(a2)
-     bc0:	40f60333          	sub	t1,a2,a5
-     bc4:	9336                	add	t1,t1,a3
-     bc6:	00130023          	sb	ra,0(t1)
+     ba4:	00060083          	lb	ra,0(a2)
+     ba8:	40f60333          	sub	t1,a2,a5
+     bac:	9336                	add	t1,t1,a3
+     bae:	00130023          	sb	ra,0(t1)
           for (n = 0; n < CEPS; n++)
-     bca:	0505                	addi	a0,a0,1
-     bcc:	0605                	addi	a2,a2,1
-     bce:	fe7517e3          	bne	a0,t2,bbc <main+0x51a>
+     bb2:	0505                	addi	a0,a0,1
+     bb4:	0605                	addi	a2,a2,1
+     bb6:	fe7517e3          	bne	a0,t2,ba4 <main+0x51c>
         for (i = 15; i >= 0; i--) {
-     bd2:	16e1                	addi	a3,a3,-8
-     bd4:	8f05                	sub	a4,a4,s1
-     bd6:	fc569ae3          	bne	a3,t0,baa <main+0x508>
+     bba:	16e1                	addi	a3,a3,-8
+     bbc:	8f05                	sub	a4,a4,s1
+     bbe:	fc569ae3          	bne	a3,t0,b92 <main+0x50a>
       wsize = 16; // standardized now!
 
       // search codebook for best match and print it!
       bestdist = 999999999;
       c = 0;
       while (cb[c] != -1) {
-     bda:	6705                	lui	a4,0x1
-     bdc:	f7070393          	addi	t2,a4,-144 # f70 <cb>
+     bc2:	6705                	lui	a4,0x1
+     bc4:	f6070393          	addi	t2,a4,-160 # f60 <cb>
       wsize = 16; // standardized now!
-     be0:	47c1                	li	a5,16
+     bc8:	47c1                	li	a5,16
       bestdist = 999999999;
-     be2:	3b9ad637          	lui	a2,0x3b9ad
+     bca:	3b9ad637          	lui	a2,0x3b9ad
         k = cb[c];
         c++;
         dist = 0; // printf("k=%d\n",k);
         for (i = 0; i < 16; i++) {
           for (n = 0; n < CEPS; n++, c++) {
             d = word[i * CEPS + n] - cb[c];
-     be6:	1a418713          	addi	a4,gp,420 # 200005a0 <word>
+     bce:	1a418713          	addi	a4,gp,420 # 200005a0 <word>
       wsize = 16; // standardized now!
-     bea:	00f40023          	sb	a5,0(s0)
+     bd2:	00f40023          	sb	a5,0(s0)
       bestdist = 999999999;
-     bee:	9ff60613          	addi	a2,a2,-1537 # 3b9ac9ff <_eusrstack+0x1b9ac1ff>
+     bd6:	9ff60613          	addi	a2,a2,-1537 # 3b9ac9ff <_eusrstack+0x1b9ac1ff>
       c = 0;
-     bf2:	4781                	li	a5,0
+     bda:	4781                	li	a5,0
             d = word[i * CEPS + n] - cb[c];
-     bf4:	c63a                	sw	a4,12(sp)
+     bdc:	c63a                	sw	a4,12(sp)
       while (cb[c] != -1) {
-     bf6:	00778733          	add	a4,a5,t2
-     bfa:	00070283          	lb	t0,0(a4)
-     bfe:	577d                	li	a4,-1
-     c00:	10e29c63          	bne	t0,a4,d18 <main+0x676>
+     bde:	00f38733          	add	a4,t2,a5
+     be2:	00070283          	lb	t0,0(a4)
+     be6:	577d                	li	a4,-1
+     be8:	10e29c63          	bne	t0,a4,d00 <main+0x678>
         if (dist < bestdist) {
           bestdist = dist;
           best = k;
         }
       }
       printf("best match = %d, bestdist=%d\n", best, bestdist);
-     c04:	45e2                	lw	a1,24(sp)
-     c06:	6505                	lui	a0,0x1
-     c08:	f4450513          	addi	a0,a0,-188 # f44 <TIM1_UP_IRQHandler+0x1b8>
-     c0c:	3a31                	jal	528 <printf>
+     bec:	45e2                	lw	a1,24(sp)
+     bee:	6505                	lui	a0,0x1
+     bf0:	f3450513          	addi	a0,a0,-204 # f34 <TIM1_UP_IRQHandler+0x1c0>
+     bf4:	3a15                	jal	528 <printf>
       wsize = 0;
       silcount = 0;
-     c0e:	c001aa23          	sw	zero,-1004(gp) # 20000010 <silcount>
+     bf6:	c001aa23          	sw	zero,-1004(gp) # 20000010 <silcount>
       wsize = 0;
-     c12:	00040023          	sb	zero,0(s0)
+     bfa:	00040023          	sb	zero,0(s0)
       posn = 0;
-     c16:	c001a623          	sw	zero,-1012(gp) # 20000008 <posn>
+     bfe:	c001a623          	sw	zero,-1012(gp) # 20000008 <posn>
     }
     lastcount = count;
-     c1a:	c0418793          	addi	a5,gp,-1020 # 20000000 <count>
-     c1e:	4398                	lw	a4,0(a5)
+     c02:	c0418793          	addi	a5,gp,-1020 # 20000000 <count>
+     c06:	4390                	lw	a2,0(a5)
   while (1) {
-     c20:	bec1                	j	7f0 <main+0x14e>
+     c08:	b6f9                	j	7d6 <main+0x14e>
         mel[n] += (unsigned int)re[mel_mx[i]] * mel_mx[i + 1]; 
-     c22:	00279693          	slli	a3,a5,0x2
-     c26:	c63e                	sw	a5,12(sp)
-     c28:	47a2                	lw	a5,8(sp)
-     c2a:	050a                	slli	a0,a0,0x2
-     c2c:	058a                	slli	a1,a1,0x2
-     c2e:	953e                	add	a0,a0,a5
-     c30:	95ba                	add	a1,a1,a4
-     c32:	418c                	lw	a1,0(a1)
-     c34:	4108                	lw	a0,0(a0)
-     c36:	969a                	add	a3,a3,t1
-     c38:	c236                	sw	a3,4(sp)
-     c3a:	c66ff0ef          	jal	ra,a0 <__mulsi3>
-     c3e:	4692                	lw	a3,4(sp)
+     c0a:	00279693          	slli	a3,a5,0x2
+     c0e:	c63e                	sw	a5,12(sp)
+     c10:	47a2                	lw	a5,8(sp)
+     c12:	050a                	slli	a0,a0,0x2
+     c14:	058a                	slli	a1,a1,0x2
+     c16:	953e                	add	a0,a0,a5
+     c18:	95ba                	add	a1,a1,a4
+     c1a:	418c                	lw	a1,0(a1)
+     c1c:	4108                	lw	a0,0(a0)
+     c1e:	969a                	add	a3,a3,t1
+     c20:	c236                	sw	a3,4(sp)
+     c22:	c7eff0ef          	jal	ra,a0 <__mulsi3>
+     c26:	4692                	lw	a3,4(sp)
         i += 2;
-     c40:	f4018313          	addi	t1,gp,-192 # 2000033c <mel>
+     c28:	f4018313          	addi	t1,gp,-192 # 2000033c <mel>
         mel[n] += (unsigned int)re[mel_mx[i]] * mel_mx[i + 1]; 
-     c44:	428c                	lw	a1,0(a3)
+     c2c:	428c                	lw	a1,0(a3)
         i += 2;
-     c46:	6709                	lui	a4,0x2
-     c48:	47b2                	lw	a5,12(sp)
+     c2e:	6705                	lui	a4,0x1
+     c30:	47b2                	lw	a5,12(sp)
         mel[n] += (unsigned int)re[mel_mx[i]] * mel_mx[i + 1]; 
-     c4a:	952e                	add	a0,a0,a1
-     c4c:	c288                	sw	a0,0(a3)
+     c32:	952e                	add	a0,a0,a1
+     c34:	c288                	sw	a0,0(a3)
         i += 2;
-     c4e:	0489                	addi	s1,s1,2
-     c50:	4651                	li	a2,20
-     c52:	b2870713          	addi	a4,a4,-1240 # 1b28 <mel_mx>
-     c56:	bb79                	j	9f4 <main+0x352>
+     c36:	0489                	addi	s1,s1,2
+     c38:	4651                	li	a2,20
+     c3a:	71070713          	addi	a4,a4,1808 # 1710 <mel_mx>
+     c3e:	bb79                	j	9dc <main+0x354>
     return (first[a]);
-     c58:	068a                	slli	a3,a3,0x2
-     c5a:	96aa                	add	a3,a3,a0
-     c5c:	4294                	lw	a3,0(a3)
-     c5e:	b515                	j	a82 <main+0x3e0>
+     c40:	068a                	slli	a3,a3,0x2
+     c42:	96aa                	add	a3,a3,a0
+     c44:	4294                	lw	a3,0(a3)
+     c46:	b515                	j	a6a <main+0x3e2>
         if (mel[i] < 0 && nfloor[i] > 0)
-     c60:	e4050de3          	beqz	a0,aba <main+0x418>
-     c64:	c781                	beqz	a5,c6c <main+0x5ca>
+     c48:	e4050de3          	beqz	a0,aa2 <main+0x41a>
+     c4c:	c781                	beqz	a5,c54 <main+0x5cc>
           nfloor[i]--;
-     c66:	17fd                	addi	a5,a5,-1
-     c68:	00f70023          	sb	a5,0(a4)
+     c4e:	17fd                	addi	a5,a5,-1
+     c50:	00f70023          	sb	a5,0(a4)
           mel[i] = 0;
-     c6c:	0006a023          	sw	zero,0(a3)
-     c70:	b5a9                	j	aba <main+0x418>
+     c54:	0006a023          	sw	zero,0(a3)
+     c58:	b5a9                	j	aa2 <main+0x41a>
     if (e < TOL_OFF){ //当信号能量低（接近静音）时, 动态更新噪声底（nfloor）并从梅尔值中去除
-     c72:	87b2                	mv	a5,a2
+     c5a:	87b2                	mv	a5,a2
       for (i = 0; i < MEL; i++) { // just remove noise floor....
-     c74:	4701                	li	a4,0
-     c76:	4551                	li	a0,20
+     c5c:	4701                	li	a4,0
+     c5e:	4551                	li	a0,20
         mel[i] -= nfloor[i];
-     c78:	00e306b3          	add	a3,t1,a4
-     c7c:	0006c283          	lbu	t0,0(a3)
-     c80:	4394                	lw	a3,0(a5)
-     c82:	405686b3          	sub	a3,a3,t0
+     c60:	00e306b3          	add	a3,t1,a4
+     c64:	0006c283          	lbu	t0,0(a3)
+     c68:	4394                	lw	a3,0(a5)
+     c6a:	405686b3          	sub	a3,a3,t0
         if (mel[i] < 0)
-     c86:	0006c863          	bltz	a3,c96 <main+0x5f4>
+     c6e:	0006c863          	bltz	a3,c7e <main+0x5f6>
         mel[i] -= nfloor[i];
-     c8a:	c394                	sw	a3,0(a5)
+     c72:	c394                	sw	a3,0(a5)
       for (i = 0; i < MEL; i++) { // just remove noise floor....
-     c8c:	0705                	addi	a4,a4,1
-     c8e:	0791                	addi	a5,a5,4
-     c90:	fea714e3          	bne	a4,a0,c78 <main+0x5d6>
-     c94:	b53d                	j	ac2 <main+0x420>
+     c74:	0705                	addi	a4,a4,1
+     c76:	0791                	addi	a5,a5,4
+     c78:	fea714e3          	bne	a4,a0,c60 <main+0x5d8>
+     c7c:	b53d                	j	aaa <main+0x422>
           mel[i] = 0;
-     c96:	0007a023          	sw	zero,0(a5)
-     c9a:	bfcd                	j	c8c <main+0x5ea>
+     c7e:	0007a023          	sw	zero,0(a5)
+     c82:	bfcd                	j	c74 <main+0x5ec>
     if (e < TOL_OFF)
-     c9c:	4602                	lw	a2,0(sp)
-     c9e:	09500693          	li	a3,149
-     ca2:	c1418793          	addi	a5,gp,-1004 # 20000010 <silcount>
-     ca6:	00c6c563          	blt	a3,a2,cb0 <main+0x60e>
+     c84:	4602                	lw	a2,0(sp)
+     c86:	1f300693          	li	a3,499
+     c8a:	c1418793          	addi	a5,gp,-1004 # 20000010 <silcount>
+     c8e:	00c6c563          	blt	a3,a2,c98 <main+0x610>
       silcount++; // silent frame, end of sample?
-     caa:	4394                	lw	a3,0(a5)
-     cac:	0685                	addi	a3,a3,1
-     cae:	c394                	sw	a3,0(a5)
+     c92:	4394                	lw	a3,0(a5)
+     c94:	0685                	addi	a3,a3,1
+     c96:	c394                	sw	a3,0(a5)
     if (silcount >= 20 && wsize < MINSIZE) {
-     cb0:	4390                	lw	a2,0(a5)
-     cb2:	46cd                	li	a3,19
-     cb4:	eac6dfe3          	bge	a3,a2,b72 <main+0x4d0>
-     cb8:	469d                	li	a3,7
-     cba:	eae6cce3          	blt	a3,a4,b72 <main+0x4d0>
+     c98:	4390                	lw	a2,0(a5)
+     c9a:	46cd                	li	a3,19
+     c9c:	eac6dfe3          	bge	a3,a2,b5a <main+0x4d2>
+     ca0:	469d                	li	a3,7
+     ca2:	eae6cce3          	blt	a3,a4,b5a <main+0x4d2>
       silcount = 0;
-     cbe:	0007a023          	sw	zero,0(a5)
+     ca6:	0007a023          	sw	zero,0(a5)
       wsize = 0;
-     cc2:	00040023          	sb	zero,0(s0)
-     cc6:	b575                	j	b72 <main+0x4d0>
+     caa:	00040023          	sb	zero,0(s0)
+     cae:	b575                	j	b5a <main+0x4d2>
       if (wsize > 16) {
-     cc8:	47c1                	li	a5,16
-     cca:	f0f488e3          	beq	s1,a5,bda <main+0x538>
+     cb0:	47c1                	li	a5,16
+     cb2:	f0f488e3          	beq	s1,a5,bc2 <main+0x53a>
     if (wsize == WSIZE || (silcount >= 15 && wsize >= MINSIZE)) {
-     cce:	4581                	li	a1,0
+     cb6:	4581                	li	a1,0
             word[i * CEPS + n] = word[k * CEPS + n];
-     cd0:	00359313          	slli	t1,a1,0x3
+     cb8:	00359313          	slli	t1,a1,0x3
           k = i * wsize / 16;
-     cd4:	8526                	mv	a0,s1
-     cd6:	c63e                	sw	a5,12(sp)
+     cbc:	8526                	mv	a0,s1
+     cbe:	c63e                	sw	a5,12(sp)
             word[i * CEPS + n] = word[k * CEPS + n];
-     cd8:	c41a                	sw	t1,8(sp)
+     cc0:	c41a                	sw	t1,8(sp)
           k = i * wsize / 16;
-     cda:	c22e                	sw	a1,4(sp)
-     cdc:	bc4ff0ef          	jal	ra,a0 <__mulsi3>
-     ce0:	1a418693          	addi	a3,gp,420 # 200005a0 <word>
-     ce4:	8511                	srai	a0,a0,0x4
+     cc2:	c22e                	sw	a1,4(sp)
+     cc4:	bdcff0ef          	jal	ra,a0 <__mulsi3>
+     cc8:	1a418693          	addi	a3,gp,420 # 200005a0 <word>
+     ccc:	8511                	srai	a0,a0,0x4
           for (n = 0; n < CEPS; n++)
-     ce6:	47b2                	lw	a5,12(sp)
-     ce8:	4322                	lw	t1,8(sp)
-     cea:	4592                	lw	a1,4(sp)
+     cce:	47b2                	lw	a5,12(sp)
+     cd0:	4322                	lw	t1,8(sp)
+     cd2:	4592                	lw	a1,4(sp)
             word[i * CEPS + n] = word[k * CEPS + n];
-     cec:	050e                	slli	a0,a0,0x3
-     cee:	00a68733          	add	a4,a3,a0
+     cd4:	050e                	slli	a0,a0,0x3
+     cd6:	00a68733          	add	a4,a3,a0
           for (n = 0; n < CEPS; n++)
-     cf2:	4281                	li	t0,0
-     cf4:	4621                	li	a2,8
+     cda:	4281                	li	t0,0
+     cdc:	4621                	li	a2,8
             word[i * CEPS + n] = word[k * CEPS + n];
-     cf6:	00070083          	lb	ra,0(a4)
-     cfa:	40a703b3          	sub	t2,a4,a0
-     cfe:	939a                	add	t2,t2,t1
-     d00:	00138023          	sb	ra,0(t2) # ff000000 <_eusrstack+0xdefff800>
+     cde:	00070083          	lb	ra,0(a4)
+     ce2:	40a703b3          	sub	t2,a4,a0
+     ce6:	939a                	add	t2,t2,t1
+     ce8:	00138023          	sb	ra,0(t2) # ff000000 <_eusrstack+0xdefff800>
           for (n = 0; n < CEPS; n++)
-     d04:	0285                	addi	t0,t0,1
-     d06:	0705                	addi	a4,a4,1
-     d08:	fec297e3          	bne	t0,a2,cf6 <main+0x654>
+     cec:	0285                	addi	t0,t0,1
+     cee:	0705                	addi	a4,a4,1
+     cf0:	fec297e3          	bne	t0,a2,cde <main+0x656>
         for (i = 0; i < 16; i++) {
-     d0c:	17fd                	addi	a5,a5,-1
-     d0e:	0585                	addi	a1,a1,1
-     d10:	f3e1                	bnez	a5,cd0 <main+0x62e>
-     d12:	b5e1                	j	bda <main+0x538>
+     cf4:	17fd                	addi	a5,a5,-1
+     cf6:	0585                	addi	a1,a1,1
+     cf8:	f3e1                	bnez	a5,cb8 <main+0x630>
+     cfa:	b5e1                	j	bc2 <main+0x53a>
     if (wsize == WSIZE || (silcount >= 15 && wsize >= MINSIZE)) {
-     d14:	47c1                	li	a5,16
-     d16:	bf65                	j	cce <main+0x62c>
+     cfc:	47c1                	li	a5,16
+     cfe:	bf65                	j	cb6 <main+0x62e>
         c++;
-     d18:	00178313          	addi	t1,a5,1
+     d00:	00178313          	addi	t1,a5,1
       while (cb[c] != -1) {
-     d1c:	4681                	li	a3,0
+     d04:	4681                	li	a3,0
         dist = 0; // printf("k=%d\n",k);
-     d1e:	4701                	li	a4,0
+     d06:	4701                	li	a4,0
             d = word[i * CEPS + n] - cb[c];
-     d20:	45b2                	lw	a1,12(sp)
+     d08:	45b2                	lw	a1,12(sp)
           for (n = 0; n < CEPS; n++, c++) {
-     d22:	4481                	li	s1,0
+     d0a:	4481                	li	s1,0
             d = word[i * CEPS + n] - cb[c];
-     d24:	95b6                	add	a1,a1,a3
-     d26:	c22e                	sw	a1,4(sp)
-     d28:	006385b3          	add	a1,t2,t1
-     d2c:	c42e                	sw	a1,8(sp)
-     d2e:	ce3e                	sw	a5,28(sp)
-     d30:	4792                	lw	a5,4(sp)
-     d32:	d436                	sw	a3,40(sp)
-     d34:	d21a                	sw	t1,36(sp)
-     d36:	009785b3          	add	a1,a5,s1
-     d3a:	47a2                	lw	a5,8(sp)
-     d3c:	00058583          	lb	a1,0(a1)
-     d40:	d03a                	sw	a4,32(sp)
-     d42:	00978533          	add	a0,a5,s1
-     d46:	00050503          	lb	a0,0(a0)
-     d4a:	ca32                	sw	a2,20(sp)
-     d4c:	c816                	sw	t0,16(sp)
-     d4e:	8d89                	sub	a1,a1,a0
+     d0c:	95b6                	add	a1,a1,a3
+     d0e:	c22e                	sw	a1,4(sp)
+     d10:	006385b3          	add	a1,t2,t1
+     d14:	c42e                	sw	a1,8(sp)
+     d16:	ce3e                	sw	a5,28(sp)
+     d18:	4792                	lw	a5,4(sp)
+     d1a:	d436                	sw	a3,40(sp)
+     d1c:	d21a                	sw	t1,36(sp)
+     d1e:	009785b3          	add	a1,a5,s1
+     d22:	47a2                	lw	a5,8(sp)
+     d24:	00058583          	lb	a1,0(a1)
+     d28:	d03a                	sw	a4,32(sp)
+     d2a:	00978533          	add	a0,a5,s1
+     d2e:	00050503          	lb	a0,0(a0)
+     d32:	ca32                	sw	a2,20(sp)
+     d34:	c816                	sw	t0,16(sp)
+     d36:	8d89                	sub	a1,a1,a0
             dist += d * d;
-     d50:	852e                	mv	a0,a1
-     d52:	b4eff0ef          	jal	ra,a0 <__mulsi3>
-     d56:	5702                	lw	a4,32(sp)
+     d38:	852e                	mv	a0,a1
+     d3a:	b66ff0ef          	jal	ra,a0 <__mulsi3>
+     d3e:	5702                	lw	a4,32(sp)
           for (n = 0; n < CEPS; n++, c++) {
-     d58:	0485                	addi	s1,s1,1
-     d5a:	45a1                	li	a1,8
+     d40:	0485                	addi	s1,s1,1
+     d42:	45a1                	li	a1,8
             dist += d * d;
-     d5c:	972a                	add	a4,a4,a0
+     d44:	972a                	add	a4,a4,a0
           for (n = 0; n < CEPS; n++, c++) {
-     d5e:	6505                	lui	a0,0x1
-     d60:	42c2                	lw	t0,16(sp)
-     d62:	4652                	lw	a2,20(sp)
-     d64:	47f2                	lw	a5,28(sp)
-     d66:	5312                	lw	t1,36(sp)
-     d68:	56a2                	lw	a3,40(sp)
-     d6a:	f7050393          	addi	t2,a0,-144 # f70 <cb>
-     d6e:	fcb490e3          	bne	s1,a1,d2e <main+0x68c>
+     d46:	6505                	lui	a0,0x1
+     d48:	42c2                	lw	t0,16(sp)
+     d4a:	4652                	lw	a2,20(sp)
+     d4c:	47f2                	lw	a5,28(sp)
+     d4e:	5312                	lw	t1,36(sp)
+     d50:	56a2                	lw	a3,40(sp)
+     d52:	f6050393          	addi	t2,a0,-160 # f60 <cb>
+     d56:	fcb490e3          	bne	s1,a1,d16 <main+0x68e>
         for (i = 0; i < 16; i++) {
-     d72:	06a1                	addi	a3,a3,8
-     d74:	08000593          	li	a1,128
+     d5a:	06a1                	addi	a3,a3,8
+     d5c:	08000593          	li	a1,128
           for (n = 0; n < CEPS; n++, c++) {
-     d78:	0321                	addi	t1,t1,8
+     d60:	0321                	addi	t1,t1,8
         for (i = 0; i < 16; i++) {
-     d7a:	fab693e3          	bne	a3,a1,d20 <main+0x67e>
-     d7e:	08178793          	addi	a5,a5,129
+     d62:	fab693e3          	bne	a3,a1,d08 <main+0x680>
+     d66:	08178793          	addi	a5,a5,129
         if (dist < bestdist) {
-     d82:	e6c75ae3          	bge	a4,a2,bf6 <main+0x554>
+     d6a:	e6c75ae3          	bge	a4,a2,bde <main+0x556>
         k = cb[c];
-     d86:	cc16                	sw	t0,24(sp)
-     d88:	863a                	mv	a2,a4
-     d8a:	b5b5                	j	bf6 <main+0x554>
+     d6e:	cc16                	sw	t0,24(sp)
+     d70:	863a                	mv	a2,a4
+     d72:	b5b5                	j	bde <main+0x556>
 
-00000d8c <TIM1_UP_IRQHandler>:
+00000d74 <TIM1_UP_IRQHandler>:
 void TIM1_UP_IRQHandler() {
-     d8c:	fc410113          	addi	sp,sp,-60
-     d90:	c63e                	sw	a5,12(sp)
+     d74:	fc410113          	addi	sp,sp,-60
+     d78:	c63e                	sw	a5,12(sp)
   if (TIM1->INTFR & TIM_FLAG_Update) {
-     d92:	400137b7          	lui	a5,0x40013
+     d7a:	400137b7          	lui	a5,0x40013
 void TIM1_UP_IRQHandler() {
-     d96:	c83a                	sw	a4,16(sp)
+     d7e:	c83a                	sw	a4,16(sp)
   if (TIM1->INTFR & TIM_FLAG_Update) {
-     d98:	c107d703          	lhu	a4,-1008(a5) # 40012c10 <_eusrstack+0x20012410>
+     d80:	c107d703          	lhu	a4,-1008(a5) # 40012c10 <_eusrstack+0x20012410>
 void TIM1_UP_IRQHandler() {
-     d9c:	dc06                	sw	ra,56(sp)
-     d9e:	da16                	sw	t0,52(sp)
-     da0:	d81a                	sw	t1,48(sp)
-     da2:	d61e                	sw	t2,44(sp)
-     da4:	d422                	sw	s0,40(sp)
-     da6:	d226                	sw	s1,36(sp)
-     da8:	d02a                	sw	a0,32(sp)
-     daa:	ce2e                	sw	a1,28(sp)
-     dac:	cc32                	sw	a2,24(sp)
-     dae:	ca36                	sw	a3,20(sp)
+     d84:	dc06                	sw	ra,56(sp)
+     d86:	da16                	sw	t0,52(sp)
+     d88:	d81a                	sw	t1,48(sp)
+     d8a:	d61e                	sw	t2,44(sp)
+     d8c:	d422                	sw	s0,40(sp)
+     d8e:	d226                	sw	s1,36(sp)
+     d90:	d02a                	sw	a0,32(sp)
+     d92:	ce2e                	sw	a1,28(sp)
+     d94:	cc32                	sw	a2,24(sp)
+     d96:	ca36                	sw	a3,20(sp)
   if (TIM1->INTFR & TIM_FLAG_Update) {
-     db0:	8b05                	andi	a4,a4,1
-     db2:	0c070e63          	beqz	a4,e8e <TIM1_UP_IRQHandler+0x102>
-     db6:	c0078793          	addi	a5,a5,-1024
+     d98:	8b05                	andi	a4,a4,1
+     d9a:	0c070e63          	beqz	a4,e76 <TIM1_UP_IRQHandler+0x102>
+     d9e:	c0078793          	addi	a5,a5,-1024
     TIM1->INTFR = ~TIM_FLAG_Update;
-     dba:	5779                	li	a4,-2
-     dbc:	00e79823          	sh	a4,16(a5)
+     da2:	5779                	li	a4,-2
+     da4:	00e79823          	sh	a4,16(a5)
     result = ADC1->RDATAR;
-     dc0:	400127b7          	lui	a5,0x40012
-     dc4:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-     dc8:	47fc                	lw	a5,76(a5)
+     da8:	400127b7          	lui	a5,0x40012
+     dac:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+     db0:	47fc                	lw	a5,76(a5)
     total += result;
-     dca:	c1818713          	addi	a4,gp,-1000 # 20000014 <total>
-     dce:	4314                	lw	a3,0(a4)
+     db2:	c1818713          	addi	a4,gp,-1000 # 20000014 <total>
+     db6:	4314                	lw	a3,0(a4)
     result = result - 512;
-     dd0:	e0078793          	addi	a5,a5,-512
-     dd4:	c1818593          	addi	a1,gp,-1000 # 20000014 <total>
+     db8:	e0078793          	addi	a5,a5,-512
+     dbc:	c1818593          	addi	a1,gp,-1000 # 20000014 <total>
     total += result;
-     dd8:	97b6                	add	a5,a5,a3
+     dc0:	97b6                	add	a5,a5,a3
     samcount++;
-     dda:	c1018613          	addi	a2,gp,-1008 # 2000000c <samcount>
+     dc2:	c1018613          	addi	a2,gp,-1008 # 2000000c <samcount>
     total += result;
-     dde:	c31c                	sw	a5,0(a4)
+     dc6:	c31c                	sw	a5,0(a4)
     samcount++;
-     de0:	4218                	lw	a4,0(a2)
-     de2:	c1018693          	addi	a3,gp,-1008 # 2000000c <samcount>
-     de6:	c02e                	sw	a1,0(sp)
-     de8:	0705                	addi	a4,a4,1
-     dea:	c218                	sw	a4,0(a2)
+     dc8:	4218                	lw	a4,0(a2)
+     dca:	c1018693          	addi	a3,gp,-1008 # 2000000c <samcount>
+     dce:	c02e                	sw	a1,0(sp)
+     dd0:	0705                	addi	a4,a4,1
+     dd2:	c218                	sw	a4,0(a2)
     if (samcount == 8) {
-     dec:	c236                	sw	a3,4(sp)
-     dee:	4621                	li	a2,8
-     df0:	08c71663          	bne	a4,a2,e7c <TIM1_UP_IRQHandler+0xf0>
+     dd4:	c236                	sw	a3,4(sp)
+     dd6:	4621                	li	a2,8
+     dd8:	08c71663          	bne	a4,a2,e64 <TIM1_UP_IRQHandler+0xf0>
       total >>= 3;
-     df4:	878d                	srai	a5,a5,0x3
-     df6:	c19c                	sw	a5,0(a1)
+     ddc:	878d                	srai	a5,a5,0x3
+     dde:	c19c                	sw	a5,0(a1)
       buffer[posn] = (int16_t)total;
-     df8:	c0c18593          	addi	a1,gp,-1012 # 20000008 <posn>
-     dfc:	4198                	lw	a4,0(a1)
-     dfe:	c2018693          	addi	a3,gp,-992 # 2000001c <buffer>
-     e02:	00171513          	slli	a0,a4,0x1
-     e06:	96aa                	add	a3,a3,a0
-     e08:	00f69023          	sh	a5,0(a3)
+     de0:	c0c18593          	addi	a1,gp,-1012 # 20000008 <posn>
+     de4:	4198                	lw	a4,0(a1)
+     de6:	c2018693          	addi	a3,gp,-992 # 2000001c <buffer>
+     dea:	00171513          	slli	a0,a4,0x1
+     dee:	96aa                	add	a3,a3,a0
+     df0:	00f69023          	sh	a5,0(a3)
       posn++;
-     e0c:	0705                	addi	a4,a4,1
-     e0e:	c0c18793          	addi	a5,gp,-1012 # 20000008 <posn>
-     e12:	c198                	sw	a4,0(a1)
+     df4:	0705                	addi	a4,a4,1
+     df6:	c0c18793          	addi	a5,gp,-1012 # 20000008 <posn>
+     dfa:	c198                	sw	a4,0(a1)
       if (posn == FFT) {
-     e14:	08000693          	li	a3,128
-     e18:	c43e                	sw	a5,8(sp)
-     e1a:	c2018493          	addi	s1,gp,-992 # 2000001c <buffer>
-     e1e:	04d71963          	bne	a4,a3,e70 <TIM1_UP_IRQHandler+0xe4>
+     dfc:	08000693          	li	a3,128
+     e00:	c43e                	sw	a5,8(sp)
+     e02:	c2018493          	addi	s1,gp,-992 # 2000001c <buffer>
+     e06:	04d71963          	bne	a4,a3,e58 <TIM1_UP_IRQHandler+0xe4>
         if (lock == 1)
-     e22:	c081a683          	lw	a3,-1016(gp) # 20000004 <lock>
-     e26:	4705                	li	a4,1
-     e28:	00e69763          	bne	a3,a4,e36 <TIM1_UP_IRQHandler+0xaa>
+     e0a:	c081a683          	lw	a3,-1016(gp) # 20000004 <lock>
+     e0e:	4705                	li	a4,1
+     e10:	00e69763          	bne	a3,a4,e1e <TIM1_UP_IRQHandler+0xaa>
           printf("oops lock\n");
-     e2c:	6505                	lui	a0,0x1
-     e2e:	f6450513          	addi	a0,a0,-156 # f64 <TIM1_UP_IRQHandler+0x1d8>
-     e32:	f2eff0ef          	jal	ra,560 <puts>
+     e14:	6505                	lui	a0,0x1
+     e16:	f5450513          	addi	a0,a0,-172 # f54 <TIM1_UP_IRQHandler+0x1e0>
+     e1a:	f46ff0ef          	jal	ra,560 <puts>
           im[posn] = 0;
-     e36:	20000613          	li	a2,512
-     e3a:	4581                	li	a1,0
-     e3c:	d4018513          	addi	a0,gp,-704 # 2000013c <im>
-     e40:	f0eff0ef          	jal	ra,54e <memset>
-     e44:	8726                	mv	a4,s1
-     e46:	fa418693          	addi	a3,gp,-92 # 200003a0 <re>
-     e4a:	10048613          	addi	a2,s1,256
-     e4e:	c2018413          	addi	s0,gp,-992 # 2000001c <buffer>
+     e1e:	20000613          	li	a2,512
+     e22:	4581                	li	a1,0
+     e24:	d4018513          	addi	a0,gp,-704 # 2000013c <im>
+     e28:	f26ff0ef          	jal	ra,54e <memset>
+     e2c:	8726                	mv	a4,s1
+     e2e:	fa418693          	addi	a3,gp,-92 # 200003a0 <re>
+     e32:	10048613          	addi	a2,s1,256
+     e36:	c2018413          	addi	s0,gp,-992 # 2000001c <buffer>
         for (posn = 0; posn < FFT; posn++) {
-     e52:	04c41e63          	bne	s0,a2,eae <TIM1_UP_IRQHandler+0x122>
+     e3a:	04c41e63          	bne	s0,a2,e96 <TIM1_UP_IRQHandler+0x122>
         for (posn = 0; posn < FFT - N; posn++)
-     e56:	08048793          	addi	a5,s1,128
-     e5a:	06f71163          	bne	a4,a5,ebc <TIM1_UP_IRQHandler+0x130>
+     e3e:	08048793          	addi	a5,s1,128
+     e42:	06f71163          	bne	a4,a5,ea4 <TIM1_UP_IRQHandler+0x130>
         posn = FFT - N;
-     e5e:	4722                	lw	a4,8(sp)
-     e60:	04000793          	li	a5,64
-     e64:	c31c                	sw	a5,0(a4)
+     e46:	4722                	lw	a4,8(sp)
+     e48:	04000793          	li	a5,64
+     e4c:	c31c                	sw	a5,0(a4)
         count++;
-     e66:	c0418793          	addi	a5,gp,-1020 # 20000000 <count>
-     e6a:	4398                	lw	a4,0(a5)
-     e6c:	0705                	addi	a4,a4,1
-     e6e:	c398                	sw	a4,0(a5)
+     e4e:	c0418793          	addi	a5,gp,-1020 # 20000000 <count>
+     e52:	4398                	lw	a4,0(a5)
+     e54:	0705                	addi	a4,a4,1
+     e56:	c398                	sw	a4,0(a5)
       samcount = 0;
-     e70:	4792                	lw	a5,4(sp)
-     e72:	0007a023          	sw	zero,0(a5)
+     e58:	4792                	lw	a5,4(sp)
+     e5a:	0007a023          	sw	zero,0(a5)
       total = 0;
-     e76:	4782                	lw	a5,0(sp)
-     e78:	0007a023          	sw	zero,0(a5)
+     e5e:	4782                	lw	a5,0(sp)
+     e60:	0007a023          	sw	zero,0(a5)
     ADC1->CTLR2 |= ADC_SWSTART; // start next ADC conversion
-     e7c:	400127b7          	lui	a5,0x40012
-     e80:	4087a703          	lw	a4,1032(a5) # 40012408 <_eusrstack+0x20011c08>
-     e84:	004006b7          	lui	a3,0x400
-     e88:	8f55                	or	a4,a4,a3
-     e8a:	40e7a423          	sw	a4,1032(a5)
+     e64:	400127b7          	lui	a5,0x40012
+     e68:	4087a703          	lw	a4,1032(a5) # 40012408 <_eusrstack+0x20011c08>
+     e6c:	004006b7          	lui	a3,0x400
+     e70:	8f55                	or	a4,a4,a3
+     e72:	40e7a423          	sw	a4,1032(a5)
 }
-     e8e:	5422                	lw	s0,40(sp)
-     e90:	50e2                	lw	ra,56(sp)
-     e92:	52d2                	lw	t0,52(sp)
-     e94:	5342                	lw	t1,48(sp)
-     e96:	53b2                	lw	t2,44(sp)
-     e98:	5492                	lw	s1,36(sp)
-     e9a:	5502                	lw	a0,32(sp)
-     e9c:	45f2                	lw	a1,28(sp)
-     e9e:	4662                	lw	a2,24(sp)
-     ea0:	46d2                	lw	a3,20(sp)
-     ea2:	4742                	lw	a4,16(sp)
-     ea4:	47b2                	lw	a5,12(sp)
-     ea6:	03c10113          	addi	sp,sp,60
-     eaa:	30200073          	mret
+     e76:	5422                	lw	s0,40(sp)
+     e78:	50e2                	lw	ra,56(sp)
+     e7a:	52d2                	lw	t0,52(sp)
+     e7c:	5342                	lw	t1,48(sp)
+     e7e:	53b2                	lw	t2,44(sp)
+     e80:	5492                	lw	s1,36(sp)
+     e82:	5502                	lw	a0,32(sp)
+     e84:	45f2                	lw	a1,28(sp)
+     e86:	4662                	lw	a2,24(sp)
+     e88:	46d2                	lw	a3,20(sp)
+     e8a:	4742                	lw	a4,16(sp)
+     e8c:	47b2                	lw	a5,12(sp)
+     e8e:	03c10113          	addi	sp,sp,60
+     e92:	30200073          	mret
           re[posn] = (int)buffer[posn];
-     eae:	00041583          	lh	a1,0(s0)
-     eb2:	0691                	addi	a3,a3,4
-     eb4:	0409                	addi	s0,s0,2
-     eb6:	feb6ae23          	sw	a1,-4(a3) # 3ffffc <stt.c.5fff5958+0x3fdbb7>
+     e96:	00041583          	lh	a1,0(s0)
+     e9a:	0691                	addi	a3,a3,4
+     e9c:	0409                	addi	s0,s0,2
+     e9e:	feb6ae23          	sw	a1,-4(a3) # 3ffffc <stt.c.15920f6d+0x3fdbb7>
         for (posn = 0; posn < FFT; posn++) {
-     eba:	bf61                	j	e52 <TIM1_UP_IRQHandler+0xc6>
+     ea2:	bf61                	j	e3a <TIM1_UP_IRQHandler+0xc6>
           buffer[posn] = buffer[posn + N];
-     ebc:	08075683          	lhu	a3,128(a4)
-     ec0:	0709                	addi	a4,a4,2
-     ec2:	fed71f23          	sh	a3,-2(a4)
+     ea4:	08075683          	lhu	a3,128(a4)
+     ea8:	0709                	addi	a4,a4,2
+     eaa:	fed71f23          	sh	a3,-2(a4)
         for (posn = 0; posn < FFT - N; posn++)
-     ec6:	bf51                	j	e5a <TIM1_UP_IRQHandler+0xce>
-     ec8:	6e49                	lui	t3,0x12
-     eca:	7469                	lui	s0,0xffffa
-     ecc:	6169                	addi	sp,sp,208
-     ece:	696c                	flw	fa1,84(a0)
-     ed0:	697a                	flw	fs2,156(sp)
-     ed2:	676e                	flw	fa4,216(sp)
-     ed4:	4120                	lw	s0,64(a0)
-     ed6:	4344                	lw	s1,4(a4)
-     ed8:	2e2e                	fld	ft8,200(sp)
-     eda:	202e                	fld	ft0,200(sp)
-     edc:	6f28                	flw	fa0,88(a4)
-     ede:	206e                	fld	ft0,216(sp)
-     ee0:	6970                	flw	fa2,84(a0)
-     ee2:	206e                	fld	ft0,216(sp)
-     ee4:	4450                	lw	a2,12(s0)
-     ee6:	2e34                	fld	fa3,88(a2)
-     ee8:	2e2e                	fld	ft8,200(sp)
-     eea:	0d29                	addi	s10,s10,10
-     eec:	0000                	unimp
-     eee:	0000                	unimp
-     ef0:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
-     ef4:	7262                	flw	ft4,56(sp)
-     ef6:	7461                	lui	s0,0xffff8
-     ef8:	6e69                	lui	t3,0x1a
-     efa:	44412067          	0x44412067
-     efe:	2e2e2e43          	fmadd.q	ft8,ft8,ft2,ft5,rdn
-     f02:	000d                	c.nop	3
-     f04:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
-     f08:	7262                	flw	ft4,56(sp)
-     f0a:	7461                	lui	s0,0xffff8
-     f0c:	6e69                	lui	t3,0x1a
-     f0e:	6f642067          	0x6f642067
-     f12:	656e                	flw	fa0,216(sp)
-     f14:	2e2e                	fld	ft8,200(sp)
-     f16:	0d2e                	slli	s10,s10,0xb
-     f18:	0000                	unimp
+     eae:	bf51                	j	e42 <TIM1_UP_IRQHandler+0xce>
+     eb0:	6e49                	lui	t3,0x12
+     eb2:	7469                	lui	s0,0xffffa
+     eb4:	6169                	addi	sp,sp,208
+     eb6:	696c                	flw	fa1,84(a0)
+     eb8:	697a                	flw	fs2,156(sp)
+     eba:	676e                	flw	fa4,216(sp)
+     ebc:	4120                	lw	s0,64(a0)
+     ebe:	4344                	lw	s1,4(a4)
+     ec0:	2e2e                	fld	ft8,200(sp)
+     ec2:	202e                	fld	ft0,200(sp)
+     ec4:	6f28                	flw	fa0,88(a4)
+     ec6:	206e                	fld	ft0,216(sp)
+     ec8:	6970                	flw	fa2,84(a0)
+     eca:	206e                	fld	ft0,216(sp)
+     ecc:	4450                	lw	a2,12(s0)
+     ece:	2e34                	fld	fa3,88(a2)
+     ed0:	2e2e                	fld	ft8,200(sp)
+     ed2:	0d29                	addi	s10,s10,10
+     ed4:	0000                	unimp
+     ed6:	0000                	unimp
+     ed8:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
+     edc:	7262                	flw	ft4,56(sp)
+     ede:	7461                	lui	s0,0xffff8
+     ee0:	6e69                	lui	t3,0x1a
+     ee2:	44412067          	0x44412067
+     ee6:	2e2e2e43          	fmadd.q	ft8,ft8,ft2,ft5,rdn
+     eea:	000d                	c.nop	3
+     eec:	696c6143          	fmadd.s	ft2,fs8,fs6,fa3,unknown
+     ef0:	7262                	flw	ft4,56(sp)
+     ef2:	7461                	lui	s0,0xffff8
+     ef4:	6e69                	lui	t3,0x1a
+     ef6:	6f642067          	0x6f642067
+     efa:	656e                	flw	fa0,216(sp)
+     efc:	2e2e                	fld	ft8,200(sp)
+     efe:	0d2e                	slli	s10,s10,0xb
+     f00:	0000                	unimp
+     f02:	0000                	unimp
+     f04:	6e49                	lui	t3,0x12
+     f06:	7469                	lui	s0,0xffffa
+     f08:	6169                	addi	sp,sp,208
+     f0a:	696c                	flw	fa1,84(a0)
+     f0c:	697a                	flw	fs2,156(sp)
+     f0e:	676e                	flw	fa4,216(sp)
+     f10:	7420                	flw	fs0,104(s0)
+     f12:	6d69                	lui	s10,0x1a
+     f14:	7265                	lui	tp,0xffff9
+     f16:	2e2e                	fld	ft8,200(sp)
+     f18:	0d2e                	slli	s10,s10,0xb
      f1a:	0000                	unimp
-     f1c:	6e49                	lui	t3,0x12
-     f1e:	7469                	lui	s0,0xffffa
-     f20:	6169                	addi	sp,sp,208
-     f22:	696c                	flw	fa1,84(a0)
-     f24:	697a                	flw	fs2,156(sp)
-     f26:	676e                	flw	fa4,216(sp)
-     f28:	7420                	flw	fs0,104(s0)
-     f2a:	6d69                	lui	s10,0x1a
-     f2c:	7265                	lui	tp,0xffff9
-     f2e:	2e2e                	fld	ft8,200(sp)
-     f30:	0d2e                	slli	s10,s10,0xb
-     f32:	0000                	unimp
-     f34:	73706f6f          	jal	t5,7e6a <stt.c.5fff5958+0x5a25>
-     f38:	6620                	flw	fs0,72(a2)
-     f3a:	6172                	flw	ft2,28(sp)
-     f3c:	656d                	lui	a0,0x1b
-     f3e:	6e756f63          	bltu	a0,t2,163c <ch32fun.c.7589f8fb+0x388>
-     f42:	0074                	addi	a3,sp,12
-     f44:	6562                	flw	fa0,24(sp)
-     f46:	6d207473          	csrrci	s0,0x6d2,0
-     f4a:	7461                	lui	s0,0xffff8
-     f4c:	3d206863          	bltu	zero,s2,131c <ch32fun.c.7589f8fb+0x68>
-     f50:	2520                	fld	fs0,72(a0)
-     f52:	2c64                	fld	fs1,216(s0)
-     f54:	6220                	flw	fs0,64(a2)
-     f56:	7365                	lui	t1,0xffff9
-     f58:	6474                	flw	fa3,76(s0)
-     f5a:	7369                	lui	t1,0xffffa
-     f5c:	3d74                	fld	fa3,248(a0)
-     f5e:	6425                	lui	s0,0x9
-     f60:	000a                	c.slli	zero,0x2
-     f62:	0000                	unimp
-     f64:	73706f6f          	jal	t5,7e9a <stt.c.5fff5958+0x5a55>
-     f68:	6c20                	flw	fs0,88(s0)
-     f6a:	006b636f          	jal	t1,b6f70 <stt.c.5fff5958+0xb4b2b>
+     f1c:	73706f6f          	jal	t5,7e52 <stt.c.15920f6d+0x5a0d>
+     f20:	6620                	flw	fs0,72(a2)
+     f22:	6172                	flw	ft2,28(sp)
+     f24:	656d                	lui	a0,0x1b
+     f26:	6e756f63          	bltu	a0,t2,1624 <dctm_8bit+0x1b8>
+     f2a:	3a74                	fld	fa3,240(a2)
+     f2c:	6425                	lui	s0,0x9
+     f2e:	202c                	fld	fa1,64(s0)
+     f30:	6425                	lui	s0,0x9
+     f32:	000a                	c.slli	zero,0x2
+     f34:	6562                	flw	fa0,24(sp)
+     f36:	6d207473          	csrrci	s0,0x6d2,0
+     f3a:	7461                	lui	s0,0xffff8
+     f3c:	3d206863          	bltu	zero,s2,130c <ch32fun.c.7589f8fb+0x58>
+     f40:	2520                	fld	fs0,72(a0)
+     f42:	2c64                	fld	fs1,216(s0)
+     f44:	6220                	flw	fs0,64(a2)
+     f46:	7365                	lui	t1,0xffff9
+     f48:	6474                	flw	fa3,76(s0)
+     f4a:	7369                	lui	t1,0xffffa
+     f4c:	3d74                	fld	fa3,248(a0)
+     f4e:	6425                	lui	s0,0x9
+     f50:	000a                	c.slli	zero,0x2
+     f52:	0000                	unimp
+     f54:	73706f6f          	jal	t5,7e8a <stt.c.15920f6d+0x5a45>
+     f58:	6c20                	flw	fs0,88(s0)
+     f5a:	006b636f          	jal	t1,b6f60 <stt.c.15920f6d+0xb4b1b>
 	...
 
-00000f70 <cb>:
-     f70:	0e2e2901 f6fa030a 0d2823fb fafa070f     .).......#(.....
-     f80:	183515ff f4fd0306 193028ff f8f9120e     ..5......(0.....
-     f90:	102a02fe fdfa090d 0e300e01 f5f70209     ..*.......0.....
-     fa0:	0f3408f9 fb00020b 0b321b02 f5f70112     ..4.......2.....
-     fb0:	062d1d05 fff50306 fb2a1b05 f8f10302     ..-.......*.....
-     fc0:	033c0bfb 0bea0a07 0a3211fb fbfeff06     ..<.......2.....
-     fd0:	0b361308 f5f7ff01 062912ff 0afa090c     ..6.......).....
-     fe0:	fa2b1cfb f6ff0214 0f2e1c0b efffff15     ..+.............
-     ff0:	ce2202f3 06070fe5 d71c0300 04010c06     ..".............
-    1000:	121cfafe 1204fe06 0c1307fa 0c1df4f6     ................
-    1010:	020208ef 1212130a f005fe08 1a131108     ................
-    1020:	0407fdfc fd1f0300 0810fafc 08080815     ................
-    1030:	fa1d16ed 10f40afe 04f5ff05 110714fb     ................
-    1040:	f0160819 07090e03 0906f4ff 15fc101b     ................
-    1050:	0608f50f fefc2c12 e51df1f7 0c050c11     .....,..........
-    1060:	c931eff7 09fb0506 d31cfbf8 1809040a     ..1.............
-    1070:	3b03fa00 effe0605 1afb0e01 0205fcfe     ...;............
-    1080:	15f4f104 f411f1ec 00fafdf2 03fcecff     ................
-    1090:	13fa04f9 0ef8f8e9 17f719f0 fffdfbf0     ................
-    10a0:	00040001 fb0efbf5 22030f00 080104f3     ..........."....
-    10b0:	0902f5fb 0a03ec03 1c10f3fe 05fdfcfa     ................
-    10c0:	25fa0703 fd08feef 2406fdfd 0a0308ea     ...%.......$....
-    10d0:	12f70702 050807f7 21ff010b f30a16f5     ...........!....
-    10e0:	2dfff800 f9fe0af7 20f3f710 00f80dfc     ...-....... ....
-    10f0:	04f9ffff 12151d3b fe00fc04 150b083c     ....;.......<...
-    1100:	fefff6f4 160c073f 0005fff7 150c063d     ....?.......=...
-    1110:	0207f8ee 21090139 0407f8eb 15fe0838     ....9..!....8...
-    1120:	010002f4 12040d3d fefd02ef 1eff0f45     ....=.......E...
-    1130:	0403fbef 22021845 0b02f5f1 1f04113f     ....E.."....?...
-    1140:	fafcfcf7 19f90a44 00fcfbf1 2304173b     ....D.......;..#
-    1150:	f9fd01fe 22071242 fafbf4ee 19081544     ....B.."....D...
-    1160:	fe04fcf0 131c1c41 f9fef2f5 161b1f41     ....A.......A...
-    1170:	f9f6edf7 f9080106 0603f515 0d0d42f8     .............B..
-    1180:	fdf6f318 0d143af6 00f5f115 141e38f4     .....:.......8..
-    1190:	f4f6fb10 fcef04ee 04f7f30b f5e6f7fd     ................
-    11a0:	00f2f906 ede2030c 02f6e7fd f8e80209     ................
-    11b0:	fdf3f3ff fae9fe03 0001e903 e8ec05fe     ................
-    11c0:	0cedfff5 021cf909 08f90606 fd1a0e00     ................
-    11d0:	fffffe01 0b0b0df7 fd0e08fe 0516f2fe     ................
-    11e0:	eff608f4 010afe0a 120a03fe fe09011a     ................
-    11f0:	fcf7fcff f8fb09f8 fc07164f 06fd0804     ........O.......
-    1200:	fcfdf744 04040d03 02010a5c 020303fd     D.......\.......
-    1210:	fc04124f 03ff0400 04ff1b51 00000d0a     O.......Q.......
-    1220:	00001f55 fc000a0c faf41559 070e150e     U.......Y.......
-    1230:	f8f5195a fc050d00 f4ea1953 080b1305     Z.......S.......
-    1240:	f5f01f5c fd040c03 feff1555 ff000102     \.......U.......
-    1250:	fbf81c57 03060b0c 0900234e 00040606     W.......N#......
-    1260:	05fc2351 fe0c100b 0603ff42 08030203     Q#......B.......
-    1270:	03fd2059 f6070b07 05fb14f9 0606fe12     Y ..............
-    1280:	feff1307 fffbfe0d fe061500 030e0206     ................
-    1290:	000e1cf9 f4f7010b f0043a16 f90af707     .........:......
-    12a0:	fdfb11fc 0105f809 eef33604 f7f4010b     .........6......
-    12b0:	ebfa4dfd f1f00502 2831060c fa0df909     .M........1(....
-    12c0:	0b1101f6 08f8ee08 0d0cf6f7 030c1517     ................
-    12d0:	1017f104 0a090a0c fe2008fd 07fcff05     .......... .....
-    12e0:	1710f8fd fffc0a25 051305f8 fb06fd11     ....%...........
-    12f0:	0312f7f1 0009effd f705fd03 0b3d0d06     ..............=.
-    1300:	04fc0b05 0c3b1afd 08f70703 0a321ff7     ......;.......2.
-    1310:	0bf40108 0b371cf4 06fafb07 093218f9     ......7.......2.
-    1320:	fbfff312 0e331101 07f703f8 04431df9     ......3.......C.
-    1330:	fdf5ff0c 064b21fa fef8ff0c 0dd60703     .....!K.........
-    1340:	0fffff10 05f209f6 0cfa120c fdfcff00     ................
-    1350:	15fefc00 f9e41509 06e80403 04e50ff6     ................
-    1360:	07f9070d fde50df4 f705ea0f 28190707     ...............(
-    1370:	060b0c0e 2421fbfd d0020108 f4fbfb0b     ......!$........
-    1380:	c600ff0b f7f7060c c602f308 fb040d08     ................
-    1390:	e3fb020c f803090b d6fbff0b f3011015     ................
-    13a0:	d1f8f70a f4fe1511 e901fe0a fbfb1011     ................
-    13b0:	d7fcfd04 faf70904 e5f2f70e f3f20908     ................
-    13c0:	f7fbfc15 f4fc1a1f 32f6fb18 e805101f     ...........2....
-    13d0:	32fafcfd f10d1913 23ee0203 f2fe1814     ...2.......#....
-    13e0:	14f7f300 edf30609 2ef8fa09 f5f71425     ............%...
-    13f0:	2cf4fd0d eff01312 1d38050a effd0d0c     ...,......8.....
-    1400:	40000204 f412251c 3d0204f3 f302170e     ...@.%.....=....
-    1410:	3df405fa ef0c2509 42f10a00 edfe1704     ...=.%.....B....
-    1420:	37f2f900 07021704 1bfef705 04040208     ...7............
-    1430:	1a090208 fd11020c 0e0feaf8 06010917     ................
-    1440:	3c03fb00 04fc15f8 2901f505 fe1ced04     ...<.......)....
-    1450:	0bf315f7 0bfb0204 22071112 0aff0708     ..........."....
-    1460:	31000cf0 110bf324 361215eb 010cf130     ...1$......60...
-    1470:	4a1107ed fc0c1427 1b0206f9 01faead4     ...J'...........
-    1480:	24fff8fd 05fe03e0 2d050701 10f203eb     ...$.......-....
-    1490:	2905e9f6 03ea0cee 24fae7fa f4e60af3     ...).......$....
-    14a0:	25f5f7fa fcfcfef1 270ef0e9 f5f512f1     ...%.......'....
-    14b0:	1ffbf5fb 08f20dd9 2cf8e4fb feea0bee     ...........,....
-    14c0:	280bf1fd ffe011ef 27eff70a fef111dd     ...(.......'....
-    14d0:	21f6f301 fcf818e1 2300e5f7 fb0403e7     ...!.......#....
-    14e0:	2bfb03f6 0ef609df 2c04f60a 03fb04d9     ...+.......,....
-    14f0:	1bf9fe0f 040604de 05fefe11 020a1c2d     ............-...
-    1500:	0701f4f5 fa09243b 0b05fbf5 f7012944     ....;$......D)..
-    1510:	020603f8 fd07233e fa07fdf2 f3fd2142     ....>#......B!..
-    1520:	fb02fdf8 f3071f3e f604fff7 fc032639     ....>.......9&..
-    1530:	ff03fef6 f404203c ff0502f8 fdf92441     ....< ......A$..
-    1540:	0309fbf3 f5fa1a52 0008fbf8 01f61141     ....R.......A...
-    1550:	fa0307fe f2f2163e f500fef6 f2f31847     ....>.......G...
-    1560:	fcfcf7fb eff20a3b fbfef2f2 ebf3143d     ....;.......=...
-    1570:	f801f9fb fcf90d34 f303fcfd 0b141f06     ....4...........
-    1580:	f7020af8 0b2e290a f8ef0302 052428f4     .....).......($.
-    1590:	f8e8f1fc 012c29eb 02f0faf9 021625ec     .....),......%..
-    15a0:	f6ecf907 0a112af4 f6f8f5f2 03152bf6     .....*.......+..
-    15b0:	f8fafaee 06062df1 fefdf1f2 fe0632ee     .....-.......2..
-    15c0:	03fef3f8 f8f630f2 0500ed06 faf537f5     .....0.......7..
-    15d0:	0bfbf105 fff62ef9 0704fa07 faf92cff     .............,..
-    15e0:	09fc030a 01fd29ff 00ff040f 04fc23fb     .....).......#..
-    15f0:	0bf8fe12 ff0f2809 fdfd0708 19da070d     .....(..........
-    1600:	01fd08eb 12d1fb02 faf707f8 18d5fa02     ................
-    1610:	0ffa05f4 16d0fdfc 080006f1 0ee100fa     ................
-    1620:	f7f405fe 332001fa fbff0309 3922fdfb     ...... 3......"9
-    1630:	f1010905 421ffaf1 f3ef000a 3411f3eb     .......B.......4
-    1640:	f4f10305 3619f8f1 f3f50707 390dfaed     .......6.......9
-    1650:	f5ed0209 3510efeb f4ee0002 2f18f6ee     .......5......./
-    1660:	f1f7fd0a 3024f2fa f2f1fb0f 2c1ff6f4     ......$0.......,
-    1670:	f2f80100 271bf4f6 f0fdfd00 1a08f1f0     .......'........
-    1680:	f5f7ffe9 1700f900 f2f6fce6 44fdf5fb     ...............D
-    1690:	0409ecea 2a080c00 f71305ee 2cfffdfa     .......*.......,
-    16a0:	0015f8ed 1c09fd02 000ef9e7 18fe0508     ................
-    16b0:	040f04f5 190700fe f51208e7 2cf51312     ...............,
-    16c0:	f912fce7 1cfa0b0c f4020ef2 1ef40b0f     ................
-    16d0:	f8130ee4 1eff0dfb ff1604dd 1bf50d02     ................
-    16e0:	0b1df7d8 24f3f908 051d0bdc 1ff90907     .......$........
-    16f0:	fa170ae9 1eff0305 001d0ce3 09fe0900     ................
-    1700:	f80113d4 ff02fbfc fe153019 fbedfa01     .........0......
-    1710:	ff182e30 fcf401fb 05161f34 f9f804fc     0.......4.......
-    1720:	02252129 fcf512fb fb1c1a2c f80713ed     )!%.....,.......
-    1730:	010c1030 ff0c0de9 12040429 05131001     0.......).......
-    1740:	1df9fe3c fd02fbf6 0ef5fe42 05fbfaff     <.......B.......
-    1750:	12fef441 0709fc01 0af1fa44 0a050700     A.......D.......
-    1760:	0ff6f93f 050002ff 14f9f63c 040b03ff     ?.......<.......
-    1770:	0ef8f83b 03050c0f 00f00039 04fffd01     ;.......9.......
-    1780:	20242300 f90afe0b 1d2224f5 f80cfa0b     .#$ .....$".....
-    1790:	16390bf3 ee00f4ee 15300eff f9fb0102     ..9.......0.....
-    17a0:	142f04f6 fafe0d0a 0e3c02f2 f3f7fdfa     ../.......<.....
-    17b0:	043e07f5 f7eefef4 09370c02 f3f806f4     ..>.......7.....
-    17c0:	054909ff f7ed0200 064d0d02 f9ea020a     ..I.......M.....
-    17d0:	fb3c17ff 03fa0708 fc311208 00050106     ..<.......1.....
-    17e0:	0a451503 fdf4010c 024022ff fbef060b     ..E......"@.....
-    17f0:	082924f9 f9f4f500 091b2bfd fdf5ff07     .$)......+......
-    1800:	f02e02fb ff0904f4 de35fefc f70606eb     ..........5.....
-    1810:	e32efdff f0fffbf3 de2a0702 eb03f7f9     ..........*.....
-    1820:	e926f9f7 eefceff7 f222fcf7 0002ec0e     ..&.......".....
-    1830:	e92ceeff f706fb12 e12bfcfa fb09f409     ..,.......+.....
-    1840:	e62503fd ff02f10b e72406ff f602fa14     ..%.......$.....
-    1850:	d91f09fb 0a0d0212 e52903f5 0c0afd0b     ..........).....
-    1860:	e93300f8 0402fd14 f02e0c03 0b0e0912     ..3.............
-    1870:	fd2703fb 16081212 041d000a 0d0a111d     ..'.............
-    1880:	00fffc04                                ....
+00000f60 <cb>:
+     f60:	10241a01 f6070712 0e201bfa ed040012     ..$....... .....
+     f70:	0d2627f0 f808fc13 fe1c23f3 eafcfd09     .'&......#......
+     f80:	fd2317ed f602fa0f 01281ff1 f7fcf70c     ..#.......(.....
+     f90:	fc221efc f6fefb0d 003313fc f5020113     ..".......3.....
+     fa0:	053516fa f503f819 072c1df5 ef04fe23     ..5.......,.#...
+     fb0:	0e3715f7 f005f218 ff2d21f9 f208f518     ..7......!-.....
+     fc0:	04281bf8 ecfcfb1b fe321afe effdfd18     ..(.......2.....
+     fd0:	fa2716f9 f601f213 fd2918f9 f701fd17     ..'.......).....
+     fe0:	e22502f5 fc080ce9 de28f9f9 fd000fee     ..%.......(.....
+     ff0:	d92efef9 f5050eee dc3b02fc f4010fe8     ..........;.....
+    1000:	d03702fd f2050cea cd3204f9 f5020bef     ..7.......2.....
+    1010:	d232fff7 f8070af4 d436fff9 f80c0df5     ..2.......6.....
+    1020:	d83601fe f6020df3 d83a0301 ee050ae8     ..6.......:.....
+    1030:	dc38ffff f20301e9 d03802f8 f90205e7     ..8.......8.....
+    1040:	d43707fa fc0609f3 e23805fa fb0c0ff5     ..7.......8.....
+    1050:	e72f0207 080d0b01 eb1d0bfc 0009150c     ../.............
+    1060:	38030003 fd0503f6 34fd0c00 ecfbfeec     ...8.......4....
+    1070:	38f70600 f40302ee 30f70906 f3fd01e3     ...8.......0....
+    1080:	2bf00407 f7fc0de3 28f1060c f10209e1     ...+.......(....
+    1090:	22f4030d f8fc0dde 22f40007 f4fa0ee1     ..."......."....
+    10a0:	23f4fa06 f0fc10ea 1ffbfd0a eef710ea     ...#............
+    10b0:	1efa0009 eef911e4 24f60108 eef710e7     ...........$....
+    10c0:	1bf7ff06 f3f20af2 15f4fb05 f1f50bef     ................
+    10d0:	17f2fc05 f6f411f2 15f8fe0c f1eb0ff2     ................
+    10e0:	05f2fd0a 00111c35 03f5f4fa 040d1f45     ....5.......E...
+    10f0:	fbfb02f1 03182d44 030afdf0 040c2744     ....D-......D'..
+    1100:	fd02fefc 08032143 fdfdfb01 fd062242     ....C!......B"..
+    1110:	fffbf800 04092343 fffbf5f1 fc0e1c45     ....C#......E...
+    1120:	fcf0f8fb ff012449 fbf6fa05 070a2246     ....I$......F"..
+    1130:	fff6fbf7 fa0e2e4d fcfbfffa f7021c44     ....M.......D...
+    1140:	04f9fff7 f5fd1d44 03f400fd f2fa0d3d     ....D.......=...
+    1150:	f9f9fcf8 f2f6143f fafcf7e7 f1ff192d     ....?.......-...
+    1160:	fafafdfd 13195904 fbf3fa14 132057f7     .....Y.......W .
+    1170:	fbf2f714 111463f4 01f1f214 120968f3     .....c.......h..
+    1180:	fae8eb12 0d046bf0 fbe4ea15 09f65ef5     .....k.......^..
+    1190:	0ae9e41c 070a68ff 08ebee14 050661f8     .....h.......a..
+    11a0:	00ede507 02095ff6 01e6e20e 080061fb     ....._.......a..
+    11b0:	03efe50d 06ff61fc 00ede70c 110f5b00     .....a.......[..
+    11c0:	00eae615 11105cfa fde7e415 0f0d54f8     .....\.......T..
+    11d0:	fdeae00d 130d54f6 01f1ed0b 10194eef     .....T.......N..
+    11e0:	fef7f20f 0c1f06f3 01060d03 1c250503     ..............%.
+    11f0:	f900ff0c 303cf7f0 f103f511 3348f1f8     ......<0......H3
+    1200:	e8fde904 253ff0f0 f802e3ff 1d39f8fb     ......?%......9.
+    1210:	fcf9e101 0b40fbf6 fdebd905 f24e01f4     ......@.......N.
+    1220:	00e8fff4 dc3ef105 f7dfffeb d74c0204     ......>.......L.
+    1230:	ebf102df e653100a f6f405e5 ef4e00f9     ......S.......N.
+    1240:	fcff01db f95401fc ff0efcdf fc4a06f8     ......T.......J.
+    1250:	fa0effe3 013ffefe fe0a01e5 fe2bfbf9     ......?.......+.
+    1260:	081003ea 45070208 fe001224 45ff02f3     .......E$......E
+    1270:	fe001224 46ff02f3 00020f20 4602f4f8     $......F ......F
+    1280:	00020f20 3e02f4f8 fb070829 3800fefe      ......>)......8
+    1290:	fc09032b 3801f6fb fc09032b 3701f6fb     +......8+......7
+    12a0:	fdfe0630 3dfdf704 03050823 3df9f9ff     0......=#......=
+    12b0:	03050823 3af9f9ff f9020730 3af9f80a     #......:0......:
+    12c0:	f9020730 2ff9f80a fb0a122c 33faf7fe     0....../,......3
+    12d0:	f90b0e28 33fffff9 f90b0e28 39fffff9     (......3(......9
+    12e0:	fb030b2a 0801f703 fde6f137 02ff050c     *.......7.......
+    12f0:	ffe6f235 05050912 0fefe22f fe010406     5......./.......
+    1300:	05f0d424 00fefe08 0aefd31f fefbf80b     $...............
+    1310:	04edc923 fef9fd03 0be9ce2d 0504fb0b     #.......-.......
+    1320:	05e6cd2b 0304f707 0be7d434 0606f909     +.......4.......
+    1330:	03e8c22f fffef804 06e5c832 fbfefb04     /.......2.......
+    1340:	feebce30 faf9f803 07e8e135 f9fafb03     0.......5.......
+    1350:	0ce0e434 04fdfb0c 07eae423 fbf9fb01     4.......#.......
+    1360:	05f2e819 fc00fc06 ec010709 fff90002     ................
+    1370:	031b2afa fdfbff12 122541f9 fcfbfbf9     .*.......A%.....
+    1380:	20283c00 eff7f4e7 15134805 fcfaedeb     .<( .....H......
+    1390:	070e48fb 0803eaf8 f2005208 13f5e8fe     .H.......R......
+    13a0:	f1fa4a08 0aedf3f9 ecf34f0b 05f6f5fa     .J.......O......
+    13b0:	edf74b15 0300fe01 e5f14f16 06fdff08     .K.......O......
+    13c0:	e1eb460d 04f8feff e2f1500d fcf608fb     .F.......P......
+    13d0:	deed4211 fff603fa edea3aff fdfc0900     .B.......:......
+    13e0:	e6f233fa f8fd03f6 1d2200ff ff04040f     .3........".....
+    13f0:	2622f7fb 01010709 1f2ffcfa fcfc0113     .."&....../.....
+    1400:	363600f5 fff2f319 3231fc02 f3f10f16     ..66......12....
+    1410:	293502ff 01f30d19 34370602 f8f70219     ..5)......74....
+    1420:	3c370bf9 f7f00816 392e07fb faf4021c     ..7<.......9....
+    1430:	392803ff fff9070f 302006fc fff80f0f     ..(9...... 0....
+    1440:	242ef4ff faf50703 2e1bfafb fdef000c     ...$............
+    1450:	2222f4f9 f0ef030a 1224fe01 fbf90112     ..""......$.....
+    1460:	151b00fe 03021016 00ff0603              ............
 
-00001884 <dctm_8bit>:
-    1884:	0000007e 0000007b 00000075 0000006c     ~...{...u...l...
-    1894:	00000060 00000052 00000042 00000030     `...R...B...0...
-    18a4:	0000001e 0000000a fffffff6 ffffffe2     ................
-    18b4:	ffffffd0 ffffffbe ffffffae ffffffa0     ................
-    18c4:	ffffff94 ffffff8b ffffff85 ffffff82     ................
-    18d4:	0000007d 00000071 00000059 00000039     }...q...Y...9...
-    18e4:	00000014 ffffffec ffffffc7 ffffffa7     ................
-    18f4:	ffffff8f ffffff83 ffffff83 ffffff8f     ................
-    1904:	ffffffa7 ffffffc7 ffffffec 00000014     ................
-    1914:	00000039 00000059 00000071 0000007d     9...Y...q...}...
-    1924:	0000007b 00000060 00000030 fffffff6     {...`...0.......
-    1934:	ffffffbe ffffff94 ffffff82 ffffff8b     ................
-    1944:	ffffffae ffffffe2 0000001e 00000052     ............R...
-    1954:	00000075 0000007e 0000006c 00000042     u...~...l...B...
-    1964:	0000000a ffffffd0 ffffffa0 ffffff85     ................
-    1974:	00000078 0000004a 00000000 ffffffb6     x...J...........
-    1984:	ffffff88 ffffff88 ffffffb6 00000000     ................
-    1994:	0000004a 00000078 00000078 0000004a     J...x...x...J...
-    19a4:	00000000 ffffffb6 ffffff88 ffffff88     ................
-    19b4:	ffffffb6 00000000 0000004a 00000078     ........J...x...
-    19c4:	00000075 00000030 ffffffd0 ffffff8b     u...0...........
-    19d4:	ffffff8b ffffffd0 00000030 00000075     ........0...u...
-    19e4:	00000075 00000030 ffffffd0 ffffff8b     u...0...........
-    19f4:	ffffff8b ffffffd0 00000030 00000075     ........0...u...
-    1a04:	00000075 00000030 ffffffd0 ffffff8b     u...0...........
-    1a14:	00000071 00000014 ffffffa7 ffffff83     q...............
-    1a24:	ffffffc7 00000039 0000007d 00000059     ....9...}...Y...
-    1a34:	ffffffec ffffff8f ffffff8f ffffffec     ................
-    1a44:	00000059 0000007d 00000039 ffffffc7     Y...}...9.......
-    1a54:	ffffff83 ffffffa7 00000014 00000071     ............q...
-    1a64:	0000006c fffffff6 ffffff8b ffffffa0     l...............
-    1a74:	0000001e 0000007b 00000052 ffffffd0     ....{...R.......
-    1a84:	ffffff82 ffffffbe 00000042 0000007e     ........B...~...
-    1a94:	00000030 ffffffae ffffff85 ffffffe2     0...............
-    1aa4:	00000060 00000075 0000000a ffffff94     `...u...........
-    1ab4:	00000066 ffffffd9 ffffff82 ffffffd9     f...............
-    1ac4:	00000066 00000066 ffffffd9 ffffff82     f...f...........
-    1ad4:	ffffffd9 00000066 00000066 ffffffd9     ....f...f.......
-    1ae4:	ffffff82 ffffffd9 00000066 00000066     ........f...f...
-    1af4:	ffffffd9 ffffff82 ffffffd9 00000066     ............f...
+0000146c <dctm_8bit>:
+    146c:	0000007e 0000007b 00000075 0000006c     ~...{...u...l...
+    147c:	00000060 00000052 00000042 00000030     `...R...B...0...
+    148c:	0000001e 0000000a fffffff6 ffffffe2     ................
+    149c:	ffffffd0 ffffffbe ffffffae ffffffa0     ................
+    14ac:	ffffff94 ffffff8b ffffff85 ffffff82     ................
+    14bc:	0000007d 00000071 00000059 00000039     }...q...Y...9...
+    14cc:	00000014 ffffffec ffffffc7 ffffffa7     ................
+    14dc:	ffffff8f ffffff83 ffffff83 ffffff8f     ................
+    14ec:	ffffffa7 ffffffc7 ffffffec 00000014     ................
+    14fc:	00000039 00000059 00000071 0000007d     9...Y...q...}...
+    150c:	0000007b 00000060 00000030 fffffff6     {...`...0.......
+    151c:	ffffffbe ffffff94 ffffff82 ffffff8b     ................
+    152c:	ffffffae ffffffe2 0000001e 00000052     ............R...
+    153c:	00000075 0000007e 0000006c 00000042     u...~...l...B...
+    154c:	0000000a ffffffd0 ffffffa0 ffffff85     ................
+    155c:	00000078 0000004a 00000000 ffffffb6     x...J...........
+    156c:	ffffff88 ffffff88 ffffffb6 00000000     ................
+    157c:	0000004a 00000078 00000078 0000004a     J...x...x...J...
+    158c:	00000000 ffffffb6 ffffff88 ffffff88     ................
+    159c:	ffffffb6 00000000 0000004a 00000078     ........J...x...
+    15ac:	00000075 00000030 ffffffd0 ffffff8b     u...0...........
+    15bc:	ffffff8b ffffffd0 00000030 00000075     ........0...u...
+    15cc:	00000075 00000030 ffffffd0 ffffff8b     u...0...........
+    15dc:	ffffff8b ffffffd0 00000030 00000075     ........0...u...
+    15ec:	00000075 00000030 ffffffd0 ffffff8b     u...0...........
+    15fc:	00000071 00000014 ffffffa7 ffffff83     q...............
+    160c:	ffffffc7 00000039 0000007d 00000059     ....9...}...Y...
+    161c:	ffffffec ffffff8f ffffff8f ffffffec     ................
+    162c:	00000059 0000007d 00000039 ffffffc7     Y...}...9.......
+    163c:	ffffff83 ffffffa7 00000014 00000071     ............q...
+    164c:	0000006c fffffff6 ffffff8b ffffffa0     l...............
+    165c:	0000001e 0000007b 00000052 ffffffd0     ....{...R.......
+    166c:	ffffff82 ffffffbe 00000042 0000007e     ........B...~...
+    167c:	00000030 ffffffae ffffff85 ffffffe2     0...............
+    168c:	00000060 00000075 0000000a ffffff94     `...u...........
+    169c:	00000066 ffffffd9 ffffff82 ffffffd9     f...............
+    16ac:	00000066 00000066 ffffffd9 ffffff82     f...f...........
+    16bc:	ffffffd9 00000066 00000066 ffffffd9     ....f...f.......
+    16cc:	ffffff82 ffffffd9 00000066 00000066     ........f...f...
+    16dc:	ffffffd9 ffffff82 ffffffd9 00000066     ............f...
 
-00001b04 <first>:
+000016ec <first>:
 	...
-    1b0c:	00000008 0000000c 00000010 00000012     ................
-    1b1c:	00000014 00000016 00000018              ............
+    16f4:	00000008 0000000c 00000010 00000012     ................
+    1704:	00000014 00000016 00000018              ............
 
-00001b28 <mel_mx>:
-    1b28:	0000007f 0000007a 0000003f 000000f3     ....z...?.......
-    1b38:	0000005f 00000080 0000001f 00000006     _...............
-    1b48:	00000000 0000005f 00000077 0000001f     ...._...w.......
-    1b58:	000000f0 0000006f 00000083 0000002f     ....o......./...
-    1b68:	0000000a 00000000 0000006f 00000073     ........o...s...
-    1b78:	0000002f 000000ed 0000004f 00000087     /.......O.......
-    1b88:	0000000f 0000000d 00000000 0000004f     ............O...
-    1b98:	00000070 0000000f 000000ea 00000077     p...........w...
-    1ba8:	0000008a 00000037 00000010 00000000     ....7...........
-    1bb8:	00000077 0000006d 00000037 000000e7     w...m...7.......
-    1bc8:	00000057 0000008d 00000017 00000013     W...............
-    1bd8:	00000000 00000057 0000006a 00000017     ....W...j.......
-    1be8:	000000e3 00000067 00000090 00000027     ....g.......'...
-    1bf8:	00000017 00000000 00000067 00000066     ........g...f...
-    1c08:	00000027 000000e0 00000047 00000094     '.......G.......
-    1c18:	00000007 0000001a 00000000 00000047     ............G...
-    1c28:	00000063 00000007 000000dd 0000007b     c...........{...
-    1c38:	00000097 0000003b 0000001d 00000000     ....;...........
-    1c48:	0000007b 00000060 0000003b 000000d9     {...`...;.......
-    1c58:	0000005b 0000009a 0000001b 00000021     [...........!...
-    1c68:	00000000 0000005b 00000058 0000001b     ....[...X.......
-    1c78:	000000ca 0000006b 0000009e 0000002b     ....k.......+...
-    1c88:	00000035 00000000 0000006b 00000045     5.......k...E...
-    1c98:	0000002b 000000a4 0000004b 000000aa     +.......K.......
-    1ca8:	0000000b 00000055 00000000 0000004b     ....U.......K...
-    1cb8:	00000026 0000000b 00000073 00000073     &.......s...s...
-    1cc8:	000000be 00000033 00000079 00000053     ....3...y...S...
-    1cd8:	00000033 00000000 00000073 00000001     3.......s.......
-    1ce8:	00000033 0000003f 00000053 0000007e     3...?...S...~...
-    1cf8:	00000013 0000009e 00000063 00000065     ........c...e...
-    1d08:	00000023 0000002d 00000000 00000013     #...-...........
-    1d18:	0000000d 00000063 00000040 00000023     ....c...@...#...
-    1d28:	00000073 00000043 00000092 00000003     s...C...........
-    1d38:	00000064 0000007d 00000036 0000003d     d...}...6...=...
-    1d48:	00000009 00000000 00000043 00000008     ........C.......
-    1d58:	00000003 00000032 0000007d 0000005b     ....2...}...[...
-    1d68:	0000003d 00000084 0000005d 0000006e     =.......]...n...
-    1d78:	0000001d 00000049 0000006d 00000023     ....I...m...#...
-    1d88:	00000000 0000005d 0000001b 0000001d     ....]...........
-    1d98:	0000003d 0000006d 0000005e 0000002d     =...m...^...-...
-    1da8:	0000007c 0000004d 0000005e 0000000d     |...M...^.......
-    1db8:	00000040 00000075 00000022 00000035     @...u..."...5...
-    1dc8:	00000004 00000000 0000002d 00000001     ........-.......
-    1dd8:	0000004d 0000001c 0000000d 00000037     M...........7...
-    1de8:	00000075 00000053 00000035 0000006e     u...S...5...n...
-    1df8:	00000055 0000005c 00000015 00000044     U...\.......D...
-    1e08:	00000065 0000002b 00000025 00000013     e...+...%.......
-    1e18:	00000000 00000055 00000013 00000015     ....U...........
-    1e28:	00000029 00000065 0000003f 00000025     )...e...?...%...
-    1e38:	00000055 00000045 00000062 00000005     U...E...b.......
-    1e48:	0000004e 00000079 0000003a 00000039     N...y...:...9...
-    1e58:	00000026 00000059 00000012 00000000     &...Y...........
-    1e68:	00000045 00000004 00000005 00000016     E...............
-    1e78:	00000079 00000028 00000039 0000003a     y...(...9...:...
-    1e88:	00000059 0000004b 00000019 0000005b     Y...K.......[...
-    1e98:	00000069 0000004b 00000029 0000003b     i...K...)...;...
-    1ea8:	00000049 0000002b 00000009 0000001b     I...+...........
-    1eb8:	00000071 0000000a 00000000 00000019     q...............
-    1ec8:	00000001 00000069 00000010 00000029     ....i.......)...
-    1ed8:	0000001e 00000049 0000002c 00000009     ....I...,.......
-    1ee8:	0000003b 00000071 00000049 00000031     ;...q...I...1...
-    1ef8:	0000004e 00000051 00000041 00000011     N...Q...A.......
-    1f08:	00000034 00000061 00000027 00000021     4...a...'...!...
-    1f18:	0000001a 00000041 0000000d 00000000     ....A...........
+00001710 <mel_mx>:
+    1710:	0000007f 0000007a 0000003f 000000f3     ....z...?.......
+    1720:	0000005f 00000080 0000001f 00000006     _...............
+    1730:	00000000 0000005f 00000077 0000001f     ...._...w.......
+    1740:	000000f0 0000006f 00000083 0000002f     ....o......./...
+    1750:	0000000a 00000000 0000006f 00000073     ........o...s...
+    1760:	0000002f 000000ed 0000004f 00000087     /.......O.......
+    1770:	0000000f 0000000d 00000000 0000004f     ............O...
+    1780:	00000070 0000000f 000000ea 00000077     p...........w...
+    1790:	0000008a 00000037 00000010 00000000     ....7...........
+    17a0:	00000077 0000006d 00000037 000000e7     w...m...7.......
+    17b0:	00000057 0000008d 00000017 00000013     W...............
+    17c0:	00000000 00000057 0000006a 00000017     ....W...j.......
+    17d0:	000000e3 00000067 00000090 00000027     ....g.......'...
+    17e0:	00000017 00000000 00000067 00000066     ........g...f...
+    17f0:	00000027 000000e0 00000047 00000094     '.......G.......
+    1800:	00000007 0000001a 00000000 00000047     ............G...
+    1810:	00000063 00000007 000000dd 0000007b     c...........{...
+    1820:	00000097 0000003b 0000001d 00000000     ....;...........
+    1830:	0000007b 00000060 0000003b 000000d9     {...`...;.......
+    1840:	0000005b 0000009a 0000001b 00000021     [...........!...
+    1850:	00000000 0000005b 00000058 0000001b     ....[...X.......
+    1860:	000000ca 0000006b 0000009e 0000002b     ....k.......+...
+    1870:	00000035 00000000 0000006b 00000045     5.......k...E...
+    1880:	0000002b 000000a4 0000004b 000000aa     +.......K.......
+    1890:	0000000b 00000055 00000000 0000004b     ....U.......K...
+    18a0:	00000026 0000000b 00000073 00000073     &.......s...s...
+    18b0:	000000be 00000033 00000079 00000053     ....3...y...S...
+    18c0:	00000033 00000000 00000073 00000001     3.......s.......
+    18d0:	00000033 0000003f 00000053 0000007e     3...?...S...~...
+    18e0:	00000013 0000009e 00000063 00000065     ........c...e...
+    18f0:	00000023 0000002d 00000000 00000013     #...-...........
+    1900:	0000000d 00000063 00000040 00000023     ....c...@...#...
+    1910:	00000073 00000043 00000092 00000003     s...C...........
+    1920:	00000064 0000007d 00000036 0000003d     d...}...6...=...
+    1930:	00000009 00000000 00000043 00000008     ........C.......
+    1940:	00000003 00000032 0000007d 0000005b     ....2...}...[...
+    1950:	0000003d 00000084 0000005d 0000006e     =.......]...n...
+    1960:	0000001d 00000049 0000006d 00000023     ....I...m...#...
+    1970:	00000000 0000005d 0000001b 0000001d     ....]...........
+    1980:	0000003d 0000006d 0000005e 0000002d     =...m...^...-...
+    1990:	0000007c 0000004d 0000005e 0000000d     |...M...^.......
+    19a0:	00000040 00000075 00000022 00000035     @...u..."...5...
+    19b0:	00000004 00000000 0000002d 00000001     ........-.......
+    19c0:	0000004d 0000001c 0000000d 00000037     M...........7...
+    19d0:	00000075 00000053 00000035 0000006e     u...S...5...n...
+    19e0:	00000055 0000005c 00000015 00000044     U...\.......D...
+    19f0:	00000065 0000002b 00000025 00000013     e...+...%.......
+    1a00:	00000000 00000055 00000013 00000015     ....U...........
+    1a10:	00000029 00000065 0000003f 00000025     )...e...?...%...
+    1a20:	00000055 00000045 00000062 00000005     U...E...b.......
+    1a30:	0000004e 00000079 0000003a 00000039     N...y...:...9...
+    1a40:	00000026 00000059 00000012 00000000     &...Y...........
+    1a50:	00000045 00000004 00000005 00000016     E...............
+    1a60:	00000079 00000028 00000039 0000003a     y...(...9...:...
+    1a70:	00000059 0000004b 00000019 0000005b     Y...K.......[...
+    1a80:	00000069 0000004b 00000029 0000003b     i...K...)...;...
+    1a90:	00000049 0000002b 00000009 0000001b     I...+...........
+    1aa0:	00000071 0000000a 00000000 00000019     q...............
+    1ab0:	00000001 00000069 00000010 00000029     ....i.......)...
+    1ac0:	0000001e 00000049 0000002c 00000009     ....I...,.......
+    1ad0:	0000003b 00000071 00000049 00000031     ;...q...I...1...
+    1ae0:	0000004e 00000051 00000041 00000011     N...Q...A.......
+    1af0:	00000034 00000061 00000027 00000021     4...a...'...!...
+    1b00:	0000001a 00000041 0000000d 00000000     ....A...........
 
-00001f28 <ti>:
-    1f28:	00000000 00000191 00000322 000004b2     ........".......
-    1f38:	0000063e 000007c6 0000094a 00000ac7     >.......J.......
-    1f48:	00000c3e 00000dae 00000f15 00001073     >...........s...
-    1f58:	000011c7 0000130f 0000144c 0000157d     ........L...}...
-    1f68:	000016a0 000017b5 000018bc 000019b3     ................
-    1f78:	00001a9b 00001b72 00001c38 00001ced     ....r...8.......
-    1f88:	00001d90 00001e21 00001e9f 00001f0a     ....!...........
-    1f98:	00001f62 00001fa7 00001fd8 00001ff6     b...............
-    1fa8:	00002000 00001ff6 00001fd8 00001fa7     . ..............
-    1fb8:	00001f62 00001f0a 00001e9f 00001e21     b...........!...
-    1fc8:	00001d90 00001ced 00001c38 00001b72     ........8...r...
-    1fd8:	00001a9b 000019b3 000018bc 000017b5     ................
-    1fe8:	000016a0 0000157d 0000144c 0000130f     ....}...L.......
-    1ff8:	000011c7 00001073 00000f15 00000dae     ....s...........
-    2008:	00000c3e 00000ac7 0000094a 000007c6     >.......J.......
-    2018:	0000063e 000004b2 00000322 00000191     >.......".......
+00001b10 <ti>:
+    1b10:	00000000 00000191 00000322 000004b2     ........".......
+    1b20:	0000063e 000007c6 0000094a 00000ac7     >.......J.......
+    1b30:	00000c3e 00000dae 00000f15 00001073     >...........s...
+    1b40:	000011c7 0000130f 0000144c 0000157d     ........L...}...
+    1b50:	000016a0 000017b5 000018bc 000019b3     ................
+    1b60:	00001a9b 00001b72 00001c38 00001ced     ....r...8.......
+    1b70:	00001d90 00001e21 00001e9f 00001f0a     ....!...........
+    1b80:	00001f62 00001fa7 00001fd8 00001ff6     b...............
+    1b90:	00002000 00001ff6 00001fd8 00001fa7     . ..............
+    1ba0:	00001f62 00001f0a 00001e9f 00001e21     b...........!...
+    1bb0:	00001d90 00001ced 00001c38 00001b72     ........8...r...
+    1bc0:	00001a9b 000019b3 000018bc 000017b5     ................
+    1bd0:	000016a0 0000157d 0000144c 0000130f     ....}...L.......
+    1be0:	000011c7 00001073 00000f15 00000dae     ....s...........
+    1bf0:	00000c3e 00000ac7 0000094a 000007c6     >.......J.......
+    1c00:	0000063e 000004b2 00000322 00000191     >.......".......
 
-00002028 <tr>:
-    2028:	00000000 00001ff6 00001fd8 00001fa7     ................
-    2038:	00001f62 00001f0a 00001e9f 00001e21     b...........!...
-    2048:	00001d90 00001ced 00001c38 00001b72     ........8...r...
-    2058:	00001a9b 000019b3 000018bc 000017b5     ................
-    2068:	000016a0 0000157d 0000144c 0000130f     ....}...L.......
-    2078:	000011c7 00001073 00000f15 00000dae     ....s...........
-    2088:	00000c3e 00000ac7 0000094a 000007c6     >.......J.......
-    2098:	0000063e 000004b2 00000322 00000191     >.......".......
-    20a8:	00000000 fffffe6f fffffcde fffffb4e     ....o.......N...
-    20b8:	fffff9c2 fffff83a fffff6b6 fffff539     ....:.......9...
-    20c8:	fffff3c2 fffff252 fffff0eb ffffef8d     ....R...........
-    20d8:	ffffee39 ffffecf1 ffffebb4 ffffea83     9...............
-    20e8:	ffffe960 ffffe84b ffffe744 ffffe64d     `...K...D...M...
-    20f8:	ffffe565 ffffe48e ffffe3c8 ffffe313     e...............
-    2108:	ffffe270 ffffe1df ffffe161 ffffe0f6     p.......a.......
-    2118:	ffffe09e ffffe059 ffffe028 ffffe00a     ....Y...(.......
+00001c10 <tr>:
+    1c10:	00000000 00001ff6 00001fd8 00001fa7     ................
+    1c20:	00001f62 00001f0a 00001e9f 00001e21     b...........!...
+    1c30:	00001d90 00001ced 00001c38 00001b72     ........8...r...
+    1c40:	00001a9b 000019b3 000018bc 000017b5     ................
+    1c50:	000016a0 0000157d 0000144c 0000130f     ....}...L.......
+    1c60:	000011c7 00001073 00000f15 00000dae     ....s...........
+    1c70:	00000c3e 00000ac7 0000094a 000007c6     >.......J.......
+    1c80:	0000063e 000004b2 00000322 00000191     >.......".......
+    1c90:	00000000 fffffe6f fffffcde fffffb4e     ....o.......N...
+    1ca0:	fffff9c2 fffff83a fffff6b6 fffff539     ....:.......9...
+    1cb0:	fffff3c2 fffff252 fffff0eb ffffef8d     ....R...........
+    1cc0:	ffffee39 ffffecf1 ffffebb4 ffffea83     9...............
+    1cd0:	ffffe960 ffffe84b ffffe744 ffffe64d     `...K...D...M...
+    1ce0:	ffffe565 ffffe48e ffffe3c8 ffffe313     e...............
+    1cf0:	ffffe270 ffffe1df ffffe161 ffffe0f6     p.......a.......
+    1d00:	ffffe09e ffffe059 ffffe028 ffffe00a     ....Y...(.......
 
-00002128 <window>:
-    2128:	00000000 02010101 04030302 07060505     ................
-    2138:	0a0a0908 0e0d0c0b 1211100f 16151413     ................
-    2148:	19191817 1c1b1b1a 1e1d1d1d 1f1f1f1e     ................
-    2158:	20201f1f 20202020 20202020 20202020     ..              
-    2168:	20202020 20202020 20202020 1f1f2020                   ..
-    2178:	1e1f1f1f 1d1d1d1e 1a1b1b1c 17181919     ................
-    2188:	13141516 0f101112 0b0c0d0e 08090a0a     ................
-    2198:	05050607 02030304 01010102 00000000     ................
+00001d10 <window>:
+    1d10:	00000000 02010101 04030302 07060505     ................
+    1d20:	0a0a0908 0e0d0c0b 1211100f 16151413     ................
+    1d30:	19191817 1c1b1b1a 1e1d1d1d 1f1f1f1e     ................
+    1d40:	20201f1f 20202020 20202020 20202020     ..              
+    1d50:	20202020 20202020 20202020 1f1f2020                   ..
+    1d60:	1e1f1f1f 1d1d1d1e 1a1b1b1c 17181919     ................
+    1d70:	13141516 0f101112 0b0c0d0e 08090a0a     ................
+    1d80:	05050607 02030304 01010102 00000000     ................
