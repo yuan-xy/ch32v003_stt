@@ -23,7 +23,7 @@
 #define MEL 20
 #define CEPS 8
 
-#define TOL_ON  200
+#define TOL_ON  300
 #define TOL_OFF 150
 
 #define MINSIZE 6  // minimum acceptible sample size in frames (x10ms)
@@ -308,15 +308,15 @@ int main()
     fclose(fp); printf("read codebook, size=%i\n",cbsize);
   }
   
-  fd = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_SYNC);
+  fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_SYNC);
   if (fd < 0) {
         printf("Error opening port: %s\n", strerror(errno));
         return -1;
   }
   set_interface_attribs(fd, B230400);
-  // usually /dev/ttyACM0 or /tmp/nano1.raw........
-  if (!(fp=fopen("/dev/ttyACM0","r"))) {
-    printf("oops, unable to open serial port /dev/ttyACM0\n"); exit(0);}
+  // usually /dev/ttyUSB0 or /tmp/nano1.raw........
+  if (!(fp=fopen("/dev/ttyUSB0","r"))) {
+    printf("oops, unable to open serial port /dev/ttyUSB0\n"); exit(0);}
     
     
   //---------------------------------    

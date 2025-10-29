@@ -1,4 +1,4 @@
-misc/*.o
+*.o
 misc/*.h
 misc/make*_h
 stt.bin

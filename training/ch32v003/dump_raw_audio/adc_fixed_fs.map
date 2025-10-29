@@ -1,87 +1,429 @@
+Archive member included to satisfy reference by file (symbol)
 
-adc_fixed_fs.elf:     file format elf32-littleriscv
+../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+                              /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o (__udivsi3)
 
-SYMBOL TABLE:
-00000000 l    d  .init	00000000 .init
-000000a0 l    d  .text	00000000 .text
-00000890 l    d  .fini	00000000 .fini
-20000000 l    d  .dalign	00000000 .dalign
-00000890 l    d  .dlalign	00000000 .dlalign
-20000000 l    d  .data	00000000 .data
-20000000 l    d  .bss	00000000 .bss
-00000000 l    d  .debug_info	00000000 .debug_info
-00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
-00000000 l    d  .debug_loclists	00000000 .debug_loclists
-00000000 l    d  .debug_aranges	00000000 .debug_aranges
-00000000 l    d  .debug_rnglists	00000000 .debug_rnglists
-00000000 l    d  .debug_line	00000000 .debug_line
-00000000 l    d  .debug_str	00000000 .debug_str
-00000000 l    d  .debug_line_str	00000000 .debug_line_str
-00000000 l    d  .comment	00000000 .comment
-00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
-00000000 l    d  .debug_frame	00000000 .debug_frame
-0000011e l     F .text	0000009c mini_pad
-000001ba l     F .text	000000c0 mini_itoa.part.0
-0000027a l     F .text	0000002e _write.constprop.0
-000002a8 l     F .text	00000014 __puts_uart
-00000358 l     F .text	000001b4 mini_vpprintf
-0000076c l     F .text	000000a0 TIM1_UP_IRQHandler
-20000004 l     O .bss	00000004 total
-20000000 l     O .bss	00000004 count
-00000000 l    df *ABS*	00000000 div.o
-00000570 g     F .text	0000001e putchar
-0000050c g     F .text	00000026 printf
-20000800 g       .data	00000000 __global_pointer$
-00000336 g     F .text	00000002 TIM1_CC_IRQHandler
-00000336 g     F .text	00000002 HardFault_Handler
-00000336 g     F .text	00000002 SysTick_Handler
-00000336 g     F .text	00000002 PVD_IRQHandler
-00000338 g     F .text	0000000e NMI_Handler
-00000000 g     F .init	0000009c InterruptVectorDefault
-20000000 g       .bss	00000000 _sbss
-00000000 g     F .init	0000009c InterruptVector
-00000544 g     F .text	0000002c puts
-000000a8 g     F .text	0000002c .hidden __hidden___udivsi3
-000000a8 g     F .text	0000002c .hidden __udivsi3
-000000a0 g       .init	00000000 _einit
-00000336 g     F .text	00000002 SPI1_IRQHandler
-00000336 g     F .text	00000002 AWU_IRQHandler
-00000336 g     F .text	00000002 EXTI7_0_IRQHandler
-00000e15  w      .debug_info	00000000 .hidden ch32v003fun.c.945b3a98
-00000336 g     F .text	00000002 DMA1_Channel4_IRQHandler
-00000336 g     F .text	00000002 ADC1_IRQHandler
-20000008 g       .bss	00000000 _ebss
-00000336 g     F .text	00000002 DMA1_Channel7_IRQHandler
-00001c7e  w      .debug_info	00000000 .hidden adc_fixed_fs.c.84d9c04d
-000000d4 g     F .text	00000008 .hidden __umodsi3
-00000336 g     F .text	00000002 I2C1_EV_IRQHandler
-00000336 g     F .text	00000002 DMA1_Channel6_IRQHandler
-00000336 g     F .text	00000002 RCC_IRQHandler
-00000336 g     F .text	00000002 TIM1_TRG_COM_IRQHandler
-00000336 g     F .text	00000002 DMA1_Channel1_IRQHandler
-00000336 g     F .text	00000002 DefaultIRQHandler
-20000000 g       .dalign	00000000 _data_vma
-00000338 g     F .text	0000000e NMI_RCC_CSS_IRQHandler
-00000532 g     F .text	00000012 memset
-0000063e g     F .text	0000012e main
-00000336 g     F .text	00000002 DMA1_Channel5_IRQHandler
-000000a0 g     F .text	00000058 .hidden __divsi3
-0000058e g     F .text	000000b0 SystemInit
-00000000 g       .init	00000000 _sinit
-00000336 g     F .text	00000002 DMA1_Channel3_IRQHandler
-00000336 g     F .text	00000002 WWDG_IRQHandler
-00000336 g     F .text	00000002 TIM2_IRQHandler
-20000800 g       .bss	00000000 _eusrstack
-00000336 g     F .text	00000002 SW_Handler
-00000336 g     F .text	00000002 TIM1_BRK_IRQHandler
-20000000 g       .data	00000000 _edata
-00000890 g       .dlalign	00000000 _data_lma
-000000f8 g     F .text	00000024 .hidden __modsi3
-00000336 g     F .text	00000002 DMA1_Channel2_IRQHandler
-000002bc g     F .text	0000007a handle_reset
-00000336 g     F .text	00000002 FLASH_IRQHandler
-00000336 g     F .text	00000002 USART1_IRQHandler
-00000346 g     F .text	00000012 strlen
-00000336 g     F .text	00000002 I2C1_ER_IRQHandler
+Discarded input sections
 
+ .text          0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .data          0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .bss           0x0000000000000000        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text._puts    0x0000000000000000       0x42 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.vprintf  0x0000000000000000       0x16 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.mini_vsnprintf
+                0x0000000000000000       0x3a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.snprintf
+                0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.sprintf  0x0000000000000000       0x28 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strcpy   0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strncpy  0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strcmp   0x0000000000000000       0x1a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strncmp  0x0000000000000000       0x2e /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strchr   0x0000000000000000       0x16 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strrchr  0x0000000000000000       0x3c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.memcpy   0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.memcmp   0x0000000000000000       0x26 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.memmove  0x0000000000000000       0x5e /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.memchr   0x0000000000000000       0x1c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strnlen  0x0000000000000000       0x2a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.twoway_strstr
+                0x0000000000000000      0x236 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.strstr   0x0000000000000000      0x140 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .data.ADCPrescTable.lto_priv.0
+                0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .data.ADCPrescTable.lto_priv.1
+                0x0000000000000000       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .data.APBAHBPrescTable.lto_priv.0
+                0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .data.APBAHBPrescTable.lto_priv.1
+                0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .comment       0x0000000000000000       0x10 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .comment       0x0000000000000000       0x10 /tmp/ccTTSQQs.debug.temp.o
+ .comment       0x0000000000000000       0x10 /tmp/cc5oJOzd.debug.temp.o
+ .data          0x0000000000000000        0x0 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+ .bss           0x0000000000000000        0x0 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
 
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000000000000 0x0000000000004000 xr
+RAM              0x0000000020000000 0x0000000000000800 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /tmp/cc3vLJUk.o
+LOAD /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+LOAD /tmp/ccTTSQQs.debug.temp.o
+LOAD /tmp/cc5oJOzd.debug.temp.o
+LOAD /tmp/cc1N5oUs.o
+LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
+LOAD ../../../../../ch32fun/ch32fun/../misc/libgcc.a
+
+.init           0x0000000000000000       0xa0
+                0x0000000000000000                _sinit = .
+                0x0000000000000000                . = ALIGN (0x4)
+ *(SORT_NONE(.init))
+ .init          0x0000000000000000       0x9e /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000000                InterruptVector
+                0x00000000000000a0                . = ALIGN (0x4)
+ *fill*         0x000000000000009e        0x2 
+                0x00000000000000a0                _einit = .
+
+.text           0x00000000000000a0      0x850
+                0x00000000000000a0                . = ALIGN (0x4)
+ *(.text)
+ .text          0x00000000000000a0       0x7e ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+                0x00000000000000a0                __divsi3
+                0x00000000000000a8                __hidden___udivsi3
+                0x00000000000000a8                __udivsi3
+                0x00000000000000d4                __umodsi3
+                0x00000000000000f8                __modsi3
+ *(.text.*)
+ .text.mini_pad
+                0x000000000000011e       0x9a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.mini_itoa.part.0
+                0x00000000000001b8       0xbe /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text._write.constprop.0
+                0x0000000000000276       0x2a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.__puts_uart
+                0x00000000000002a0       0x14 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.handle_reset
+                0x00000000000002b4       0x70 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000002b4                handle_reset
+ .text.vector_handler
+                0x0000000000000324       0x2c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000324                NMI_Handler
+                0x0000000000000324                NMI_RCC_CSS_IRQHandler
+                0x0000000000000332                EXTI2_IRQHandler
+                0x0000000000000332                TIM8_TRG_COM_IRQHandler
+                0x0000000000000332                TIM8_CC_IRQHandler
+                0x0000000000000332                UART8_IRQHandler
+                0x0000000000000332                NFC_IRQHandler
+                0x0000000000000332                TIM1_CC_IRQHandler
+                0x0000000000000332                HardFault_Handler
+                0x0000000000000332                GPIOB_IRQHandler
+                0x0000000000000332                USBPD_IRQHandler
+                0x0000000000000332                TIM6_IRQHandler
+                0x0000000000000332                GPIOA_IRQHandler
+                0x0000000000000332                SysTick_Handler
+                0x0000000000000332                PVD_IRQHandler
+                0x0000000000000332                SDIO_IRQHandler
+                0x0000000000000332                TIM9_BRK_IRQHandler
+                0x0000000000000332                DMA2_Channel8_IRQHandler
+                0x0000000000000332                CAN2_RX1_IRQHandler
+                0x0000000000000332                EXTI3_IRQHandler
+                0x0000000000000332                UART1_IRQHandler
+                0x0000000000000332                USBHS_IRQHandler
+                0x0000000000000332                DMA2_Channel9_IRQHandler
+                0x0000000000000332                TIM10_CC_IRQHandler
+                0x0000000000000332                EXTI25_16_IRQHandler
+                0x0000000000000332                USBFS_IRQHandler
+                0x0000000000000332                UART0_IRQHandler
+                0x0000000000000332                EXTI0_IRQHandler
+                0x0000000000000332                I2C2_EV_IRQHandler
+                0x0000000000000332                TIM10_TRG_COM_IRQHandler
+                0x0000000000000332                CAN2_SCE_IRQHandler
+                0x0000000000000332                ADC1_2_IRQHandler
+                0x0000000000000332                BB_IRQHandler
+                0x0000000000000332                Break_Point_Handler
+                0x0000000000000332                TIM2_CC_IRQHandler
+                0x0000000000000332                SPI1_IRQHandler
+                0x0000000000000332                TAMPER_IRQHandler
+                0x0000000000000332                TMR0_IRQHandler
+                0x0000000000000332                AWU_IRQHandler
+                0x0000000000000332                EXTI7_0_IRQHandler
+                0x0000000000000332                CAN2_RX0_IRQHandler
+                0x0000000000000332                OSCWakeUp_IRQHandler
+                0x0000000000000332                TIM8_UP_IRQHandler
+                0x0000000000000332                Ecall_M_Mode_Handler
+                0x0000000000000332                DMA2_Channel2_IRQHandler
+                0x0000000000000332                DMA1_Channel4_IRQHandler
+                0x0000000000000332                ADC1_IRQHandler
+                0x0000000000000332                TIM2_BRK_IRQHandler
+                0x0000000000000332                TIM9_UP_IRQHandler
+                0x0000000000000332                USART3_IRQHandler
+                0x0000000000000332                RTC_IRQHandler
+                0x0000000000000332                DMA1_Channel7_IRQHandler
+                0x0000000000000332                LED_IRQHandler
+                0x0000000000000332                CAN1_RX1_IRQHandler
+                0x0000000000000332                DVP_IRQHandler
+                0x0000000000000332                UART5_IRQHandler
+                0x0000000000000332                EXTI15_8_IRQHandler
+                0x0000000000000332                TIM4_IRQHandler
+                0x0000000000000332                DMA2_Channel1_IRQHandler
+                0x0000000000000332                USBPD_WKUP_IRQHandler
+                0x0000000000000332                I2C1_EV_IRQHandler
+                0x0000000000000332                UART2_IRQHandler
+                0x0000000000000332                USART4_IRQHandler
+                0x0000000000000332                PWMX_IRQHandler
+                0x0000000000000332                DMA1_Channel6_IRQHandler
+                0x0000000000000332                UART4_IRQHandler
+                0x0000000000000332                DMA2_Channel4_IRQHandler
+                0x0000000000000332                TIM3_IRQHandler
+                0x0000000000000332                RCC_IRQHandler
+                0x0000000000000332                TIM1_TRG_COM_IRQHandler
+                0x0000000000000332                DMA1_Channel1_IRQHandler
+                0x0000000000000332                DMA2_Channel7_IRQHandler
+                0x0000000000000332                EXTI15_10_IRQHandler
+                0x0000000000000332                ADC_IRQHandler
+                0x0000000000000332                DMA1_Channel8_IRQHandler
+                0x0000000000000332                TMR2_IRQHandler
+                0x0000000000000332                DefaultIRQHandler
+                0x0000000000000332                TIM7_IRQHandler
+                0x0000000000000332                CAN2_TX_IRQHandler
+                0x0000000000000332                TIM5_IRQHandler
+                0x0000000000000332                USB_IRQHandler
+                0x0000000000000332                EXTI9_5_IRQHandler
+                0x0000000000000332                PIOC_IRQHandler
+                0x0000000000000332                SPI2_IRQHandler
+                0x0000000000000332                OSC32KCal_IRQHandler
+                0x0000000000000332                I2C_IRQHandler
+                0x0000000000000332                TIM10_BRK_IRQHandler
+                0x0000000000000332                TIM9_CC_IRQHandler
+                0x0000000000000332                DMA2_Channel5_IRQHandler
+                0x0000000000000332                USB2_IRQHandler
+                0x0000000000000332                USBHSWakeUp_IRQHandler
+                0x0000000000000332                DMA1_Channel5_IRQHandler
+                0x0000000000000332                EXTI4_IRQHandler
+                0x0000000000000332                USB_LP_CAN1_RX0_IRQHandler
+                0x0000000000000332                RNG_IRQHandler
+                0x0000000000000332                USB_HP_CAN1_TX_IRQHandler
+                0x0000000000000332                LLE_IRQHandler
+                0x0000000000000332                DMA1_Channel3_IRQHandler
+                0x0000000000000332                FSMC_IRQHandler
+                0x0000000000000332                ETH_IRQHandler
+                0x0000000000000332                WWDG_IRQHandler
+                0x0000000000000332                DMA2_Channel11_IRQHandler
+                0x0000000000000332                WDOG_BAT_IRQHandler
+                0x0000000000000332                Ecall_U_Mode_Handler
+                0x0000000000000332                TMR3_IRQHandler
+                0x0000000000000332                DMA2_Channel6_IRQHandler
+                0x0000000000000332                TIM2_IRQHandler
+                0x0000000000000332                SW_Handler
+                0x0000000000000332                TIM1_BRK_IRQHandler
+                0x0000000000000332                OPA_IRQHandler
+                0x0000000000000332                DMA2_Channel10_IRQHandler
+                0x0000000000000332                EXTI1_IRQHandler
+                0x0000000000000332                SPI0_IRQHandler
+                0x0000000000000332                USB2_HOST_IRQHandler
+                0x0000000000000332                RTCAlarm_IRQHandler
+                0x0000000000000332                TIM10_UP_IRQHandler
+                0x0000000000000332                TIM9_TRG_COM_IRQHandler
+                0x0000000000000332                UART7_IRQHandler
+                0x0000000000000332                USART2_IRQHandler
+                0x0000000000000332                UART6_IRQHandler
+                0x0000000000000332                ETHWakeUp_IRQHandler
+                0x0000000000000332                I2C2_ER_IRQHandler
+                0x0000000000000332                DMA1_Channel2_IRQHandler
+                0x0000000000000332                TIM8_BRK_IRQHandler
+                0x0000000000000332                TIM2_TRG_IRQHandler
+                0x0000000000000332                CAN1_SCE_IRQHandler
+                0x0000000000000332                FLASH_IRQHandler
+                0x0000000000000332                USBFSWakeUp_IRQHandler
+                0x0000000000000332                USART1_IRQHandler
+                0x0000000000000332                OTG_FS_IRQHandler
+                0x0000000000000332                SPI3_IRQHandler
+                0x0000000000000332                USBFS_WakeUp_IRQHandler
+                0x0000000000000332                UART3_IRQHandler
+                0x0000000000000332                I2C1_ER_IRQHandler
+                0x0000000000000332                USB2_DEVICE_IRQHandler
+                0x0000000000000332                TMR1_IRQHandler
+                0x0000000000000332                USBWakeUp_IRQHandler
+                0x0000000000000332                DMA2_Channel3_IRQHandler
+ .text.strlen   0x0000000000000350       0x12 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000350                strlen
+ .text.mini_vpprintf
+                0x0000000000000362      0x1ae /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.printf   0x0000000000000510       0x26 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000510                printf
+ .text.memset   0x0000000000000536       0x12 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000536                memset
+ .text.puts     0x0000000000000548       0x2c /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000548                puts
+ .text.putchar  0x0000000000000574       0x1a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x0000000000000574                putchar
+ .text.PrintHex
+                0x000000000000058e       0x48 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .text.SystemInit
+                0x00000000000005d6       0xb4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x00000000000005d6                SystemInit
+ .text.startup.main
+                0x000000000000068a      0x14a /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                0x000000000000068a                main
+ .text.TIM1_UP_IRQHandler
+                0x00000000000007d4       0x98 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ *(.rodata)
+ *(.rodata*)
+ *fill*         0x000000000000086c        0x0 
+ .rodata.puts.str1.4
+                0x000000000000086c        0x2 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ *fill*         0x000000000000086e        0x2 
+ .rodata.main.str1.4
+                0x0000000000000870       0x7d /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ *(.gnu.linkonce.t.*)
+                0x00000000000008f0                . = ALIGN (0x4)
+ *fill*         0x00000000000008ed        0x3 
+
+.rela.dyn       0x00000000000008f0        0x0
+ .rela.text.mini_pad
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.handle_reset
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.vector_handler
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.mini_vpprintf
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.puts
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.PrintHex
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.startup.main
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .rela.text.TIM1_UP_IRQHandler
+                0x00000000000008f0        0x0 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+
+.fini           0x00000000000008f0        0x0
+ *(SORT_NONE(.fini))
+                0x00000000000008f0                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_etext = .)
+                [!provide]                        PROVIDE (_eitcm = .)
+
+.preinit_array  0x00000000000008f0        0x0
+                [!provide]                        PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                        PROVIDE (__preinit_array_end = .)
+
+.init_array     0x00000000000008f0        0x0
+                [!provide]                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
+ *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
+                [!provide]                        PROVIDE (__init_array_end = .)
+
+.fini_array     0x00000000000008f0        0x0
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
+ *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+
+.ctors
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+
+.dtors
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+
+.dalign         0x0000000020000000        0x0 load address 0x00000000000008f0
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                PROVIDE (_data_vma = .)
+
+.dlalign        0x00000000000008f0        0x0
+                0x00000000000008f0                . = ALIGN (0x4)
+                0x00000000000008f0                PROVIDE (_data_lma = .)
+
+.data           0x0000000020000000        0x0 load address 0x00000000000008f0
+                0x0000000020000000                . = ALIGN (0x4)
+                0x00000000200003fc                __global_pointer$ = (. + 0x3fc)
+ *(.gnu.linkonce.r.*)
+ *(.data .data.*)
+ *(.gnu.linkonce.d.*)
+                0x0000000020000000                . = ALIGN (0x8)
+ *(.sdata .sdata.*)
+ *(.sdata2*)
+ *(.gnu.linkonce.s.*)
+                0x0000000020000000                . = ALIGN (0x8)
+ *(.srodata.cst16)
+ *(.srodata.cst8)
+ *(.srodata.cst4)
+ *(.srodata.cst2)
+ *(.srodata .srodata.*)
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                PROVIDE (_edata = .)
+
+.bss            0x0000000020000000        0x8 load address 0x00000000000008f0
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                PROVIDE (_sbss = .)
+ *(.sbss*)
+ .sbss.count    0x0000000020000000        0x4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .sbss.total    0x0000000020000004        0x4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ *(.gnu.linkonce.sb.*)
+ *(.bss*)
+ *(.gnu.linkonce.b.*)
+ *(COMMON*)
+                0x0000000020000008                . = ALIGN (0x4)
+                0x0000000020000008                PROVIDE (_ebss = .)
+                [!provide]                        PROVIDE (_end = _ebss)
+                [!provide]                        PROVIDE (end = .)
+                0x0000000020000800                PROVIDE (_eusrstack = (ORIGIN (RAM) + LENGTH (RAM)))
+
+/DISCARD/
+ *(.note .note.*)
+ *(.eh_frame .eh_frame.*)
+ *(.comment .comment.*)
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+ *(.ARM.exidx*)
+OUTPUT(adc_fixed_fs.elf elf32-littleriscv)
+
+.riscv.attributes
+                0x0000000000000000       0x25
+ .riscv.attributes
+                0x0000000000000000       0x25 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .riscv.attributes
+                0x0000000000000025       0x1f ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+
+.debug_info     0x0000000000000000     0x2a91
+ .debug_info    0x0000000000000000      0xfaa /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_info    0x0000000000000faa     0x1191 /tmp/ccTTSQQs.debug.temp.o
+                0x0000000000000faa                ch32fun.c.6d3bed90
+ .debug_info    0x000000000000213b      0x8f9 /tmp/cc5oJOzd.debug.temp.o
+                0x000000000000213b                adc_fixed_fs.c.f42934dc
+ .debug_info    0x0000000000002a34       0x5d ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+
+.debug_abbrev   0x0000000000000000      0x5a3
+ .debug_abbrev  0x0000000000000000      0x19f /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_abbrev  0x000000000000019f      0x24f /tmp/ccTTSQQs.debug.temp.o
+ .debug_abbrev  0x00000000000003ee      0x18d /tmp/cc5oJOzd.debug.temp.o
+ .debug_abbrev  0x000000000000057b       0x28 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+
+.debug_loc      0x0000000000000000     0x20de
+ .debug_loc     0x0000000000000000     0x20de /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+
+.debug_aranges  0x0000000000000000      0x158
+ .debug_aranges
+                0x0000000000000000      0x138 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_aranges
+                0x0000000000000138       0x20 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+
+.debug_ranges   0x0000000000000000      0x300
+ .debug_ranges  0x0000000000000000      0x300 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+
+.debug_line     0x0000000000000000     0x2a18
+ .debug_line    0x0000000000000000     0x26e1 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+ .debug_line    0x00000000000026e1      0x123 /tmp/ccTTSQQs.debug.temp.o
+ .debug_line    0x0000000000002804       0xc1 /tmp/cc5oJOzd.debug.temp.o
+ .debug_line    0x00000000000028c5      0x153 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+
+.debug_str      0x0000000000000000      0xb55
+ .debug_str     0x0000000000000000      0x163 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+                                        0x17b (size before relaxing)
+ .debug_str     0x0000000000000163      0x5fb /tmp/ccTTSQQs.debug.temp.o
+                                        0x709 (size before relaxing)
+ .debug_str     0x000000000000075e      0x332 /tmp/cc5oJOzd.debug.temp.o
+                                        0x630 (size before relaxing)
+ .debug_str     0x0000000000000a90       0xc5 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)
+                                         0xd9 (size before relaxing)
+
+.debug_frame    0x0000000000000000      0x3b4
+ .debug_frame   0x0000000000000000      0x3b4 /tmp/adc_fixed_fs.elf.RUaSmi.ltrans0.ltrans.o
+
+.debug_line_str
+                0x0000000000000000       0x92
+ .debug_line_str
+                0x0000000000000000       0x92 ../../../../../ch32fun/ch32fun/../misc/libgcc.a(div.o)

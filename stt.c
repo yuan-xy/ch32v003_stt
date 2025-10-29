@@ -20,6 +20,14 @@
 #define TOL_ON 300
 #define TOL_OFF 150
 
+// Add LPCNet-style window function (similar to Hann but with less cutoff at edges)
+const static int8_t window[FFT] = {
+    0,0,0,0,1,1,1,2,2,3,3,4,5,5,6,7,8,9,10,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,25,
+    26,27,27,28,29,29,29,30,30,31,31,31,31,31,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,
+    32,32,32,32,32,32,32,32,32,32,32,32,31,31,31,31,31,30,30,29,29,29,28,27,27,26,25,25,24,23,22,
+    21,20,19,18,17,16,15,14,13,12,11,10,10,9,8,7,6,5,5,4,3,3,2,2,1,1,1,0,0,0,0
+};
+
 int16_t buffer[FFT];
 int result, samcount = 0, total = 0, posn = 0, count = 0, lock, silcount = 0;
 
@@ -235,8 +243,11 @@ int main() {
       re[i] = re[i] - re[n];  //去除直流分量（DC Level）
     re[0] = 0; // 1.0 pre-emph?
 
-    for (i = 0; i < FFT; i++)
-      re[i] <<= 8; // scale for the FFT
+    for (i = 0; i < FFT; i++){
+      // re[i] <<= 8; // scale for the FFT
+      re[i] <<= 3;
+      re[i] = window[i] * re[i]; // Apply LPCNet-style window function
+    }
     simple_int_fft(FFT);
     for (i = 1; i < FFT; i += 2) { 
       //对于实信号的 FFT 结果，频谱是对称的，此处通过i += 2只处理单侧有效频谱（减少一半计算量，适配低算力）
